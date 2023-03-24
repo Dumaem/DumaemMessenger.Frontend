@@ -12,15 +12,14 @@ class MessengerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          primarySwatch:
-              buildMaterialColor(const Color.fromARGB(255, 130, 170, 227)),
-          primaryColor: const Color.fromARGB(255, 130, 170, 227),
           scaffoldBackgroundColor: const Color.fromARGB(255, 234, 253, 252),
+          primarySwatch: buildMaterialColor(const Color.fromARGB(255, 130, 170, 227)),
+          primaryColor: const Color.fromARGB(255, 130, 170, 227),          
           textTheme: const TextTheme(
-            displayLarge: TextStyle(color: Colors.white),
-            titleLarge: TextStyle(color: Colors.white),
-            bodyMedium: TextStyle(color: Color.fromARGB(255, 130, 170, 227)),
-            bodySmall: TextStyle(color: Colors.white),
+            displayLarge: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
+            titleLarge: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
+            bodyMedium: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
+            bodySmall: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
           ),
           elevatedButtonTheme:
               const ElevatedButtonThemeData(style: ButtonStyle())),
@@ -38,7 +37,7 @@ MaterialColor buildMaterialColor(Color color) {
   for (int i = 1; i < 10; i++) {
     strengths.add(0.1 * i);
   }
-  strengths.forEach((strength) {
+  for (var strength in strengths) {
     final double ds = 0.5 - strength;
     swatch[(strength * 1000).round()] = Color.fromRGBO(
       r + ((ds < 0 ? r : (255 - r)) * ds).round(),
@@ -46,6 +45,6 @@ MaterialColor buildMaterialColor(Color color) {
       b + ((ds < 0 ? b : (255 - b)) * ds).round(),
       1,
     );
-  });
+  }
   return MaterialColor(color.value, swatch);
 }
