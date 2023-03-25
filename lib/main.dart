@@ -1,4 +1,5 @@
 import 'package:dumaem_messenger/authentication.dart';
+import 'package:dumaem_messenger/chats.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,18 +14,22 @@ class MessengerApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
           scaffoldBackgroundColor: const Color.fromARGB(255, 234, 253, 252),
-          primarySwatch: buildMaterialColor(const Color.fromARGB(255, 130, 170, 227)),
-          primaryColor: const Color.fromARGB(255, 130, 170, 227),          
+          primarySwatch:
+              buildMaterialColor(const Color.fromARGB(255, 130, 170, 227)),
+          primaryColor: const Color.fromARGB(255, 130, 170, 227),
           textTheme: const TextTheme(
             displayLarge: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
             titleLarge: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
-            bodyMedium: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
-            bodySmall: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
+            bodyMedium: TextStyle(color: Color.fromARGB(255, 14, 18, 19)),
+            bodySmall: TextStyle(color: Color.fromARGB(255, 4, 5, 5)),
           ),
           elevatedButtonTheme:
               const ElevatedButtonThemeData(style: ButtonStyle())),
       debugShowCheckedModeBanner: false,
-      routes: {'/': (context) => const AuthenticationPage()},
+      routes: {
+        '/': (context) => const AuthenticationPage(),
+        '/chats': (context) => const ChatsPage()
+      },
     );
   }
 }

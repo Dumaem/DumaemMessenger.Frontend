@@ -12,27 +12,25 @@ class AuthenticationPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                Text("Dumaem Messenger", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)
-              )],
+                Text("Dumaem Messenger",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
+              ],
             ),
-
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
             const AuthTextFieldWidget(textForField: "Email"),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             const AuthTextFieldWidget(textForField: "Password"),
-            
-            SizedBox( height: MediaQuery.of(context).size.height * 0.02),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.06,
               width: MediaQuery.of(context).size.width * 0.7,
               child: ElevatedButton(
                 style: const ButtonStyle(
-                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8))))
-                ),
+                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8))))),
                 onPressed: () {
                   //const AlertDialog(content: Text("Выполнен переход"));
-                  //Navigator.popAndPushNamed(context, '/home');
+                  Navigator.popAndPushNamed(context, '/chats');
                 },
                 child: const Text("Sign in", style: TextStyle(fontSize: 15)),
               ),
