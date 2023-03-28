@@ -1,3 +1,4 @@
+import 'package:dumaem_messenger/properties/config.dart';
 import 'package:flutter/material.dart';
 
 class ChatsPage extends StatefulWidget {
@@ -68,19 +69,19 @@ class _ChatsPageState extends State<ChatsPage> {
           (deal) {
             return Card(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(baseBorderRadius),
               ),
               child: ListTile(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(baseBorderRadius),
                 ),
                 leading: CircleAvatar(
                   child: Text(deal.title![0].toUpperCase()),
                 ),
                 trailing: CircleAvatar(
-                  maxRadius: 12,
+                  maxRadius: chatCircleAvatarRadius,
                   child: Text(deal.countOfUnreadMessages.toString(),
-                      style: const TextStyle(fontSize: 12)),
+                      style: const TextStyle(fontSize: chatTextFontSize)),
                 ),
                 title: Text(deal.title!,
                     style: const TextStyle(fontWeight: FontWeight.bold)),
