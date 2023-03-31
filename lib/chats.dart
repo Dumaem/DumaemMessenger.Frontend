@@ -1,6 +1,8 @@
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:flutter/material.dart';
 
+import 'components/drawer.dart';
+
 class ChatsPage extends StatefulWidget {
   const ChatsPage({super.key});
 
@@ -64,6 +66,7 @@ class _ChatsPageState extends State<ChatsPage> {
       appBar: isDefaultAppBar
           ? getSearchAppBar(context)
           : getDefaultAppBar(context),
+      drawer: const MenuDrawer(),
       body: ListView(
         children: chatsList.map(
           (deal) {
