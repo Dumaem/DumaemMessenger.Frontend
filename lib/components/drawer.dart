@@ -12,7 +12,7 @@ class MenuDrawer extends StatelessWidget {
         children: [
           SizedBox(
             // временная затычка.
-            height: MediaQuery.of(context).size.height * 0.26,
+            height: 200,
             child: DrawerHeader(
               child: UserAccountsDrawerHeader(
                 currentAccountPicture: Container(
