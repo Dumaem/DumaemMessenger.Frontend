@@ -2,7 +2,7 @@ import 'package:dumaem_messenger/authentication.dart';
 import 'package:dumaem_messenger/chats.dart';
 import 'package:flutter/material.dart';
 
-import 'localization/generated/l10n.dart';
+import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {

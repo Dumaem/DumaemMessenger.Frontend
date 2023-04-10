@@ -2,7 +2,7 @@ import 'package:dumaem_messenger/properties/config.dart';
 import 'package:flutter/material.dart';
 
 import 'components/drawer.dart';
-import 'localization/generated/l10n.dart';
+import 'generated/l10n.dart';
 
 class ChatsPage extends StatefulWidget {
   const ChatsPage({super.key});
@@ -16,51 +16,6 @@ class _ChatsPageState extends State<ChatsPage> {
   String searchText = "";
   TextEditingController searchController = TextEditingController();
 
-  AppBar getDefaultAppBar(BuildContext context) {
-    return AppBar(
-      actions: [
-        IconButton(
-          onPressed: () {
-            setState(() {
-              searchController.clear();
-              searchText = "";
-              isDefaultAppBar = !isDefaultAppBar;
-            });
-          },
-          icon: const Icon(Icons.close),
-        )
-      ],
-      title: TextField(
-        controller: searchController,
-        onChanged: (value) {
-          setState(() {
-            searchText = value.toLowerCase();
-          });
-        },
-        decoration: const InputDecoration(label: Text('Название')),
-      ),
-    );
-  }
-
-  AppBar getSearchAppBar(BuildContext context) {
-    return AppBar(
-      title: Text(S.of(context).app_bar_title),
-      centerTitle: true,
-      actions: [
-        IconButton(
-          onPressed: () {
-            setState(() {
-              isDefaultAppBar = !isDefaultAppBar;
-            });
-          },
-          icon: const Icon(
-            Icons.search,
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +25,7 @@ class _ChatsPageState extends State<ChatsPage> {
       drawer: const MenuDrawer(),
       body: ListView(
         children: chatsList.map(
-          (deal) {
+              (deal) {
             return Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(baseBorderRadius),
@@ -96,6 +51,51 @@ class _ChatsPageState extends State<ChatsPage> {
           },
         ).toList(),
       ),
+    );
+  }
+
+  AppBar getDefaultAppBar(BuildContext context) {
+    return AppBar(
+      actions: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              searchController.clear();
+              searchText = "";
+              isDefaultAppBar = !isDefaultAppBar;
+            });
+          },
+          icon: const Icon(Icons.close),
+        )
+      ],
+      title: TextField(
+        controller: searchController,
+        onChanged: (value) {
+          setState(() {
+            searchText = value.toLowerCase();
+          });
+        },
+        decoration: InputDecoration(label: Text(S.of(context).chat_name_title)),
+      ),
+    );
+  }
+
+  AppBar getSearchAppBar(BuildContext context) {
+    return AppBar(
+      title: Text(S.of(context).app_bar_title),
+      centerTitle: true,
+      actions: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              isDefaultAppBar = !isDefaultAppBar;
+            });
+          },
+          icon: const Icon(
+            Icons.search,
+          ),
+        ),
+      ],
     );
   }
 }

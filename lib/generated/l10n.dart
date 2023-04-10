@@ -59,6 +59,86 @@ class S {
       args: [],
     );
   }
+
+  /// `Settings`
+  String get settings_title {
+    return Intl.message(
+      'Settings',
+      name: 'settings_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop`
+  String get shop_title {
+    return Intl.message(
+      'Shop',
+      name: 'shop_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Info`
+  String get info_title {
+    return Intl.message(
+      'Info',
+      name: 'info_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get email_title {
+    return Intl.message(
+      'Email',
+      name: 'email_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get password_title {
+    return Intl.message(
+      'Password',
+      name: 'password_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in`
+  String get sign_in_title {
+    return Intl.message(
+      'Sign in',
+      name: 'sign_in_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign up?`
+  String get sign_up_title {
+    return Intl.message(
+      'Sign up?',
+      name: 'sign_up_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get chat_name_title {
+    return Intl.message(
+      'Name',
+      name: 'chat_name_title',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
