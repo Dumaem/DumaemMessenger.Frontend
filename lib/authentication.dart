@@ -1,3 +1,4 @@
+import 'package:dumaem_messenger/localization/generated/l10n.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +14,12 @@ class AuthenticationPage extends StatelessWidget {
           child: Column(children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text("Dumaem Messenger",
-                    style: TextStyle(
+              children: [
+                Text(S.of(context).app_bar_title,
+                    style: const TextStyle(
                         fontSize: fontSizeForTitle,
-                        fontWeight: FontWeight.bold))
+                        fontWeight: FontWeight.bold),
+                ),
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),

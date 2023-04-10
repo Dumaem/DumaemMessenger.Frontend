@@ -2,6 +2,7 @@ import 'package:dumaem_messenger/properties/config.dart';
 import 'package:flutter/material.dart';
 
 import 'components/drawer.dart';
+import 'localization/generated/l10n.dart';
 
 class ChatsPage extends StatefulWidget {
   const ChatsPage({super.key});
@@ -43,7 +44,7 @@ class _ChatsPageState extends State<ChatsPage> {
 
   AppBar getSearchAppBar(BuildContext context) {
     return AppBar(
-      title: const Text("Dumaem Messenger"),
+      title: Text(S.of(context).app_bar_title),
       centerTitle: true,
       actions: [
         IconButton(

@@ -2,6 +2,9 @@ import 'package:dumaem_messenger/authentication.dart';
 import 'package:dumaem_messenger/chats.dart';
 import 'package:flutter/material.dart';
 
+import 'localization/generated/l10n.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 void main() {
   runApp(const MessengerApp());
 }
@@ -12,6 +15,13 @@ class MessengerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
           scaffoldBackgroundColor: const Color.fromARGB(255, 234, 253, 252),
           primarySwatch:
