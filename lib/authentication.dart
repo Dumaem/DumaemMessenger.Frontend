@@ -36,7 +36,7 @@ class AuthenticationPage extends StatelessWidget {
                             Radius.circular(baseBorderRadius))))),
                 onPressed: () {
                   //const AlertDialog(content: Text("Выполнен переход"));
-                  Navigator.popAndPushNamed(context, '/chats');
+                  Navigator.pushNamed(context, '/chats');
                 },
                 child: const Text("Sign in",
                     style: TextStyle(fontSize: fontSizeForHyperText)),

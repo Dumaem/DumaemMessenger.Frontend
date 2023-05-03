@@ -69,7 +69,7 @@ class _ChatsPageState extends State<ChatsPage> {
       drawer: const MenuDrawer(),
       body: ListView(
         children: chatsList.map(
-          (deal) {
+          (chat) {
             return Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(baseBorderRadius),
@@ -79,17 +79,19 @@ class _ChatsPageState extends State<ChatsPage> {
                   borderRadius: BorderRadius.circular(baseBorderRadius),
                 ),
                 leading: CircleAvatar(
-                  child: Text(deal.title![0].toUpperCase()),
+                  child: Text(chat.title![0].toUpperCase()),
                 ),
                 trailing: CircleAvatar(
                   maxRadius: chatCircleAvatarRadius,
-                  child: Text(deal.countOfUnreadMessages.toString(),
+                  child: Text(chat.countOfUnreadMessages.toString(),
                       style: const TextStyle(fontSize: chatTextFontSize)),
                 ),
-                title: Text(deal.title!,
+                title: Text(chat.title!,
                     style: const TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Text(deal.lastMessage!),
-                onTap: () {},
+                subtitle: Text(chat.lastMessage!),
+                onTap: () {
+                  Navigator.pushNamed(context, '/chat');
+                },
               ),
             );
           },
@@ -129,42 +131,42 @@ List<Chat> chatsList = [
       lastMessage: "Сходить за посылкой на почту",
       countOfUnreadMessages: 1),
   Chat(
-      id: 1,
+      id: 5,
       title: 'Фермеры',
       lastMessage: 'Купить молоко,хлеб,сыр',
       countOfUnreadMessages: 10),
   Chat(
-      id: 2,
+      id: 6,
       title: 'КТИТС',
       lastMessage: 'Прописать Flutter upgrade',
       countOfUnreadMessages: 87),
   Chat(
-      id: 3,
+      id: 7,
       title: 'думаем',
       lastMessage: 'Выиграть в турнире',
       countOfUnreadMessages: 4),
   Chat(
-      id: 4,
+      id: 8,
       title: "Избранное",
       lastMessage: "Сходить за посылкой на почту",
       countOfUnreadMessages: 1),
   Chat(
-      id: 1,
+      id: 9,
       title: 'Фермеры',
       lastMessage: 'Купить молоко,хлеб,сыр',
       countOfUnreadMessages: 10),
   Chat(
-      id: 2,
+      id: 10,
       title: 'КТИТС',
       lastMessage: 'Прописать Flutter upgrade',
       countOfUnreadMessages: 87),
   Chat(
-      id: 3,
+      id: 11,
       title: 'думаем',
       lastMessage: 'Выиграть в турнире',
       countOfUnreadMessages: 4),
   Chat(
-      id: 4,
+      id: 12,
       title: "Избранное",
       lastMessage: "Сходить за посылкой на почту",
       countOfUnreadMessages: 1),
