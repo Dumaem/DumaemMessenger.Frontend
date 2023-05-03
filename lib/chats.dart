@@ -1,3 +1,4 @@
+import 'package:dumaem_messenger/chat.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:flutter/material.dart';
 
@@ -90,7 +91,13 @@ class _ChatsPageState extends State<ChatsPage> {
                     style: const TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Text(chat.lastMessage!),
                 onTap: () {
-                  Navigator.pushNamed(context, '/chat');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChatPage(
+                              id: chat.id,
+                            )),
+                  );
                 },
               ),
             );

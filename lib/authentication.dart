@@ -11,9 +11,9 @@ class AuthenticationPage extends StatelessWidget {
       body: Center(
         child: SingleChildScrollView(
           child: Column(children: [
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text("Dumaem Messenger",
                     style: TextStyle(
                         fontSize: fontSizeForTitle,
