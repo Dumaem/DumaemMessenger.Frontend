@@ -15,10 +15,10 @@ class AuthenticationPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(S.of(context).app_bar_title,
-                    style: const TextStyle(
-                        fontSize: fontSizeForTitle,
-                        fontWeight: FontWeight.bold),
+                Text(
+                  S.of(context).app_bar_title,
+                  style: const TextStyle(
+                      fontSize: fontSizeForTitle, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -38,7 +38,7 @@ class AuthenticationPage extends StatelessWidget {
                             Radius.circular(baseBorderRadius))))),
                 onPressed: () {
                   //const AlertDialog(content: Text("Выполнен переход"));
-                  Navigator.pushNamed(context, '/chats');
+                  Navigator.popAndPushNamed(context, '/chats');
                 },
                 child: Text(S.of(context).sign_in_title,
                     style: const TextStyle(fontSize: fontSizeForHyperText)),
