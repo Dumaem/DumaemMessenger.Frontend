@@ -1,4 +1,4 @@
-import 'package:dumaem_messenger/chat.dart';
+import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:flutter/material.dart';
 
@@ -91,13 +91,8 @@ class _ChatsPageState extends State<ChatsPage> {
                     style: const TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Text(chat.lastMessage!),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChatPage(
-                              id: chat.id,
-                            )),
-                  );
+                  Navigator.pushNamed(context, '/chat',
+                      arguments: ScreenArguments(chat.id));
                 },
               ),
             );
@@ -109,11 +104,15 @@ class _ChatsPageState extends State<ChatsPage> {
 }
 
 class Chat {
-  int? id;
+  int id;
   String? title;
   String? lastMessage;
   int? countOfUnreadMessages;
-  Chat({this.id, this.title, this.lastMessage, this.countOfUnreadMessages});
+  Chat(
+      {required this.id,
+      this.title,
+      this.lastMessage,
+      this.countOfUnreadMessages});
 }
 
 List<Chat> chatsList = [

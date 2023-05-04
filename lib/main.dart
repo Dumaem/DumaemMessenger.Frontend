@@ -30,7 +30,7 @@ class MessengerApp extends StatelessWidget {
       routes: {
         '/': (context) => const AuthenticationPage(),
         '/chats': (context) => const ChatsPage(),
-        '/chat': (context) => const ChatPage(id: null)
+        '/chat': (context) => const ChatPage(),
       },
     );
   }

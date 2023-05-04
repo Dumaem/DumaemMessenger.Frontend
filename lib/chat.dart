@@ -2,8 +2,7 @@ import 'package:dumaem_messenger/properties/config.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
-  final int? id;
-  const ChatPage({super.key, required this.id});
+  const ChatPage({super.key});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
