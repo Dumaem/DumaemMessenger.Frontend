@@ -1,12 +1,14 @@
 import 'package:dumaem_messenger/authentication.dart';
 import 'package:dumaem_messenger/chat.dart';
 import 'package:dumaem_messenger/chats.dart';
+import 'package:dumaem_messenger/server/http_client.dart';
 import 'package:flutter/material.dart';
 
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
+  HttpClient.initializeStaticDio();
   runApp(const MessengerApp());
 }
 
