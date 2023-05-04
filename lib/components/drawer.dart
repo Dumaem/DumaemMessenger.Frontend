@@ -2,6 +2,8 @@ import 'package:dumaem_messenger/properties/config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../generated/l10n.dart';
+
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({super.key});
 
@@ -42,19 +44,19 @@ class MenuDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: const Text("Settings"),
+            title: Text(S.of(context).settings_title),
             leading: const Icon(Icons.settings),
             trailing: const Icon(Icons.arrow_right),
             onTap: () {},
           ),
           ListTile(
-            title: const Text("Shop"),
+            title: Text(S.of(context).shop_title),
             leading: const Icon(Icons.shop),
             trailing: const Icon(Icons.arrow_right),
             onTap: () {},
           ),
           ListTile(
-            title: const Text("Info"),
+            title: Text(S.of(context).info_title),
             leading: const Icon(Icons.info),
             trailing: const Icon(Icons.arrow_right),
             onTap: () {},
