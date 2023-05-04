@@ -1,5 +1,4 @@
 import 'package:dumaem_messenger/properties/config.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../generated/l10n.dart';

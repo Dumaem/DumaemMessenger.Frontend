@@ -1,4 +1,5 @@
 import 'package:dumaem_messenger/authentication.dart';
+import 'package:dumaem_messenger/chat.dart';
 import 'package:dumaem_messenger/chats.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,8 @@ class MessengerApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => const AuthenticationPage(),
-        '/chats': (context) => const ChatsPage()
+        '/chats': (context) => const ChatsPage(),
+        '/chat': (context) => const ChatPage(),
       },
     );
   }

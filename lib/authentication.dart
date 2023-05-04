@@ -15,10 +15,10 @@ class AuthenticationPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(S.of(context).app_bar_title,
-                    style: const TextStyle(
-                        fontSize: fontSizeForTitle,
-                        fontWeight: FontWeight.bold),
+                Text(
+                  S.of(context).app_bar_title,
+                  style: const TextStyle(
+                      fontSize: fontSizeForTitle, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
