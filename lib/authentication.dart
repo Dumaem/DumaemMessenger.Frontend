@@ -1,3 +1,4 @@
+import 'package:dumaem_messenger/generated/l10n.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:flutter/material.dart';
@@ -13,17 +14,18 @@ class AuthenticationPage extends StatelessWidget {
           child: Column(children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text("Dumaem Messenger",
-                    style: TextStyle(
+              children: [
+                Text(S.of(context).app_bar_title,
+                    style: const TextStyle(
                         fontSize: fontSizeForTitle,
-                        fontWeight: FontWeight.bold))
+                        fontWeight: FontWeight.bold),
+                ),
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-            const AuthTextFieldWidget(textForField: "Email"),
+            AuthTextFieldWidget(textForField: S.of(context).email_title),
             const MarginWidget(),
-            const AuthTextFieldWidget(textForField: "Password"),
+            AuthTextFieldWidget(textForField: S.of(context).password_title),
             const MarginWidget(),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.06,
@@ -38,14 +40,14 @@ class AuthenticationPage extends StatelessWidget {
                   //const AlertDialog(content: Text("Выполнен переход"));
                   Navigator.pushNamed(context, '/chats');
                 },
-                child: const Text("Sign in",
-                    style: TextStyle(fontSize: fontSizeForHyperText)),
+                child: Text(S.of(context).sign_in_title,
+                    style: const TextStyle(fontSize: fontSizeForHyperText)),
               ),
             ),
             const MarginWidget(),
             InkWell(
-              child: const Text("Sign up?",
-                  style: TextStyle(fontSize: fontSizeForHyperText)),
+              child: Text(S.of(context).sign_up_title,
+                  style: const TextStyle(fontSize: fontSizeForHyperText)),
               onTap: () {},
             ),
             const MarginWidget()
