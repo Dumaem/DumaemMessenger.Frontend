@@ -1,10 +1,19 @@
 import 'package:dumaem_messenger/generated/l10n.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
+import 'package:dumaem_messenger/server/http_client.dart';
 import 'package:flutter/material.dart';
 
-class AuthenticationPage extends StatelessWidget {
+class AuthenticationPage extends StatefulWidget {
   const AuthenticationPage({super.key});
+
+  @override
+  State<AuthenticationPage> createState() => _AuthenticationPageState();
+}
+
+class _AuthenticationPageState extends State<AuthenticationPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +32,14 @@ class AuthenticationPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-            AuthTextFieldWidget(textForField: S.of(context).email_title),
+            AuthTextFieldWidget(
+              textForField: S.of(context).email_title,
+              fieldController: _emailController,
+            ),
             const MarginWidget(),
-            AuthTextFieldWidget(textForField: S.of(context).password_title),
+            AuthTextFieldWidget(
+                textForField: S.of(context).password_title,
+                fieldController: _passwordController),
             const MarginWidget(),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.06,
@@ -36,8 +50,14 @@ class AuthenticationPage extends StatelessWidget {
                     shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
                             Radius.circular(baseBorderRadius))))),
-                onPressed: () {
+                onPressed: () async {
                   //const AlertDialog(content: Text("Выполнен переход"));
+                  var response = await HttpClient.dio
+                      .post('Authorization/login', data: {
+                    'email': _emailController.text,
+                    'password': _passwordController.text
+                  });
+                  // ignore: use_build_context_synchronously
                   Navigator.popAndPushNamed(context, '/chats');
                 },
                 child: Text(S.of(context).sign_in_title,
@@ -60,13 +80,16 @@ class AuthenticationPage extends StatelessWidget {
 
 class AuthTextFieldWidget extends StatelessWidget {
   final String textForField;
-  const AuthTextFieldWidget({super.key, required this.textForField});
+  final TextEditingController fieldController;
+  const AuthTextFieldWidget(
+      {super.key, required this.textForField, required this.fieldController});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * authenticationPageWidgetWidth,
       child: TextField(
+        controller: fieldController,
         decoration: InputDecoration(
             label: Text(textForField),
             focusedBorder: OutlineInputBorder(
