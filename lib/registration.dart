@@ -1,17 +1,20 @@
-import 'package:dumaem_messenger/generated/l10n.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:dumaem_messenger/server/http_client.dart';
 import 'package:flutter/material.dart';
 
-class AuthenticationPage extends StatefulWidget {
-  const AuthenticationPage({super.key});
+import 'generated/l10n.dart';
+
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
 
   @override
-  State<AuthenticationPage> createState() => _AuthenticationPageState();
+  State<RegistrationPage> createState() => _RegistrationPageState();
 }
 
-class _AuthenticationPageState extends State<AuthenticationPage> {
+class _RegistrationPageState extends State<RegistrationPage> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -34,6 +37,16 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
             AuthTextFieldWidget(
               textForField: S.of(context).email_title,
+              fieldController: _nameController,
+            ),
+            const MarginWidget(),
+            AuthTextFieldWidget(
+              textForField: S.of(context).email_title,
+              fieldController: _userNameController,
+            ),
+            const MarginWidget(),
+            AuthTextFieldWidget(
+              textForField: S.of(context).email_title,
               fieldController: _emailController,
             ),
             const MarginWidget(),
@@ -53,22 +66,24 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                 onPressed: () async {
                   //const AlertDialog(content: Text("Выполнен переход"));
                   var response = await HttpClient.dio
-                      .post('Authorization/login', data: {
+                      .post('Authorization/registration', data: {
                     'email': _emailController.text,
                     'password': _passwordController.text
                   });
                   // ignore: use_build_context_synchronously
                   Navigator.popAndPushNamed(context, '/chats');
                 },
-                child: Text(S.of(context).sign_in_title,
+                child: Text(S.of(context).sign_up_title,
                     style: const TextStyle(fontSize: fontSizeForHyperText)),
               ),
             ),
             const MarginWidget(),
             InkWell(
-              child: Text(S.of(context).sign_up_title,
+              child: Text("${S.of(context).sign_in_title}?",
                   style: const TextStyle(fontSize: fontSizeForHyperText)),
-              onTap: () {},
+              onTap: () {
+                Navigator.popAndPushNamed(context, '/');
+              },
             ),
             const MarginWidget()
           ]),

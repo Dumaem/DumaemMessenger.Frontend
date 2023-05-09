@@ -1,6 +1,7 @@
-import 'package:dumaem_messenger/authentication.dart';
+import 'package:dumaem_messenger/authorization.dart';
 import 'package:dumaem_messenger/chat.dart';
 import 'package:dumaem_messenger/chats.dart';
+import 'package:dumaem_messenger/registration.dart';
 import 'package:dumaem_messenger/server/http_client.dart';
 import 'package:flutter/material.dart';
 
@@ -40,9 +41,10 @@ class MessengerApp extends StatelessWidget {
               const ElevatedButtonThemeData(style: ButtonStyle())),
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => const AuthenticationPage(),
+        '/': (context) => const AuthorizationPage(),
         '/chats': (context) => const ChatsPage(),
         '/chat': (context) => const ChatPage(),
+        '/registration': (context) => const RegistrationPage()
       },
     );
   }
