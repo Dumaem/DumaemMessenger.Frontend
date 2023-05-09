@@ -65,7 +65,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             Radius.circular(baseBorderRadius))))),
                 onPressed: () async {
                   //const AlertDialog(content: Text("Выполнен переход"));
-                  var response = await HttpClient.dio
+                  var response = await DioHttpClient.dio
                       .post('Authorization/registration', data: {
                     'email': _emailController.text,
                     'password': _passwordController.text

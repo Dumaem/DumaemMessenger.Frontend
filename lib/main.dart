@@ -9,7 +9,7 @@ import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  HttpClient.initializeStaticDio();
+  DioHttpClient.initializeStaticDio();
   runApp(const MessengerApp());
 }
 

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-class HttpClient {
+class DioHttpClient {
   static late Dio dio;
 
   static BaseOptions options =
