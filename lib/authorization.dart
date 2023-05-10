@@ -3,6 +3,7 @@ import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:dumaem_messenger/server/http_client.dart';
 import 'package:flutter/material.dart';
+import 'package:status_alert/status_alert.dart';
 
 class AuthorizationPage extends StatefulWidget {
   const AuthorizationPage({super.key});
@@ -59,20 +60,16 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
                     });
                     Navigator.popAndPushNamed(context, '/chats');
                   } catch (exception) {
-                    showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        title: const Text('Ошибка!'),
-                        content: const Text('Неверные входные данные!'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () => Navigator.pop(context, 'ОК'),
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      ),
+                    StatusAlert.show(
+                      context,
+                      duration: const Duration(seconds: 2),
+                      title: 'Ошибка!',
+                      subtitle: 'Пользователя с такими данными не существует!',
+                      configuration: const IconConfiguration(icon: Icons.error),
+                      maxWidth: MediaQuery.of(context).size.width * 0.8,
                     );
                   }
+
                   //const AlertDialog(content: Text("Выполнен переход"));
                   // ignore: use_build_context_synchronously
                 },
