@@ -1,4 +1,4 @@
-import 'package:dumaem_messenger/localization/generated/l10n.dart';
+import 'package:dumaem_messenger/generated/l10n.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:flutter/material.dart';

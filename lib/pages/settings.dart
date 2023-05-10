@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../localization/generated/l10n.dart';
+import '../generated/l10n.dart';
 import '../properties/config.dart';
 
 class SettingsPage extends StatelessWidget {

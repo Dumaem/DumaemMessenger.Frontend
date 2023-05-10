@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 
 import '../pages/chats.dart';
-import '../localization/generated/l10n.dart';
+import '../generated/l10n.dart';
 
 class HiddenDrawer extends StatefulWidget {
   const HiddenDrawer({super.key});

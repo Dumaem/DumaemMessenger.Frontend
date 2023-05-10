@@ -39,6 +39,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   intl: ^0.17.0
   hidden_drawer_menu: ^3.0.1
+  font_awesome_flutter: ^9.1.0
 
 dev_dependencies:
   flutter_test:

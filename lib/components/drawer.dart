@@ -1,7 +1,7 @@
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:flutter/material.dart';
 
-import '../localization/generated/l10n.dart';
+import '../generated/l10n.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({super.key});
