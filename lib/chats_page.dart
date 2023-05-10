@@ -1,17 +1,16 @@
 import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
 import 'generated/l10n.dart';
 
-class Home extends KFDrawerContent {
+class ChatsPage extends KFDrawerContent {
   @override
-  State<Home> createState() => _HomeState();
+  State<ChatsPage> createState() => _ChatsPageState();
 }
 
-class _HomeState extends State<Home> {
+class _ChatsPageState extends State<ChatsPage> {
   bool isDefaultAppBar = true;
   String searchText = "";
   TextEditingController searchController = TextEditingController();
@@ -24,29 +23,6 @@ class _HomeState extends State<Home> {
         appBar: isDefaultAppBar
             ? getSearchAppBar(context)
             : getDefaultAppBar(context),
-/*            children: <Widget>[
-          // Данная часть выступает в роли Appbar`а
-          Row(
-            children: <Widget>[
-              isDefaultAppBar
-                  ? getSearchAppBar(context)
-                  : getDefaultAppBar(context)
-*/ /*                  ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(32.0)),
-                child: Material(
-                  shadowColor: Colors.transparent,
-                  color: Colors.transparent,
-                  child: IconButton(
-                    icon: const Icon(FontAwesomeIcons.gripLines,
-                        color: Colors.black),
-                    onPressed: widget.onMenuPressed,
-                  ),
-                ),
-              ),*/ /*
-            ],
-          ),*/
-
-        // Это оставшаяся часть
         body: ListView(
           children: chatsList.map(
             (chat) {
@@ -84,6 +60,17 @@ class _HomeState extends State<Home> {
 
   AppBar getDefaultAppBar(BuildContext context) {
     return AppBar(
+      leading: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+        child: Material(
+          shadowColor: Colors.transparent,
+          color: Colors.transparent,
+          child: IconButton(
+            icon: const Icon(Icons.menu, color: Colors.black),
+            onPressed: widget.onMenuPressed,
+          ),
+        ),
+      ),
       title: TextField(
         controller: searchController,
         onChanged: (value) {
@@ -94,17 +81,6 @@ class _HomeState extends State<Home> {
         decoration: InputDecoration(label: Text(S.of(context).chat_name_title)),
       ),
       actions: [
-        ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(32.0)),
-          child: Material(
-            shadowColor: Colors.transparent,
-            color: Colors.transparent,
-            child: IconButton(
-              icon: const Icon(FontAwesomeIcons.gripLines, color: Colors.black),
-              onPressed: widget.onMenuPressed,
-            ),
-          ),
-        ),
         IconButton(
           onPressed: () {
             setState(() {
@@ -123,18 +99,18 @@ class _HomeState extends State<Home> {
     return AppBar(
       title: Text(S.of(context).app_bar_title),
       centerTitle: true,
-      actions: [
-        ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(32.0)),
-          child: Material(
-            shadowColor: Colors.transparent,
-            color: Colors.transparent,
-            child: IconButton(
-              icon: const Icon(FontAwesomeIcons.gripLines, color: Colors.black),
-              onPressed: widget.onMenuPressed,
-            ),
+      leading: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+        child: Material(
+          shadowColor: Colors.transparent,
+          color: Colors.transparent,
+          child: IconButton(
+            icon: const Icon(Icons.menu, color: Colors.black),
+            onPressed: widget.onMenuPressed,
           ),
         ),
+      ),
+      actions: [
         IconButton(
           onPressed: () {
             setState(() {
@@ -150,6 +126,7 @@ class _HomeState extends State<Home> {
   }
 }
 
+// test data
 class Chat {
   int id;
   String? title;

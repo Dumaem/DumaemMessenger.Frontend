@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'components/home_page.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:kf_drawer/kf_drawer.dart';
 
 import 'pages/authentication.dart';
 
 void main() {
   ClassBuilder.registerClasses();
-  runApp(MessengerApp());
+  runApp(const MessengerApp());
 }
 
 class MessengerApp extends StatelessWidget {
@@ -40,7 +39,7 @@ class MessengerApp extends StatelessWidget {
           elevatedButtonTheme:
               const ElevatedButtonThemeData(style: ButtonStyle())),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: const AuthenticationPage(),
       routes: {
         '/auth': (context) => const AuthenticationPage(),
         '/home': (context) => const HomePage(),

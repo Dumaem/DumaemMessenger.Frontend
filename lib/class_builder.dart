@@ -1,6 +1,6 @@
-import 'home.dart';
+import 'chats_page.dart';
 
-typedef T Constructor<T>();
+typedef Constructor<T> = T Function();
 
 final Map<String, Constructor<Object>> _constructors = <String, Constructor<Object>>{};
 
@@ -10,7 +10,7 @@ void register<T>(Constructor<T> constructor) {
 
 class ClassBuilder {
   static void registerClasses() {
-    register<Home>(() => Home());
+    register<ChatsPage>(() => ChatsPage());
   }
 
   static dynamic fromString(String type) {

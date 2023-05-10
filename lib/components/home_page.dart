@@ -1,14 +1,8 @@
-import 'package:dumaem_messenger/pages/settings.dart';
-import 'package:dumaem_messenger/pages/chats.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
 import '../class_builder.dart';
-import '../home.dart';
-import '../pages/chats.dart';
-import '../generated/l10n.dart';
-import '../properties/config.dart';
+import '../chats_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,13 +18,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _drawerController = KFDrawerController(
-      initialPage: ClassBuilder.fromString('Home'),
+      initialPage: ClassBuilder.fromString('ChatsPage'),
       items: [
         KFDrawerItem.initWithPage(
-          text: const Text('Home',
+          text: const Text('Chats',
               style: TextStyle(color: Colors.white, fontSize: 18)),
-          icon: const Icon(Icons.home, color: Colors.white),
-          page: Home(),
+          icon: const Icon(Icons.chat, color: Colors.white),
+          page: ChatsPage(),
         ),
         KFDrawerItem.initWithPage(
           text: const Text(
@@ -38,7 +32,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
           icon: const Icon(Icons.account_box, color: Colors.white),
-          page: Home(),
+          page: ChatsPage(),
         ),
         KFDrawerItem.initWithPage(
           text: const Text(
@@ -46,23 +40,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
           icon: const Icon(Icons.notifications_active, color: Colors.white),
-          page: Home(),
-        ),
-        KFDrawerItem.initWithPage(
-          text: const Text(
-            'Stats',
-            style: TextStyle(color: Colors.white, fontSize: 18),
-          ),
-          icon: const Icon(Icons.trending_up, color: Colors.white),
-          page: Home(),
-        ),
-        KFDrawerItem.initWithPage(
-          text: const Text(
-            'Schedules',
-            style: TextStyle(color: Colors.white, fontSize: 18),
-          ),
-          icon: const Icon(Icons.av_timer, color: Colors.white),
-          page: Home(),
+          page: ChatsPage(),
         ),
         KFDrawerItem.initWithPage(
           text: const Text(
@@ -70,7 +48,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
           icon: const Icon(Icons.settings, color: Colors.white),
-          page: Home(),
+          page: ChatsPage(),
         ),
       ],
     );
