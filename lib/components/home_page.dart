@@ -14,10 +14,10 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late KFDrawerController _drawerController;
 
   @override
@@ -33,32 +33,42 @@ class _HomePageState extends State<HomePage> {
           page: Home(),
         ),
         KFDrawerItem.initWithPage(
-          text: const Text('Profile',
-              style: TextStyle(color: Colors.white, fontSize: 18)),
+          text: const Text(
+            'Profile',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
           icon: const Icon(Icons.account_box, color: Colors.white),
           page: Home(),
         ),
         KFDrawerItem.initWithPage(
-          text: const Text('Notifications',
-              style: TextStyle(color: Colors.white, fontSize: 18)),
+          text: const Text(
+            'Notifications',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
           icon: const Icon(Icons.notifications_active, color: Colors.white),
           page: Home(),
         ),
         KFDrawerItem.initWithPage(
-          text: const Text('Stats',
-              style: TextStyle(color: Colors.white, fontSize: 18)),
+          text: const Text(
+            'Stats',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
           icon: const Icon(Icons.trending_up, color: Colors.white),
           page: Home(),
         ),
         KFDrawerItem.initWithPage(
-          text: const Text('Schedules',
-              style: TextStyle(color: Colors.white, fontSize: 18)),
+          text: const Text(
+            'Schedules',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
           icon: const Icon(Icons.av_timer, color: Colors.white),
           page: Home(),
         ),
         KFDrawerItem.initWithPage(
-          text: const Text('Settings',
-              style: TextStyle(color: Colors.white, fontSize: 18)),
+          text: const Text(
+            'Settings',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
           icon: const Icon(Icons.settings, color: Colors.white),
           page: Home(),
         ),
@@ -89,7 +99,9 @@ class _HomePageState extends State<HomePage> {
                               "https://sun9-48.userapi.com/impg/3Tr7i0Yi7Edt6tKh2_sgVacRsDu42XGst7phpw/qIdXkvVR5vE.jpg?size=1536x2048&quality=95&sign=b3c6d31138f00b7cde0e1898d5303f3c&type=album"),
                           fit: BoxFit.cover)),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(
+                  width: 10,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const <Widget>[
@@ -97,18 +109,36 @@ class _HomePageState extends State<HomePage> {
                         style: TextStyle(fontSize: 17, color: Colors.white)),
                     SizedBox(height: 2),
                     Text('Developer',
-                        style: TextStyle(fontSize: 15, color: Colors.white)),
+                        style: TextStyle(fontSize: 15, color: Colors.grey)),
                   ],
                 )
               ],
             ),
           ),
         ),
-        footer: KFDrawerItem(
-            text: Text(S.of(context).sign_up_title,
-                style: const TextStyle(fontSize: 18, color: Colors.white))),
-        decoration:
-            const BoxDecoration(color: Color.fromARGB(255, 130, 170, 227)),
+        footer: Align(
+          alignment: Alignment.bottomLeft,
+          child: KFDrawerItem(
+            text: const Text(
+              'Logout',
+              style: TextStyle(color: Colors.grey, fontSize: 18),
+            ),
+              onPressed: () {
+                Navigator.popAndPushNamed(context, '/auth');
+              }
+          ),
+        ),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color.fromRGBO(31, 58, 47, 1.0),
+              Color.fromRGBO(31, 58, 47, 1.0)
+            ],
+            tileMode: TileMode.repeated,
+          ),
+        ),
       ),
     );
   }

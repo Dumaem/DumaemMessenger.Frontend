@@ -5,6 +5,8 @@ import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
+import 'pages/authentication.dart';
+
 void main() {
   ClassBuilder.registerClasses();
   runApp(MessengerApp());
@@ -25,24 +27,24 @@ class MessengerApp extends StatelessWidget {
       supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
           scaffoldBackgroundColor: const Color.fromARGB(255, 234, 253, 252),
+          cardColor: Colors.white,
           primarySwatch:
               buildMaterialColor(const Color.fromARGB(255, 130, 170, 227)),
-          primaryColor: const Color.fromARGB(255, 7, 12, 17),
+          primaryColor: const Color.fromARGB(255, 130, 170, 227),
           textTheme: const TextTheme(
-            displayLarge: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
-            titleLarge: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
-            bodyMedium: TextStyle(color: Color.fromARGB(255, 14, 18, 19)),
-            bodySmall: TextStyle(color: Color.fromARGB(255, 4, 5, 5)),
+            displayLarge: TextStyle(color: Colors.black),
+            titleLarge: TextStyle(color: Colors.black),
+            bodyMedium: TextStyle(color: Colors.black, fontSize: 18),
+            bodySmall: TextStyle(color: Colors.black),
           ),
           elevatedButtonTheme:
               const ElevatedButtonThemeData(style: ButtonStyle())),
       debugShowCheckedModeBanner: false,
       home: HomePage(),
-/*      routes: {
-        '/': (context) => const AuthenticationPage(),
-        '/chats': (context) => const ChatsPage(),
-        '/chat': (context) => const ChatPage(),
-      },*/
+      routes: {
+        '/auth': (context) => const AuthenticationPage(),
+        '/home': (context) => const HomePage(),
+      },
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'home.dart';
 
-typedef Constructor<T> = T Function();
+typedef T Constructor<T>();
 
 final Map<String, Constructor<Object>> _constructors = <String, Constructor<Object>>{};
 

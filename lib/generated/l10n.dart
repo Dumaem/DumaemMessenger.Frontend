@@ -130,6 +130,16 @@ class S {
     );
   }
 
+  /// `Logout`
+  String get logout_title {
+    return Intl.message(
+      'Logout',
+      name: 'logout_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Name`
   String get chat_name_title {
     return Intl.message(
