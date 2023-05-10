@@ -12,7 +12,7 @@ class SettingsPage extends StatelessWidget {
       body: ElevatedButton(
         onPressed: () {
         },
-        child: Text(S.of(context).sign_in_title,
+        child: Text(S.of(context).app_bar_title,
             style: const TextStyle(fontSize: fontSizeForHyperText)),
       ),
     );
