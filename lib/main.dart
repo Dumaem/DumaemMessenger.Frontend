@@ -1,10 +1,13 @@
+import 'package:dumaem_messenger/class_builder.dart';
 import 'package:flutter/material.dart';
-import 'components/hidden_drawer.dart';
+import 'components/home_page.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:kf_drawer/kf_drawer.dart';
 
 void main() {
-  runApp(const MessengerApp());
+  ClassBuilder.registerClasses();
+  runApp(MessengerApp());
 }
 
 class MessengerApp extends StatelessWidget {
@@ -24,7 +27,7 @@ class MessengerApp extends StatelessWidget {
           scaffoldBackgroundColor: const Color.fromARGB(255, 234, 253, 252),
           primarySwatch:
               buildMaterialColor(const Color.fromARGB(255, 130, 170, 227)),
-          primaryColor: const Color.fromARGB(255, 130, 170, 227),
+          primaryColor: const Color.fromARGB(255, 7, 12, 17),
           textTheme: const TextTheme(
             displayLarge: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
             titleLarge: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
@@ -34,7 +37,7 @@ class MessengerApp extends StatelessWidget {
           elevatedButtonTheme:
               const ElevatedButtonThemeData(style: ButtonStyle())),
       debugShowCheckedModeBanner: false,
-      home: HiddenDrawer(),
+      home: HomePage(),
 /*      routes: {
         '/': (context) => const AuthenticationPage(),
         '/chats': (context) => const ChatsPage(),

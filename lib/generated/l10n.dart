@@ -139,6 +139,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Riaz`
+  String get account_name_test {
+    return Intl.message(
+      'Riaz',
+      name: 'account_name_test',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `riaz@mail.com`
+  String get account_email_test {
+    return Intl.message(
+      'riaz@mail.com',
+      name: 'account_email_test',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
