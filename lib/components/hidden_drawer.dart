@@ -1,8 +1,9 @@
+import 'package:dumaem_messenger/pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 
-import '../chats.dart';
-import '../generated/l10n.dart';
+import '../pages/chats.dart';
+import '../localization/generated/l10n.dart';
 
 class HiddenDrawer extends StatefulWidget {
   const HiddenDrawer({super.key});
@@ -33,7 +34,7 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
           baseStyle: TextStyle(),
           selectedStyle: TextStyle(),
         ),
-        ChatsPage(),
+        SettingsPage(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(

@@ -2,8 +2,8 @@ import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:flutter/material.dart';
 
-import 'components/drawer.dart';
-import 'generated/l10n.dart';
+import '../components/drawer.dart';
+import '../localization/generated/l10n.dart';
 
 class ChatsPage extends StatefulWidget {
   const ChatsPage({super.key});

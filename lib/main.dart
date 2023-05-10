@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'components/hidden_drawer.dart';
-import 'generated/l10n.dart';
+import 'localization/generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
