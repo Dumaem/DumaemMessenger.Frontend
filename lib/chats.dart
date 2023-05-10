@@ -20,10 +20,10 @@ class _ChatsPageState extends State<ChatsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: isDefaultAppBar
+      /*appBar: isDefaultAppBar
           ? getSearchAppBar(context)
-          : getDefaultAppBar(context),
-      drawer: const MenuDrawer(),
+          : getDefaultAppBar(context),*/
+      //drawer: const MenuDrawer(),
       body: ListView(
         children: chatsList.map(
           (chat) {

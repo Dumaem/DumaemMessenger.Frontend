@@ -1,8 +1,5 @@
-import 'package:dumaem_messenger/authentication.dart';
-import 'package:dumaem_messenger/chat.dart';
-import 'package:dumaem_messenger/chats.dart';
 import 'package:flutter/material.dart';
-
+import 'components/hidden_drawer.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -37,11 +34,12 @@ class MessengerApp extends StatelessWidget {
           elevatedButtonTheme:
               const ElevatedButtonThemeData(style: ButtonStyle())),
       debugShowCheckedModeBanner: false,
-      routes: {
+      home: HiddenDrawer(),
+/*      routes: {
         '/': (context) => const AuthenticationPage(),
         '/chats': (context) => const ChatsPage(),
         '/chat': (context) => const ChatPage(),
-      },
+      },*/
     );
   }
 }
