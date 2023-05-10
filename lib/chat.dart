@@ -111,3 +111,45 @@ List<Message> messagesList = [
   Message(id: 5, sender: 'Ринат', content: 'Привет!'),
   Message(id: 6, sender: 'Камиль', content: 'Привет!'),
 ];
+
+class InputWidget extends StatelessWidget {
+  const InputWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(12.0),
+      height: 60,
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(35.0),
+                boxShadow: const [
+                  BoxShadow(
+                      offset: Offset(0, 2), blurRadius: 7, color: Colors.grey)
+                ],
+              ),
+              child: Row(
+                children: const [
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: "Message",
+                          hintStyle: TextStyle(color: Color(0xFF00BFA5)),
+                          border: InputBorder.none),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -110,6 +110,26 @@ class S {
     );
   }
 
+  /// `Username`
+  String get username_title {
+    return Intl.message(
+      'Username',
+      name: 'username_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get name_tile {
+    return Intl.message(
+      'Name',
+      name: 'name_tile',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sign in`
   String get sign_in_title {
     return Intl.message(

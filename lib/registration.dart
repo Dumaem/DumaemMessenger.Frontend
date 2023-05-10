@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:dumaem_messenger/server/http_client.dart';
@@ -36,12 +37,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
             AuthTextFieldWidget(
-              textForField: S.of(context).email_title,
+              textForField: S.of(context).name_tile,
               fieldController: _nameController,
             ),
             const MarginWidget(),
             AuthTextFieldWidget(
-              textForField: S.of(context).email_title,
+              textForField: S.of(context).username_title,
               fieldController: _userNameController,
             ),
             const MarginWidget(),
@@ -64,14 +65,32 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         borderRadius: BorderRadius.all(
                             Radius.circular(baseBorderRadius))))),
                 onPressed: () async {
+                  try {
+                    final response = await DioHttpClient.dio
+                        .post('/Authorization/register', data: {
+                      'name': _nameController.text,
+                      'username': _userNameController.text,
+                      'email': _emailController.text,
+                      'password': _passwordController.text
+                    });
+                    Navigator.popAndPushNamed(context, '/');
+                  } catch (ex) {
+                    showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Ошибка!'),
+                              content: const Text(
+                                  'При регистрации произошла ошибка!\nПопробуйте ввести другие данные'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, 'ОК'),
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ));
+                  }
                   //const AlertDialog(content: Text("Выполнен переход"));
-                  var response = await DioHttpClient.dio
-                      .post('Authorization/registration', data: {
-                    'email': _emailController.text,
-                    'password': _passwordController.text
-                  });
                   // ignore: use_build_context_synchronously
-                  Navigator.popAndPushNamed(context, '/chats');
                 },
                 child: Text(S.of(context).sign_up_title,
                     style: const TextStyle(fontSize: fontSizeForHyperText)),

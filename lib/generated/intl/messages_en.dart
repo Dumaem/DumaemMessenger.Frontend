@@ -27,10 +27,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "chat_name_title": MessageLookupByLibrary.simpleMessage("Name"),
         "email_title": MessageLookupByLibrary.simpleMessage("Email"),
         "info_title": MessageLookupByLibrary.simpleMessage("Info"),
+        "name_tile": MessageLookupByLibrary.simpleMessage("Name"),
         "password_title": MessageLookupByLibrary.simpleMessage("Password"),
         "settings_title": MessageLookupByLibrary.simpleMessage("Settings"),
         "shop_title": MessageLookupByLibrary.simpleMessage("Shop"),
         "sign_in_title": MessageLookupByLibrary.simpleMessage("Sign in"),
-        "sign_up_title": MessageLookupByLibrary.simpleMessage("Sign up?")
+        "sign_up_title": MessageLookupByLibrary.simpleMessage("Sign up"),
+        "username_title": MessageLookupByLibrary.simpleMessage("Username")
       };
 }

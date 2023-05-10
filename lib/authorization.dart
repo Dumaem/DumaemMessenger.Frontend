@@ -51,14 +51,30 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
                         borderRadius: BorderRadius.all(
                             Radius.circular(baseBorderRadius))))),
                 onPressed: () async {
+                  try {
+                    var response = await DioHttpClient.dio
+                        .post('Authorization/login', data: {
+                      'email': _emailController.text,
+                      'password': _passwordController.text
+                    });
+                    Navigator.popAndPushNamed(context, '/chats');
+                  } catch (exception) {
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Ошибка!'),
+                        content: const Text('Неверные входные данные!'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'ОК'),
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                   //const AlertDialog(content: Text("Выполнен переход"));
-                  var response = await DioHttpClient.dio
-                      .post('Authorization/login', data: {
-                    'email': _emailController.text,
-                    'password': _passwordController.text
-                  });
                   // ignore: use_build_context_synchronously
-                  Navigator.popAndPushNamed(context, '/chats');
                 },
                 child: Text(S.of(context).sign_in_title,
                     style: const TextStyle(fontSize: fontSizeForHyperText)),

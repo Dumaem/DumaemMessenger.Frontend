@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dumaem_messenger/authorization.dart';
 import 'package:dumaem_messenger/chat.dart';
 import 'package:dumaem_messenger/chats.dart';
@@ -9,6 +11,7 @@ import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
+  HttpOverrides.global = MyHttpOverrides();
   DioHttpClient.initializeStaticDio();
   runApp(const MessengerApp());
 }
@@ -68,4 +71,13 @@ MaterialColor buildMaterialColor(Color color) {
     );
   }
   return MaterialColor(color.value, swatch);
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
 }

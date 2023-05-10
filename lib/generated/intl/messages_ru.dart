@@ -27,11 +27,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "chat_name_title": MessageLookupByLibrary.simpleMessage("Название"),
         "email_title": MessageLookupByLibrary.simpleMessage("Почта"),
         "info_title": MessageLookupByLibrary.simpleMessage("Информация"),
+        "name_tile": MessageLookupByLibrary.simpleMessage("Имя пользователя"),
         "password_title": MessageLookupByLibrary.simpleMessage("Пароль"),
         "settings_title": MessageLookupByLibrary.simpleMessage("Настройки"),
         "shop_title": MessageLookupByLibrary.simpleMessage("Магазин"),
         "sign_in_title": MessageLookupByLibrary.simpleMessage("Войти"),
         "sign_up_title":
-            MessageLookupByLibrary.simpleMessage("Зарегистрироваться?")
+            MessageLookupByLibrary.simpleMessage("Зарегистрироваться"),
+        "username_title": MessageLookupByLibrary.simpleMessage("Никнейм")
       };
 }
