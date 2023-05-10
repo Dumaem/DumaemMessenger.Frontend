@@ -3,7 +3,7 @@ import 'package:dumaem_messenger/properties/config.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
-import 'generated/l10n.dart';
+import '../generated/l10n.dart';
 
 class ChatsPage extends KFDrawerContent {
   @override
@@ -17,43 +17,40 @@ class _ChatsPageState extends State<ChatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).cardColor,
-      child: Scaffold(
-        appBar: isDefaultAppBar
-            ? getSearchAppBar(context)
-            : getDefaultAppBar(context),
-        body: ListView(
-          children: chatsList.map(
-            (chat) {
-              return Card(
+    return Scaffold(
+      appBar: isDefaultAppBar
+          ? getSearchAppBar(context)
+          : getDefaultAppBar(context),
+      body: ListView(
+        children: chatsList.map(
+          (chat) {
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(baseBorderRadius),
+              ),
+              child: ListTile(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(baseBorderRadius),
                 ),
-                child: ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(baseBorderRadius),
-                  ),
-                  leading: CircleAvatar(
-                    child: Text(chat.title![0].toUpperCase()),
-                  ),
-                  trailing: CircleAvatar(
-                    maxRadius: chatCircleAvatarRadius,
-                    child: Text(chat.countOfUnreadMessages.toString(),
-                        style: const TextStyle(fontSize: chatTextFontSize)),
-                  ),
-                  title: Text(chat.title!,
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text(chat.lastMessage!),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/chat',
-                        arguments: ScreenArguments(chat.id));
-                  },
+                leading: CircleAvatar(
+                  child: Text(chat.title![0].toUpperCase()),
                 ),
-              );
-            },
-          ).toList(),
-        ),
+                trailing: CircleAvatar(
+                  maxRadius: chatCircleAvatarRadius,
+                  child: Text(chat.countOfUnreadMessages.toString(),
+                      style: const TextStyle(fontSize: chatTextFontSize)),
+                ),
+                title: Text(chat.title!,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: Text(chat.lastMessage!),
+                onTap: () {
+                  Navigator.pushNamed(context, '/chat',
+                      arguments: ScreenArguments(chat.id));
+                },
+              ),
+            );
+          },
+        ).toList(),
       ),
     );
   }

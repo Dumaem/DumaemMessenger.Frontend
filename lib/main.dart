@@ -1,4 +1,5 @@
 import 'package:dumaem_messenger/class_builder.dart';
+import 'package:dumaem_messenger/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'components/home_page.dart';
 import 'generated/l10n.dart';
@@ -25,11 +26,15 @@ class MessengerApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
-          scaffoldBackgroundColor: const Color.fromARGB(255, 234, 253, 252),
+          scaffoldBackgroundColor: const Color.fromARGB(255, 190, 233, 244),
           cardColor: Colors.white,
+          appBarTheme: const AppBarTheme(
+            color: Color.fromARGB(255, 190, 233, 244),
+          ),
           primarySwatch:
-              buildMaterialColor(const Color.fromARGB(255, 130, 170, 227)),
-          primaryColor: const Color.fromARGB(255, 130, 170, 227),
+              buildMaterialColor(const Color.fromARGB(255, 190, 233, 244)),
+          primaryColor: const Color.fromARGB(255, 190, 233, 244),
+          buttonTheme: const ButtonThemeData(buttonColor: Color.fromARGB(255, 129, 169, 226)),
           textTheme: const TextTheme(
             displayLarge: TextStyle(color: Colors.black),
             titleLarge: TextStyle(color: Colors.black),
@@ -43,6 +48,7 @@ class MessengerApp extends StatelessWidget {
       routes: {
         '/auth': (context) => const AuthenticationPage(),
         '/home': (context) => const HomePage(),
+        '/settings': (context) => const SettingsPage(),
       },
     );
   }

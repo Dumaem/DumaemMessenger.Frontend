@@ -1,8 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
 import '../class_builder.dart';
-import '../chats_page.dart';
+import '../pages/chats_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,34 +24,35 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       items: [
         KFDrawerItem.initWithPage(
           text: const Text('Chats',
-              style: TextStyle(color: Colors.white, fontSize: 18)),
-          icon: const Icon(Icons.chat, color: Colors.white),
+              style: TextStyle(color: Colors.black, fontSize: 18)),
+          icon: const Icon(Icons.chat, color: Colors.black),
           page: ChatsPage(),
         ),
         KFDrawerItem.initWithPage(
           text: const Text(
             'Profile',
-            style: TextStyle(color: Colors.white, fontSize: 18),
+            style: TextStyle(color: Colors.black, fontSize: 18),
           ),
-          icon: const Icon(Icons.account_box, color: Colors.white),
+          icon: const Icon(Icons.account_box, color: Colors.black),
           page: ChatsPage(),
         ),
         KFDrawerItem.initWithPage(
           text: const Text(
             'Notifications',
-            style: TextStyle(color: Colors.white, fontSize: 18),
+            style: TextStyle(color: Colors.black, fontSize: 18),
           ),
-          icon: const Icon(Icons.notifications_active, color: Colors.white),
+          icon: const Icon(Icons.notifications_active, color: Colors.black),
           page: ChatsPage(),
         ),
-        KFDrawerItem.initWithPage(
-          text: const Text(
-            'Settings',
-            style: TextStyle(color: Colors.white, fontSize: 18),
-          ),
-          icon: const Icon(Icons.settings, color: Colors.white),
-          page: ChatsPage(),
-        ),
+        KFDrawerItem(
+            text: const Text(
+              'Settings',
+              style: TextStyle(color: Colors.black, fontSize: 18),
+            ),
+            icon: const Icon(Icons.settings, color: Colors.black),
+            onPressed: () {
+              Navigator.popAndPushNamed(context, '/settings');
+            }),
       ],
     );
   }
@@ -58,12 +61,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       body: KFDrawer(
+        borderRadius: 20,
+        shadowBorderRadius: 20.0,
         controller: _drawerController,
+        scrollable: true,
         header: Align(
           alignment: Alignment.centerLeft,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            width: MediaQuery.of(context).size.width * 0.8,
+            width: MediaQuery.of(context).size.width * 0.6,
             child: Row(
               children: <Widget>[
                 Container(
@@ -84,35 +90,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const <Widget>[
                     Text('Riaz Zaripof',
-                        style: TextStyle(fontSize: 17, color: Colors.white)),
+                        style: TextStyle(fontSize: 17, color: Colors.black)),
                     SizedBox(height: 2),
                     Text('Developer',
-                        style: TextStyle(fontSize: 15, color: Colors.grey)),
+                        style: TextStyle(fontSize: 15, color: Colors.black)),
                   ],
                 )
               ],
             ),
           ),
         ),
-        footer: Align(
-          alignment: Alignment.bottomLeft,
-          child: KFDrawerItem(
-            text: const Text(
+
+        footer: KFDrawerItem(  text: const Text(
               'Logout',
-              style: TextStyle(color: Colors.grey, fontSize: 18),
+              style: TextStyle(color: Colors.black, fontSize: 18),
             ),
-              onPressed: () {
-                Navigator.popAndPushNamed(context, '/auth');
-              }
-          ),
-        ),
+            onPressed: () {
+              Navigator.popAndPushNamed(context, '/auth');
+            }),
+        //menuPadding: EdgeInsets.fromWindowPadding(WindowPadding.zero, 100),
+
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color.fromRGBO(31, 58, 47, 1.0),
-              Color.fromRGBO(31, 58, 47, 1.0)
+              Color.fromARGB(234, 253, 252, 255),
+              Color.fromARGB(234, 253, 252, 255)
             ],
             tileMode: TileMode.repeated,
           ),

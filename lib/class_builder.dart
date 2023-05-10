@@ -1,4 +1,4 @@
-import 'chats_page.dart';
+import 'pages/chats_page.dart';
 
 typedef Constructor<T> = T Function();
 
