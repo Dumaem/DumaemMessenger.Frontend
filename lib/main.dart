@@ -13,7 +13,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() {
   HttpOverrides.global = MyHttpOverrides();
   DioHttpClient.initializeStaticDio();
-  DioHttpClient.addInterceptors();
   runApp(const MessengerApp());
 }
 
