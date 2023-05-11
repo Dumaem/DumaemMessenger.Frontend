@@ -24,7 +24,8 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final List<types.Message> _messages = [];
+  List<types.Message> _messages = [];
+  List<types.Message> _filter_messages = [];
   final _user = const types.User(id: '1');
   bool isDefaultAppBar = true;
   String searchText = "";
@@ -36,7 +37,7 @@ class _ChatPageState extends State<ChatPage> {
             ? getSearchAppBar(context)
             : getDefaultAppBar(context),
         body: Chat(
-          messages: _messages,
+          messages: _filter_messages,
           onSendPressed: _handleSendPressed,
           user: _user,
         ),
@@ -45,6 +46,7 @@ class _ChatPageState extends State<ChatPage> {
   void _addMessage(types.Message message) {
     setState(() {
       _messages.insert(0, message);
+      _filter_messages = _messages;
     });
   }
 
@@ -99,6 +101,7 @@ class _ChatPageState extends State<ChatPage> {
               searchController.clear();
               searchText = "";
               isDefaultAppBar = !isDefaultAppBar;
+              _filter_messages = _messages;
             });
           },
           icon: const Icon(Icons.close),
@@ -109,6 +112,11 @@ class _ChatPageState extends State<ChatPage> {
         onChanged: (value) {
           setState(() {
             searchText = value.toLowerCase();
+            _filter_messages = _messages
+                .where((element) => (element as types.TextMessage)
+                    .text
+                    .contains(searchText.toLowerCase()))
+                .toList();
           });
         },
         decoration:

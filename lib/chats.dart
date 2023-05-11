@@ -16,6 +16,7 @@ class _ChatsPageState extends State<ChatsPage> {
   bool isDefaultAppBar = true;
   String searchText = "";
   TextEditingController searchController = TextEditingController();
+  List<Chat> filterChats = chatsList;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class _ChatsPageState extends State<ChatsPage> {
           : getDefaultAppBar(context),
       drawer: const MenuDrawer(),
       body: ListView(
-        children: chatsList.map(
+        children: filterChats.map(
           (chat) {
             return Card(
               shape: RoundedRectangleBorder(
@@ -77,6 +78,10 @@ class _ChatsPageState extends State<ChatsPage> {
         onChanged: (value) {
           setState(() {
             searchText = value.toLowerCase();
+            filterChats = chatsList
+                .where((element) =>
+                    element.title!.toLowerCase().contains(searchText))
+                .toList();
           });
         },
         decoration: InputDecoration(label: Text(S.of(context).chat_name_title)),
