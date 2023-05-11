@@ -1,18 +1,18 @@
-import 'package:dumaem_messenger/authentication.dart';
-import 'package:dumaem_messenger/chat.dart';
-import 'package:dumaem_messenger/chats.dart';
+import 'package:dumaem_messenger/class_builder.dart';
+import 'package:dumaem_messenger/pages/settings_page.dart';
 import 'package:flutter/material.dart';
-
+import 'components/home_page.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'pages/authentication.dart';
+
 void main() {
-  runApp(const MessengerApp());
+  ClassBuilder.registerClasses();
+  runApp(MessengerApp());
 }
 
 class MessengerApp extends StatelessWidget {
-  const MessengerApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,23 +24,32 @@ class MessengerApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
-          scaffoldBackgroundColor: const Color.fromARGB(255, 234, 253, 252),
-          primarySwatch:
-              buildMaterialColor(const Color.fromARGB(255, 130, 170, 227)),
-          primaryColor: const Color.fromARGB(255, 130, 170, 227),
-          textTheme: const TextTheme(
-            displayLarge: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
-            titleLarge: TextStyle(color: Color.fromARGB(255, 154, 216, 228)),
-            bodyMedium: TextStyle(color: Color.fromARGB(255, 14, 18, 19)),
-            bodySmall: TextStyle(color: Color.fromARGB(255, 4, 5, 5)),
-          ),
-          elevatedButtonTheme:
-              const ElevatedButtonThemeData(style: ButtonStyle())),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 190, 233, 244),
+        cardColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          color: Color.fromARGB(255, 190, 233, 244),
+        ),
+        primarySwatch:
+            buildMaterialColor(const Color.fromARGB(255, 190, 233, 244)),
+        primaryColor: const Color.fromARGB(255, 190, 233, 244),
+        buttonTheme: const ButtonThemeData(
+          buttonColor: Color.fromARGB(255, 129, 169, 226),
+        ),
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(color: Colors.black),
+          titleLarge: TextStyle(color: Colors.black),
+          bodyMedium: TextStyle(color: Colors.black, fontSize: 18),
+          bodySmall: TextStyle(color: Colors.black),
+        ),
+        elevatedButtonTheme:
+            const ElevatedButtonThemeData(style: ButtonStyle()),
+      ),
       debugShowCheckedModeBanner: false,
+      home: const AuthenticationPage(),
       routes: {
-        '/': (context) => const AuthenticationPage(),
-        '/chats': (context) => const ChatsPage(),
-        '/chat': (context) => const ChatPage(),
+        '/auth': (context) => const AuthenticationPage(),
+        '/home': (context) => HomePage(),
+        '/settings': (context) => const SettingsPage(),
       },
     );
   }

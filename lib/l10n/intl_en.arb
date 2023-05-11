@@ -7,5 +7,8 @@
   "password_title": "Password",
   "sign_in_title": "Sign in",
   "sign_up_title": "Sign up?",
-  "chat_name_title": "Name"
+  "logout_title": "Logout",
+  "chat_name_title": "Name",
+  "account_name_test": "Riaz",
+  "account_email_test": "riaz@mail.com"
 }
