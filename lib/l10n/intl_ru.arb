@@ -9,5 +9,6 @@
   "password_title": "Пароль",
   "sign_in_title": "Войти",
   "sign_up_title": "Зарегистрироваться",
-  "chat_name_title": "Название"
+  "chat_name_title": "Название",
+  "message_name_title": "Сообщение"
 }

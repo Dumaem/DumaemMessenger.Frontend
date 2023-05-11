@@ -140,10 +140,10 @@ class S {
     );
   }
 
-  /// `Sign up?`
+  /// `Sign up`
   String get sign_up_title {
     return Intl.message(
-      'Sign up?',
+      'Sign up',
       name: 'sign_up_title',
       desc: '',
       args: [],
@@ -185,6 +185,16 @@ class S {
     return Intl.message(
       'riaz@mail.com',
       name: 'account_email_test',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Message`
+  String get message_name_title {
+    return Intl.message(
+      'Message',
+      name: 'message_name_title',
       desc: '',
       args: [],
     );

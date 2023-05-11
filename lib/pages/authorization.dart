@@ -71,7 +71,6 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
                   }
 
                   //const AlertDialog(content: Text("Выполнен переход"));
-                  Navigator.popAndPushNamed(context, '/home');
                 },
                 child: Text(S.of(context).sign_in_title,
                     style: const TextStyle(fontSize: fontSizeForHyperText)),

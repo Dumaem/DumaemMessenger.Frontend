@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
@@ -7,6 +5,8 @@ import '../class_builder.dart';
 import '../pages/chats_page.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -79,7 +79,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             width: MediaQuery.of(context).size.width * 0.6,
             child: Container(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.1),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.1),
               child: Row(
                 children: <Widget>[
                   Container(

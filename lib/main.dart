@@ -18,10 +18,12 @@ void main() {
   HttpOverrides.global = MyHttpOverrides();
   DioHttpClient.initializeStaticDio();
   DioHttpClient.addInterceptors();
-  runApp(MessengerApp());
+  runApp(const MessengerApp());
 }
 
 class MessengerApp extends StatelessWidget {
+  const MessengerApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -54,11 +56,11 @@ class MessengerApp extends StatelessWidget {
             const ElevatedButtonThemeData(style: ButtonStyle()),
       ),
       debugShowCheckedModeBanner: false,
-      home: AuthorizationPage(),
+      home: const AuthorizationPage(),
       routes: {
-        '/home': (context) => HomePage(),
+        '/home': (context) => const HomePage(),
         '/settings': (context) => const SettingsPage(),
-        '/authorization': (context) => AuthorizationPage(),
+        '/authorization': (context) => const AuthorizationPage(),
         '/chats': (context) => ChatsPage(),
         '/chat': (context) => const ChatPage(),
         '/registration': (context) => const RegistrationPage()
