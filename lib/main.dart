@@ -9,12 +9,10 @@ import 'pages/authentication.dart';
 
 void main() {
   ClassBuilder.registerClasses();
-  runApp(const MessengerApp());
+  runApp(MessengerApp());
 }
 
 class MessengerApp extends StatelessWidget {
-  const MessengerApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,28 +24,31 @@ class MessengerApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
-          scaffoldBackgroundColor: const Color.fromARGB(255, 190, 233, 244),
-          cardColor: Colors.white,
-          appBarTheme: const AppBarTheme(
-            color: Color.fromARGB(255, 190, 233, 244),
-          ),
-          primarySwatch:
-              buildMaterialColor(const Color.fromARGB(255, 190, 233, 244)),
-          primaryColor: const Color.fromARGB(255, 190, 233, 244),
-          buttonTheme: const ButtonThemeData(buttonColor: Color.fromARGB(255, 129, 169, 226)),
-          textTheme: const TextTheme(
-            displayLarge: TextStyle(color: Colors.black),
-            titleLarge: TextStyle(color: Colors.black),
-            bodyMedium: TextStyle(color: Colors.black, fontSize: 18),
-            bodySmall: TextStyle(color: Colors.black),
-          ),
-          elevatedButtonTheme:
-              const ElevatedButtonThemeData(style: ButtonStyle())),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 190, 233, 244),
+        cardColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          color: Color.fromARGB(255, 190, 233, 244),
+        ),
+        primarySwatch:
+            buildMaterialColor(const Color.fromARGB(255, 190, 233, 244)),
+        primaryColor: const Color.fromARGB(255, 190, 233, 244),
+        buttonTheme: const ButtonThemeData(
+          buttonColor: Color.fromARGB(255, 129, 169, 226),
+        ),
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(color: Colors.black),
+          titleLarge: TextStyle(color: Colors.black),
+          bodyMedium: TextStyle(color: Colors.black, fontSize: 18),
+          bodySmall: TextStyle(color: Colors.black),
+        ),
+        elevatedButtonTheme:
+            const ElevatedButtonThemeData(style: ButtonStyle()),
+      ),
       debugShowCheckedModeBanner: false,
       home: const AuthenticationPage(),
       routes: {
         '/auth': (context) => const AuthenticationPage(),
-        '/home': (context) => const HomePage(),
+        '/home': (context) => HomePage(),
         '/settings': (context) => const SettingsPage(),
       },
     );
