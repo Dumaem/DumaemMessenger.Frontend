@@ -1,32 +1,43 @@
+import 'dart:io';
+
 import 'package:dumaem_messenger/models/message_context.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:dumaem_messenger/server/http_client.dart';
+import 'package:http/http.dart' as http;
+//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logging/logging.dart';
-import 'package:signalr_netcore/signalr_client.dart';
+import 'package:signalr_core/signalr_core.dart';
+
+class CustomClient extends http.BaseClient {
+  final http.BaseClient client = http.Client() as http.BaseClient;
+
+  @override
+  Future<http.StreamedResponse> send(http.BaseRequest request) async {
+    request.headers['Authorization'] =
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbWVuaXJ1QG1haWwucnUiLCJqdGkiOiJlYTJlN2E4MC02MWJjLTQ2YWEtOTE5ZS04YWVkM2IxMjBhZDciLCJlbWFpbCI6ImFtZW5pcnVAbWFpbC5ydSIsImlkIjoiMTMiLCJkZXZpY2VJZCI6Ij9DXHUwMDEyPz8_QT8xPz8_Pz8_R1x1MDAxYj8_P24sSlo_RT9gPzc_fyIsIm5iZiI6MTY4MzgwMDM5MiwiZXhwIjoxNjgzODAxMDAyLCJpYXQiOjE2ODM4MDAzOTJ9.EbjYr8F0bc5PXoRzLqkRZv759OabQhU8U09znJBqEo8';
+    return client.send(request);
+  }
+}
 
 class SignalRConnection {
   static late HubConnection hubConnection;
   static late Logger hubProtLogger;
   static late Logger transportProtLogger;
-  static late HttpConnectionOptions httpOptions;
 
-  static const serverUrl = "https://217.66.25.183:7213/z";
+  static const serverUrl = "https://10.0.2.2:7251/z";
 
   static void intitalizeSignalRConnection() {
     hubProtLogger = Logger("SignalR - hub");
     transportProtLogger = Logger("SignalR - transport");
-    httpOptions = HttpConnectionOptions(logger: transportProtLogger);
-    httpOptions.requestTimeout = 50000;
-    httpOptions.accessTokenFactory = () async =>
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbWVuaXJ1QG1haWwucnUiLCJqdGkiOiJlMzIyZTJhNi1kMjQzLTQ3MmUtYmZkMi1jMzljZDJjOWExNWYiLCJlbWFpbCI6ImFtZW5pcnVAbWFpbC5ydSIsImlkIjoiMTMiLCJkZXZpY2VJZCI6Ik1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMTMuMC4wLjAgU2FmYXJpLzUzNy4zNiIsIm5iZiI6MTY4Mzc0MjQ4MiwiZXhwIjoxNjgzNzQyNDkyLCJpYXQiOjE2ODM3NDI0ODJ9.FzXBfznJF9sLrvieiHqxrU3WXgLnBRbGCxtTRiVDnMs";
+    var options = HttpConnectionOptions(
+      client: CustomClient(),
+      logging: (level, message) => print(message),
+    );
 
-    hubConnection = HubConnectionBuilder()
-        .withUrl(serverUrl, options: httpOptions)
-        .configureLogging(hubProtLogger)
-        .build();
+    hubConnection = HubConnectionBuilder().withUrl(serverUrl, options).build();
 
-    hubConnection.onclose(({Exception? error}) => print("Connection Closed"));
+    hubConnection.onclose((Exception? error) => print("Connection Closed"));
     hubConnection.on('ReceiveMessage', (message) {
-      print((message as MessageContext).Content);
+      print('123');
     });
 
     Logger.root.level = Level.ALL;
@@ -40,10 +51,20 @@ class SignalRConnection {
 
   static Future<void> startSignalR() async {
     await hubConnection.start();
+    await hubConnection.send(methodName: 'SendMessageToChat', args: <Object>[
+      {
+        'ContentType': 1,
+        'ChatId': 'testChat1',
+        'Content': '123',
+        'ForwardedMessageId': null,
+        'RepliedMessageId': null,
+        'UserId': 0
+      }
+    ]);
   }
 
   static Future<String> getAccessToken() async {
-    FlutterSecureStorage _storage = const FlutterSecureStorage();
+    //FlutterSecureStorage _storage = const FlutterSecureStorage();
     return ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbWVuaXJ1QG1haWwucnUiLCJqdGkiOiI3Nzg1ZDI1Zi1mMTk5LTRhMzEtYjRmMC1jMGZiNTI5NmYyM2MiLCJlbWFpbCI6ImFtZW5pcnVAbWFpbC5ydSIsImlkIjoiMiIsImRldmljZUlkIjoiPz80VD8_Pz8uPz9BXHUwMDEwXHUwMDA0XT8_XHUwMDE3YT9cdTAwMTI_QyQ_Pz8_TG1cdTAwMDc0IiwibmJmIjoxNjgzNzQxODQ1LCJleHAiOjE2ODM3NDI3NDUsImlhdCI6MTY4Mzc0MTg0NX0.ceixlGNwwsVzZPBvSXeId-neS2J2N3hDAleBR9bp5cQ");
   }
 }
