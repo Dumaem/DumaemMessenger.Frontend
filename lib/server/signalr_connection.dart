@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dumaem_messenger/models/message_context.dart';
 import 'package:dumaem_messenger/server/http_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 //import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
@@ -13,7 +15,7 @@ class CustomClient extends http.BaseClient {
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
     request.headers['Authorization'] =
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbWVuaXJ1QG1haWwucnUiLCJqdGkiOiJlYTJlN2E4MC02MWJjLTQ2YWEtOTE5ZS04YWVkM2IxMjBhZDciLCJlbWFpbCI6ImFtZW5pcnVAbWFpbC5ydSIsImlkIjoiMTMiLCJkZXZpY2VJZCI6Ij9DXHUwMDEyPz8_QT8xPz8_Pz8_R1x1MDAxYj8_P24sSlo_RT9gPzc_fyIsIm5iZiI6MTY4MzgwMDM5MiwiZXhwIjoxNjgzODAxMDAyLCJpYXQiOjE2ODM4MDAzOTJ9.EbjYr8F0bc5PXoRzLqkRZv759OabQhU8U09znJBqEo8';
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbWVuaXJ1QG1haWwucnUiLCJqdGkiOiJlOWI1YmRlZi1kM2ZlLTRmODYtYWE0Mi00ZTk1ZDUwZDhkODEiLCJlbWFpbCI6ImFtZW5pcnVAbWFpbC5ydSIsImlkIjoiMTMiLCJkZXZpY2VJZCI6Ij9oQ2M_P1x1MDAwMjA_a1x1MDAxZTc_PT9SO1x1MDAwNn81PzM_dj8_KFxyMD8_biIsIm5iZiI6MTY4MzgwNjEzNSwiZXhwIjoxNjgzODA2NzQ1LCJpYXQiOjE2ODM4MDYxMzV9.hD6K_4nvM93gnm882yhVbd0iFAL5HdjVRG1L7vbyIek';
     return client.send(request);
   }
 }
@@ -23,7 +25,7 @@ class SignalRConnection {
   static late Logger hubProtLogger;
   static late Logger transportProtLogger;
 
-  static const serverUrl = "https://10.0.2.2:7251/z";
+  static const serverUrl = "https://10.0.2.2:7213/z";
 
   static void intitalizeSignalRConnection() {
     hubProtLogger = Logger("SignalR - hub");
@@ -36,6 +38,11 @@ class SignalRConnection {
     hubConnection = HubConnectionBuilder().withUrl(serverUrl, options).build();
 
     hubConnection.onclose((Exception? error) => print("Connection Closed"));
+
+    hubConnection.on('Test', (argument) {
+      print('test worked');
+    });
+
     hubConnection.on('ReceiveMessage', (message) {
       print('123');
     });
@@ -58,9 +65,12 @@ class SignalRConnection {
         'Content': '123',
         'ForwardedMessageId': null,
         'RepliedMessageId': null,
-        'UserId': 0
+        'UserId': 0,
+        'SendDate': DateTime.now().toUtc()
       }
     ]);
+
+    var data = DateTime.now().toUtc().toString();
   }
 
   static Future<String> getAccessToken() async {
