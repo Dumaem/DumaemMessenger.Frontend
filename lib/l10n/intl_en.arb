@@ -9,5 +9,6 @@
   "name_tile": "Name",
   "sign_in_title": "Sign in",
   "sign_up_title": "Sign up",
-  "chat_name_title": "Name"
+  "chat_name_title": "Name",
+  "message_name_title": "Message"
 }

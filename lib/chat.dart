@@ -7,6 +7,8 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 
+import 'generated/l10n.dart';
+
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid.
 String randomString() {
   final random = Random.secure();
@@ -24,9 +26,15 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final List<types.Message> _messages = [];
   final _user = const types.User(id: '1');
+  bool isDefaultAppBar = true;
+  String searchText = "";
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        appBar: isDefaultAppBar
+            ? getSearchAppBar(context)
+            : getDefaultAppBar(context),
         body: Chat(
           messages: _messages,
           onSendPressed: _handleSendPressed,
@@ -49,6 +57,64 @@ class _ChatPageState extends State<ChatPage> {
     );
 
     _addMessage(textMessage);
+  }
+
+  AppBar getSearchAppBar(BuildContext context) {
+    return AppBar(
+      leading: IconButton(
+        onPressed: () {
+          Navigator.popAndPushNamed(context, '/chats');
+        },
+        icon: const Icon(
+          Icons.arrow_back,
+        ),
+      ),
+      title: const ListTile(
+        leading: CircleAvatar(
+          child: Text("D"),
+        ),
+        title: Text("Название чата"),
+      ),
+      actions: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              isDefaultAppBar = !isDefaultAppBar;
+            });
+          },
+          icon: const Icon(
+            Icons.search,
+          ),
+        ),
+      ],
+    );
+  }
+
+  AppBar getDefaultAppBar(BuildContext context) {
+    return AppBar(
+      actions: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              searchController.clear();
+              searchText = "";
+              isDefaultAppBar = !isDefaultAppBar;
+            });
+          },
+          icon: const Icon(Icons.close),
+        )
+      ],
+      title: TextField(
+        controller: searchController,
+        onChanged: (value) {
+          setState(() {
+            searchText = value.toLowerCase();
+          });
+        },
+        decoration:
+            InputDecoration(label: Text(S.of(context).message_name_title)),
+      ),
+    );
   }
 }
 
