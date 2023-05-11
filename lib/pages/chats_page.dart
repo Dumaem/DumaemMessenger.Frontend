@@ -1,13 +1,11 @@
 import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:flutter/material.dart';
+import 'package:kf_drawer/kf_drawer.dart';
 
-import 'components/drawer.dart';
-import 'generated/l10n.dart';
+import '../generated/l10n.dart';
 
-class ChatsPage extends StatefulWidget {
-  const ChatsPage({super.key});
-
+class ChatsPage extends KFDrawerContent {
   @override
   State<ChatsPage> createState() => _ChatsPageState();
 }
@@ -16,7 +14,6 @@ class _ChatsPageState extends State<ChatsPage> {
   bool isDefaultAppBar = true;
   String searchText = "";
   TextEditingController searchController = TextEditingController();
-  List<Chat> filterChats = chatsList;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +21,8 @@ class _ChatsPageState extends State<ChatsPage> {
       appBar: isDefaultAppBar
           ? getSearchAppBar(context)
           : getDefaultAppBar(context),
-      drawer: const MenuDrawer(),
       body: ListView(
-        children: filterChats.map(
+        children: chatsList.map(
           (chat) {
             return Card(
               shape: RoundedRectangleBorder(
@@ -61,6 +57,26 @@ class _ChatsPageState extends State<ChatsPage> {
 
   AppBar getDefaultAppBar(BuildContext context) {
     return AppBar(
+      leading: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+        child: Material(
+          shadowColor: Colors.transparent,
+          color: Colors.transparent,
+          child: IconButton(
+            icon: const Icon(Icons.menu, color: Colors.black),
+            onPressed: widget.onMenuPressed,
+          ),
+        ),
+      ),
+      title: TextField(
+        controller: searchController,
+        onChanged: (value) {
+          setState(() {
+            searchText = value.toLowerCase();
+          });
+        },
+        decoration: InputDecoration(label: Text(S.of(context).chat_name_title)),
+      ),
       actions: [
         IconButton(
           onPressed: () {
@@ -73,19 +89,6 @@ class _ChatsPageState extends State<ChatsPage> {
           icon: const Icon(Icons.close),
         )
       ],
-      title: TextField(
-        controller: searchController,
-        onChanged: (value) {
-          setState(() {
-            searchText = value.toLowerCase();
-            filterChats = chatsList
-                .where((element) =>
-                    element.title!.toLowerCase().contains(searchText))
-                .toList();
-          });
-        },
-        decoration: InputDecoration(label: Text(S.of(context).chat_name_title)),
-      ),
     );
   }
 
@@ -93,6 +96,17 @@ class _ChatsPageState extends State<ChatsPage> {
     return AppBar(
       title: Text(S.of(context).app_bar_title),
       centerTitle: true,
+      leading: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+        child: Material(
+          shadowColor: Colors.transparent,
+          color: Colors.transparent,
+          child: IconButton(
+            icon: const Icon(Icons.menu, color: Colors.black),
+            onPressed: widget.onMenuPressed,
+          ),
+        ),
+      ),
       actions: [
         IconButton(
           onPressed: () {
@@ -109,11 +123,13 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 }
 
+// test data
 class Chat {
   int id;
   String? title;
   String? lastMessage;
   int? countOfUnreadMessages;
+
   Chat(
       {required this.id,
       this.title,

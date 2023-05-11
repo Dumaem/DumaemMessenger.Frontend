@@ -140,10 +140,10 @@ class S {
     );
   }
 
-  /// `Sign up`
+  /// `Sign up?`
   String get sign_up_title {
     return Intl.message(
-      'Sign up',
+      'Sign up?',
       name: 'sign_up_title',
       desc: '',
       args: [],
@@ -155,6 +155,36 @@ class S {
     return Intl.message(
       'Name',
       name: 'chat_name_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logout`
+  String get logout_title {
+    return Intl.message(
+      'Logout',
+      name: 'logout_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Riaz`
+  String get account_name_test {
+    return Intl.message(
+      'Riaz',
+      name: 'account_name_test',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `riaz@mail.com`
+  String get account_email_test {
+    return Intl.message(
+      'riaz@mail.com',
+      name: 'account_email_test',
       desc: '',
       args: [],
     );
