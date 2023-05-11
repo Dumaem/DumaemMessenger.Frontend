@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 
-import '../generated/l10n.dart';
+import 'generated/l10n.dart';
 
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid.
 String randomString() {
@@ -23,7 +23,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   List<types.Message> _messages = [];
-  List<types.Message> _filter_messages = [];
+  List<types.Message> _filterMessages = [];
   final _user = const types.User(id: '1');
   bool isDefaultAppBar = true;
   String searchText = "";
@@ -35,7 +35,7 @@ class _ChatPageState extends State<ChatPage> {
             ? getSearchAppBar(context)
             : getDefaultAppBar(context),
         body: Chat(
-          messages: _filter_messages,
+          messages: _filterMessages,
           onSendPressed: _handleSendPressed,
           user: _user,
         ),
@@ -44,7 +44,7 @@ class _ChatPageState extends State<ChatPage> {
   void _addMessage(types.Message message) {
     setState(() {
       _messages.insert(0, message);
-      _filter_messages = _messages;
+      _filterMessages = _messages;
     });
   }
 
@@ -99,7 +99,7 @@ class _ChatPageState extends State<ChatPage> {
               searchController.clear();
               searchText = "";
               isDefaultAppBar = !isDefaultAppBar;
-              _filter_messages = _messages;
+              _filterMessages = _messages;
             });
           },
           icon: const Icon(Icons.close),
@@ -110,7 +110,7 @@ class _ChatPageState extends State<ChatPage> {
         onChanged: (value) {
           setState(() {
             searchText = value.toLowerCase();
-            _filter_messages = _messages
+            _filterMessages = _messages
                 .where((element) => (element as types.TextMessage)
                     .text
                     .contains(searchText.toLowerCase()))

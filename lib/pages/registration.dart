@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:dumaem_messenger/server/http_client.dart';
