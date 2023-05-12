@@ -6,6 +6,7 @@ import 'package:dumaem_messenger/chats.dart';
 import 'package:dumaem_messenger/registration.dart';
 import 'package:dumaem_messenger/server/http_client.dart';
 import 'package:dumaem_messenger/server/signalr_connection.dart';
+import 'package:dumaem_messenger/server/token_interaction.dart';
 import 'package:flutter/material.dart';
 
 import 'generated/l10n.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() {
   HttpOverrides.global = MyHttpOverrides();
   DioHttpClient.initializeStaticDio();
+  TokenInteraction.initializeStorage();
   SignalRConnection.intitalizeSignalRConnection();
   runApp(const MessengerApp());
 }

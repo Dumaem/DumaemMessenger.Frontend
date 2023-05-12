@@ -43,6 +43,8 @@ dependencies:
   flutter_chat_ui: ^1.6.6
   signalr_core: ^1.1.1
   logging: ^1.1.1
+  flutter_secure_storage: ^8.0.0
+
 
 
 

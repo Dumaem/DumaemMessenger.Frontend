@@ -1,10 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:dumaem_messenger/models/message_context.dart';
-import 'package:dumaem_messenger/server/http_client.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:intl/intl.dart';
 //import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logging/logging.dart';
@@ -78,7 +72,6 @@ class SignalRConnection {
   }
 
   static String formatISOTime(DateTime date) {
-    var duration = date.timeZoneOffset;
     return ("${DateFormat("yyyy-MM-ddTHH:mm:ss.mmm").format(date)}Z");
   }
 }

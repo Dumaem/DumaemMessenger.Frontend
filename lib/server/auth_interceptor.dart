@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dumaem_messenger/server/token_interaction.dart';
 
 class AuthInterceptor extends Interceptor {
   AuthInterceptor();
@@ -13,7 +14,6 @@ class AuthInterceptor extends Interceptor {
       '/send-otp',
       '/validate-otp',
     ];
-
     // Check if the requested endpoint match in the
     if (listOfPaths.contains(options.path.toString())) {
       // if the endpoint is matched then skip adding the token.
