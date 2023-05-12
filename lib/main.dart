@@ -11,6 +11,7 @@ import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'pages/chat.dart';
+import 'pages/chat_info_page.dart';
 import 'pages/chats_page.dart';
 
 void main() {
@@ -49,7 +50,7 @@ class MessengerApp extends StatelessWidget {
         textTheme: const TextTheme(
           displayLarge: TextStyle(color: Colors.black),
           titleLarge: TextStyle(color: Colors.black),
-          bodyMedium: TextStyle(color: Colors.black, fontSize: 18),
+          bodyMedium: TextStyle(color: Colors.black, fontSize: 15),
           bodySmall: TextStyle(color: Colors.black),
         ),
         elevatedButtonTheme:
@@ -62,6 +63,7 @@ class MessengerApp extends StatelessWidget {
         '/settings': (context) => const SettingsPage(),
         '/authorization': (context) => const AuthorizationPage(),
         '/chats': (context) => ChatsPage(),
+        '/chatInfo': (context) => const ChatInfoPage(),
         '/chat': (context) => const ChatPage(),
         '/registration': (context) => const RegistrationPage()
       },

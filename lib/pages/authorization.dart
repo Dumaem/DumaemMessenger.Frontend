@@ -58,7 +58,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
                       'email': _emailController.text,
                       'password': _passwordController.text
                     });
-                    Navigator.popAndPushNamed(context, '/chats');
+                    Navigator.popAndPushNamed(context, '/home');
                   } catch (exception) {
                     StatusAlert.show(
                       context,
@@ -70,6 +70,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
                     );
                   }
 
+                  Navigator.popAndPushNamed(context, '/home');
                   //const AlertDialog(content: Text("Выполнен переход"));
                 },
                 child: Text(S.of(context).sign_in_title,

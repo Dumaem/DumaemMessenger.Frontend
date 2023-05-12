@@ -63,7 +63,7 @@ class _ChatPageState extends State<ChatPage> {
     return AppBar(
       leading: IconButton(
         onPressed: () {
-          Navigator.popAndPushNamed(context, '/chats');
+          Navigator.popAndPushNamed(context, '/home');
         },
         icon: const Icon(
           Icons.arrow_back,
