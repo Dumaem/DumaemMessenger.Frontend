@@ -43,7 +43,7 @@ class MessengerApp extends StatelessWidget {
         ),
         primarySwatch:
             buildMaterialColor(const Color.fromARGB(255, 190, 233, 244)),
-        primaryColor: const Color.fromARGB(255, 190, 233, 244),
+        primaryColor: const Color.fromARGB(255, 133, 194, 210),
         buttonTheme: const ButtonThemeData(
           buttonColor: Color.fromARGB(255, 129, 169, 226),
         ),
