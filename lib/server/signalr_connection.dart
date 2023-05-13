@@ -49,6 +49,7 @@ class SignalRConnection {
     hubConnection.on('Unauthorized', (arguments) async {
       print('Unauthorized error');
       await refreshToken();
+      await startSignalR();
     });
 
     Logger.root.level = Level.ALL;
