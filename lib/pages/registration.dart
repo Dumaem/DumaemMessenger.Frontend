@@ -1,18 +1,21 @@
-import 'package:dumaem_messenger/generated/l10n.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:dumaem_messenger/server/dio_http_client.dart';
 import 'package:flutter/material.dart';
 import 'package:status_alert/status_alert.dart';
 
-class AuthorizationPage extends StatefulWidget {
-  const AuthorizationPage({super.key});
+import '../generated/l10n.dart';
+
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
 
   @override
-  State<AuthorizationPage> createState() => _AuthorizationPageState();
+  State<RegistrationPage> createState() => _RegistrationPageState();
 }
 
-class _AuthorizationPageState extends State<AuthorizationPage> {
+class _RegistrationPageState extends State<RegistrationPage> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -34,6 +37,16 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
             AuthTextFieldWidget(
+              textForField: S.of(context).name_tile,
+              fieldController: _nameController,
+            ),
+            const MarginWidget(),
+            AuthTextFieldWidget(
+              textForField: S.of(context).username_title,
+              fieldController: _userNameController,
+            ),
+            const MarginWidget(),
+            AuthTextFieldWidget(
               textForField: S.of(context).email_title,
               fieldController: _emailController,
             ),
@@ -53,36 +66,38 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
                             Radius.circular(baseBorderRadius))))),
                 onPressed: () async {
                   try {
-                    var response = await DioHttpClient.dio
-                        .post('Authorization/login', data: {
+                    final response = await DioHttpClient.dio
+                        .post('/Authorization/register', data: {
+                      'name': _nameController.text,
+                      'username': _userNameController.text,
                       'email': _emailController.text,
                       'password': _passwordController.text
                     });
-                    Navigator.popAndPushNamed(context, '/chats');
-                  } catch (exception) {
+                    Navigator.popAndPushNamed(context, '/');
+                  } catch (ex) {
                     StatusAlert.show(
                       context,
                       duration: const Duration(seconds: 2),
                       title: 'Ошибка!',
-                      subtitle: 'Пользователя с такими данными не существует!',
+                      subtitle:
+                          'При регистрации произошла ошибка!\nПопробуйте ввести другие данные!',
                       configuration: const IconConfiguration(icon: Icons.error),
                       maxWidth: MediaQuery.of(context).size.width * 0.8,
                     );
                   }
-
                   //const AlertDialog(content: Text("Выполнен переход"));
                   // ignore: use_build_context_synchronously
                 },
-                child: Text(S.of(context).sign_in_title,
+                child: Text(S.of(context).sign_up_title,
                     style: const TextStyle(fontSize: fontSizeForHyperText)),
               ),
             ),
             const MarginWidget(),
             InkWell(
-              child: Text("${S.of(context).sign_up_title}?",
+              child: Text("${S.of(context).sign_in_title}?",
                   style: const TextStyle(fontSize: fontSizeForHyperText)),
               onTap: () {
-                Navigator.popAndPushNamed(context, '/registration');
+                Navigator.popAndPushNamed(context, '/');
               },
             ),
             const MarginWidget()

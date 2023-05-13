@@ -22,11 +22,16 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "account_email_test":
+            MessageLookupByLibrary.simpleMessage("riaz@mail.com"),
+        "account_name_test": MessageLookupByLibrary.simpleMessage("Riaz"),
         "app_bar_title":
             MessageLookupByLibrary.simpleMessage("Dumaem Messenger"),
         "chat_name_title": MessageLookupByLibrary.simpleMessage("Name"),
         "email_title": MessageLookupByLibrary.simpleMessage("Email"),
         "info_title": MessageLookupByLibrary.simpleMessage("Info"),
+        "logout_title": MessageLookupByLibrary.simpleMessage("Logout"),
+        "message_name_title": MessageLookupByLibrary.simpleMessage("Message"),
         "name_tile": MessageLookupByLibrary.simpleMessage("Name"),
         "password_title": MessageLookupByLibrary.simpleMessage("Password"),
         "settings_title": MessageLookupByLibrary.simpleMessage("Settings"),
