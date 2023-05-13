@@ -1,8 +1,7 @@
 import 'package:dumaem_messenger/generated/l10n.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
-import 'package:dumaem_messenger/server/http_client.dart';
-import 'package:dumaem_messenger/server/token_interaction.dart';
+import 'package:dumaem_messenger/server/dio_http_client.dart';
 import 'package:flutter/material.dart';
 import 'package:status_alert/status_alert.dart';
 
@@ -59,9 +58,6 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
                       'email': _emailController.text,
                       'password': _passwordController.text
                     });
-                    TokenInteraction.setTokensToStorage(
-                        response.data['accessToken'],
-                        response.data['refreshToken']);
                     Navigator.popAndPushNamed(context, '/chats');
                   } catch (exception) {
                     StatusAlert.show(
