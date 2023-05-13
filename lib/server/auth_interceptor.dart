@@ -12,7 +12,7 @@ class AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final accessToken = await storage.read(key: 'access_token');
+    final accessToken = await storage.read(key: 'accessToken');
     options.headers['Authorization'] = 'Bearer $accessToken';
     handler.next(options);
   }
@@ -63,23 +63,26 @@ class AuthInterceptor extends Interceptor {
 Future<String?> refreshToken() async {
   try {
     final refreshToken = await storage.read(key: refreshTokenKey);
+    final accessToken = await storage.read(key: accessTokenKey);
 
     // Create a new Dio instance for the token refresh request
 
     final response = await DioHttpClient.dio.post(
       'Authorization/refresh',
-      data: {'refresh_token': refreshToken},
+      data: {'refreshToken': refreshToken, 'accessToken': accessToken},
     );
 
     if (response.statusCode == 200) {
       final newAccessToken = response.data['token']['accessToken'];
+      final newRefreshToken = response.data['token']['refreshToken'];
 
       // Update the stored access token
       await storage.write(key: accessTokenKey, value: newAccessToken);
+      await storage.write(key: refreshTokenKey, value: newRefreshToken);
 
       return newAccessToken;
     }
   } catch (error) {
-    // Handle token refresh request failure
+    throw Exception("Tokens can not be updated");
   }
 }
