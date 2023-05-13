@@ -5,7 +5,7 @@ class DioHttpClient {
   static late Dio dio;
 
   static BaseOptions options =
-      BaseOptions(baseUrl: 'https://217.66.25.183:7213/api/', headers: {
+      BaseOptions(baseUrl: 'https://10.0.2.2/api/', headers: {
     "Access-Control-Allow-Origin": '*',
     'Content-Type': 'application/json',
     'Accept': 'application/json',

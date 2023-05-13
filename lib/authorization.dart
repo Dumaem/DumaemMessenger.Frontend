@@ -58,6 +58,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
                       'email': _emailController.text,
                       'password': _passwordController.text
                     });
+                    
                     Navigator.popAndPushNamed(context, '/chats');
                   } catch (exception) {
                     StatusAlert.show(

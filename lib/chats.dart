@@ -1,6 +1,8 @@
 import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
+import 'package:dumaem_messenger/server/http_client.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 
 import 'components/drawer.dart';
 import 'generated/l10n.dart';
@@ -15,10 +17,27 @@ class ChatsPage extends StatefulWidget {
 class _ChatsPageState extends State<ChatsPage> {
   bool isDefaultAppBar = true;
   String searchText = "";
+  //final List<Chat> chats;
   TextEditingController searchController = TextEditingController();
+
+  Future<void> getChatsList() async
+  {
+    try{
+      var response = await DioHttpClient.dio
+                    .get('Chat/get-user-chats-by-id', queryParameters: {"id":1}); 
+      if(response.statusCode == 200)
+      {
+        
+      }
+    }
+    catch(exception){
+      print('lol');
+    }
+  } 
 
   @override
   Widget build(BuildContext context) {
+    getChatsList();
     return Scaffold(
       appBar: isDefaultAppBar
           ? getSearchAppBar(context)
@@ -45,7 +64,11 @@ class _ChatsPageState extends State<ChatsPage> {
                 ),
                 title: Text(chat.title!,
                     style: const TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Text(chat.lastMessage!),
+                subtitle: Row(
+                  children: [
+                    Text(chat.senderName == null ? "null: " : "${chat.senderName!}: "),
+                    Text(chat.lastMessage!)
+                ]),
                 onTap: () {
                   Navigator.pushNamed(context, '/chat',
                       arguments: ScreenArguments(chat.id));
@@ -108,12 +131,14 @@ class Chat {
   int id;
   String? title;
   String? lastMessage;
+  String? senderName;
   int? countOfUnreadMessages;
   Chat(
       {required this.id,
       this.title,
       this.lastMessage,
-      this.countOfUnreadMessages});
+      this.countOfUnreadMessages, 
+      this.senderName});
 }
 
 List<Chat> chatsList = [
@@ -121,7 +146,8 @@ List<Chat> chatsList = [
       id: 1,
       title: 'Фермеры',
       lastMessage: 'Купить молоко,хлеб,сыр',
-      countOfUnreadMessages: 10),
+      countOfUnreadMessages: 10,
+      senderName: "You"),
   Chat(
       id: 2,
       title: 'КТИТС',
