@@ -1,7 +1,7 @@
 import 'package:dumaem_messenger/generated/l10n.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
-import 'package:dumaem_messenger/server/http_client.dart';
+import 'package:dumaem_messenger/server/dio_http_client.dart';
 import 'package:flutter/material.dart';
 import 'package:status_alert/status_alert.dart';
 
@@ -72,7 +72,6 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
                   }
 
                   //const AlertDialog(content: Text("Выполнен переход"));
-                  // ignore: use_build_context_synchronously
                 },
                 child: Text(S.of(context).sign_in_title,
                     style: const TextStyle(fontSize: fontSizeForHyperText)),

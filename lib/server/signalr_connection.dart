@@ -1,10 +1,7 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:dumaem_messenger/models/message_context.dart';
-import 'package:dumaem_messenger/server/http_client.dart';
+import 'package:dumaem_messenger/server/auth_interceptor.dart';
+import 'package:dumaem_messenger/server/global_variables.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:intl/intl.dart';
 //import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logging/logging.dart';
@@ -15,8 +12,9 @@ class CustomClient extends http.BaseClient {
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
-    request.headers['Authorization'] =
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyaWF6b25iaW5AbWFpbC5ydSIsImp0aSI6IjQ5YTA3MmJmLTEzOWUtNDFmNi1hOGQ0LWVkNzYyZjZiYWMzMyIsImVtYWlsIjoicmlhem9uYmluQG1haWwucnUiLCJpZCI6IjE2IiwiZGV2aWNlSWQiOiJNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTEzLjAuMC4wIFNhZmFyaS81MzcuMzYgRWRnLzExMy4wLjE3NzQuMzUiLCJuYmYiOjE2ODM4NzczNTEsImV4cCI6MTY4Mzg3Nzk2MSwiaWF0IjoxNjgzODc3MzUxfQ.HrJ-_Rn-caLJdmwd3_t9H7Im6-8K9CBbOlhs0NktZng';
+    final accessToken = await storage.read(key: accessTokenKey);
+
+    request.headers['Authorization'] = 'Bearer $accessToken';
     return client.send(request);
   }
 }
@@ -48,6 +46,12 @@ class SignalRConnection {
       print('123');
     });
 
+    hubConnection.on('Unauthorized', (arguments) async {
+      print('Unauthorized error');
+      await refreshToken();
+      await startSignalR();
+    });
+
     Logger.root.level = Level.ALL;
 
     Logger.root.onRecord.listen((LogRecord rec) {
@@ -59,17 +63,17 @@ class SignalRConnection {
 
   static Future<void> startSignalR() async {
     await hubConnection.start();
-    await hubConnection.send(methodName: 'SendMessageToChat', args: <Object>[
-      {
-        'ContentType': 1,
-        'ChatId': 'testChat1',
-        'Content': '123',
-        'ForwardedMessageId': null,
-        'RepliedMessageId': null,
-        'UserId': 0,
-        'SendDate': formatISOTime(DateTime.now())
-      }
-    ]);
+    // await hubConnection.send(methodName: 'SendMessageToChat', args: <Object>[
+    //   {
+    //     'ContentType': 1,
+    //     'ChatId': 'testChat1',
+    //     'Content': '123',
+    //     'ForwardedMessageId': null,
+    //     'RepliedMessageId': null,
+    //     'UserId': 0,
+    //     'SendDate': formatISOTime(DateTime.now())
+    //   }
+    // ]);
   }
 
   static Future<String> getAccessToken() async {
@@ -78,7 +82,6 @@ class SignalRConnection {
   }
 
   static String formatISOTime(DateTime date) {
-    var duration = date.timeZoneOffset;
     return ("${DateFormat("yyyy-MM-ddTHH:mm:ss.mmm").format(date)}Z");
   }
 }

@@ -159,6 +159,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Logout`
+  String get logout_title {
+    return Intl.message(
+      'Logout',
+      name: 'logout_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Riaz`
+  String get account_name_test {
+    return Intl.message(
+      'Riaz',
+      name: 'account_name_test',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `riaz@mail.com`
+  String get account_email_test {
+    return Intl.message(
+      'riaz@mail.com',
+      name: 'account_email_test',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Message`
+  String get message_name_title {
+    return Intl.message(
+      'Message',
+      name: 'message_name_title',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
