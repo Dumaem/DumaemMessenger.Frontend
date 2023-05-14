@@ -1,3 +1,4 @@
+import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:flutter/material.dart';
 
 import '../tabs/chat_participants_view.dart';
@@ -12,6 +13,8 @@ class ChatInfoPage extends StatefulWidget {
 }
 
 class _ChatInfoPageState extends State<ChatInfoPage> {
+  final Chat currentChat = chat;
+
   // tabs
   final List<Widget> tabs = const [
     // chat participants tab
@@ -41,16 +44,15 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: tabs.length,
       child: Scaffold(
         body: Container(
           color: const Color.fromARGB(255, 190, 233, 244),
           child: Column(
-            children:
-            [
+            children: [
               Column(
                 children: [
-                  const SizedBox(height: 40),
+                  const Margin40(),
 
                   // appbar with logo
                   Padding(
@@ -58,6 +60,7 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // go back button
                         Expanded(
                           child: Container(
                             alignment: Alignment.topLeft,
@@ -71,16 +74,15 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                         ),
 
                         // chat logo
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                              'https://womanel.com/wp-content/uploads/2023/05/AD_147011810-2400x1600.jpg',
-                            ),
+                            backgroundImage: currentChat.logo,
                             radius: 50,
                           ),
                         ),
 
+                        // settings button
                         Expanded(
                           child: Container(
                             alignment: Alignment.topRight,
@@ -96,15 +98,15 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const Margin20(),
 
                   // chat name
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Text(
-                        'dumaem',
-                        style: TextStyle(
+                        currentChat.title,
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
@@ -112,19 +114,18 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                     ],
                   ),
 
-                  const SizedBox(height: 10),
+                  const Margin10(),
 
                   // chat name
-                  const Text(
-                    '5 participants',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey
-                    ),
+                  Text(
+                    "${currentChat.countParticipants} participants",
+                    style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey),
                   ),
 
-                  const SizedBox(height: 10),
+                  const Margin10(),
                 ],
               ),
 
@@ -141,4 +142,28 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
       ),
     );
   }
+}
+
+Chat chat = Chat(
+  id: 5,
+  title: 'dumaem',
+  logo: NetworkImage(
+    'https://womanel.com/wp-content/uploads/2023/05/AD_147011810-2400x1600.jpg',
+  ),
+  countParticipants: 5,
+);
+
+// test data
+class Chat {
+  int id;
+  String title;
+  ImageProvider logo;
+  int countParticipants;
+
+  Chat({
+    required this.id,
+    required this.title,
+    required this.logo,
+    required this.countParticipants,
+  });
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../properties/chat_page_arguments.dart';
 import '../properties/config.dart';
 
 class ChatParticipantsView extends StatelessWidget {
@@ -10,28 +9,25 @@ class ChatParticipantsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        children: chatsList.map(
-          (chat) {
+        children: ParticipantsList.map(
+          (Participant) {
             return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(baseBorderRadius),
-              ),
               child: ListTile(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(baseBorderRadius),
+                  borderRadius: BorderRadius.circular(smallBorderRadius),
                 ),
                 leading: CircleAvatar(
-                  child: Text(chat.name![0].toUpperCase()),
+                  child: Text(Participant.name![0].toUpperCase()),
                 ),
                 trailing: IconButton(
-                  onPressed: () {},
+                  onPressed: RemoveParticipant,
                   icon: const Icon(Icons.remove_circle_outlined),
                 ),
-                title: Text(chat.name!,
+                title: Text(Participant.name!,
                     style: const TextStyle(fontWeight: FontWeight.bold)),
                 // onTap: () {
-                //   Navigator.pushNamed(context, '/chat',
-                //       arguments: ScreenArguments(chat.id));
+                //   Navigator.pushNamed(context, '/Participant',
+                //       arguments: ScreenArguments(Participant.id));
                 // },
               ),
             );
@@ -40,101 +36,85 @@ class ChatParticipantsView extends StatelessWidget {
       ),
     );
   }
+
+  void RemoveParticipant() {}
 }
+
 
 // test data
-class Chat {
+class Participant {
   int id;
   String? name;
-  String? lastMessage;
-  int? countOfUnreadMessages;
 
-  Chat(
-      {required this.id,
-      this.name,
-      this.lastMessage,
-      this.countOfUnreadMessages});
+  Participant({
+    required this.id,
+    this.name,
+  });
 }
 
-List<Chat> chatsList = [
-  Chat(
-      id: 1,
-      name: 'Фермеры',
-      lastMessage: 'Купить молоко,хлеб,сыр',
-      countOfUnreadMessages: 10),
-  Chat(
-      id: 2,
-      name: 'КТИТС',
-      lastMessage: 'Прописать Flutter upgrade',
-      countOfUnreadMessages: 87),
-  Chat(
-      id: 3,
-      name: 'думаем',
-      lastMessage: 'Выиграть в турнире',
-      countOfUnreadMessages: 4),
-  Chat(
-      id: 4,
-      name: "Избранное",
-      lastMessage: "Сходить за посылкой на почту",
-      countOfUnreadMessages: 1),
-  Chat(
-      id: 5,
-      name: 'Фермеры',
-      lastMessage: 'Купить молоко,хлеб,сыр',
-      countOfUnreadMessages: 10),
-  Chat(
-      id: 6,
-      name: 'КТИТС',
-      lastMessage: 'Прописать Flutter upgrade',
-      countOfUnreadMessages: 87),
-  Chat(
-      id: 7,
-      name: 'думаем',
-      lastMessage: 'Выиграть в турнире',
-      countOfUnreadMessages: 4),
-  Chat(
-      id: 8,
-      name: "Избранное",
-      lastMessage: "Сходить за посылкой на почту",
-      countOfUnreadMessages: 1),
-  Chat(
-      id: 9,
-      name: 'Фермеры',
-      lastMessage: 'Купить молоко,хлеб,сыр',
-      countOfUnreadMessages: 10),
-  Chat(
-      id: 10,
-      name: 'КТИТС',
-      lastMessage: 'Прописать Flutter upgrade',
-      countOfUnreadMessages: 87),
-  Chat(
-      id: 11,
-      name: 'думаем',
-      lastMessage: 'Выиграть в турнире',
-      countOfUnreadMessages: 4),
-  Chat(
-      id: 12,
-      name: "Избранное",
-      lastMessage: "Сходить за посылкой на почту",
-      countOfUnreadMessages: 1),
-  Chat(
-      id: 9,
-      name: 'Фермеры',
-      lastMessage: 'Купить молоко,хлеб,сыр',
-      countOfUnreadMessages: 10),
-  Chat(
-      id: 10,
-      name: 'КТИТС',
-      lastMessage: 'Прописать Flutter upgrade',
-      countOfUnreadMessages: 87),
-  Chat(
-      id: 11,
-      name: 'думаем',
-      lastMessage: 'Выиграть в турнире',
-      countOfUnreadMessages: 4),
-  Chat(
-      id: 12,
-      name: "Избранное",
-      lastMessage: "Сходить за посылкой на почту",
-      countOfUnreadMessages: 1),
+List<Participant> ParticipantsList = [
+  Participant(
+    id: 1,
+    name: 'Фермеры',
+  ),
+  Participant(
+    id: 2,
+    name: 'КТИТС',
+  ),
+  Participant(
+    id: 3,
+    name: 'думаем',
+  ),
+  Participant(
+    id: 4,
+    name: "Избранное",
+  ),
+  Participant(
+    id: 5,
+    name: 'Фермеры',
+  ),
+  Participant(
+    id: 6,
+    name: 'КТИТС',
+  ),
+  Participant(
+    id: 7,
+    name: 'думаем',
+  ),
+  Participant(
+    id: 8,
+    name: "Избранное",
+  ),
+  Participant(
+    id: 9,
+    name: 'Фермеры',
+  ),
+  Participant(
+    id: 10,
+    name: 'КТИТС',
+  ),
+  Participant(
+    id: 11,
+    name: 'думаем',
+  ),
+  Participant(
+    id: 12,
+    name: "Избранное",
+  ),
+  Participant(
+    id: 9,
+    name: 'Фермеры',
+  ),
+  Participant(
+    id: 10,
+    name: 'КТИТС',
+  ),
+  Participant(
+    id: 11,
+    name: 'думаем',
+  ),
+  Participant(
+    id: 12,
+    name: "Избранное",
+  ),
 ];
