@@ -125,8 +125,6 @@ class _ChatsPageState extends State<ChatsPage> {
               isDefaultAppBar = !isDefaultAppBar;
               filterChats = chatsList;
             });
-            SignalRConnection.hubConnection
-                .send(methodName: 'DeleteMessage', args: List<int>.from([1]));
           },
           icon: const Icon(
             Icons.search,
