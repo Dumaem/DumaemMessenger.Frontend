@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
+import '../envied/env.dart';
+
 class CustomClient extends http.BaseClient {
   final http.BaseClient client = http.Client() as http.BaseClient;
 
@@ -23,8 +25,6 @@ class SignalRConnection {
   static late Logger hubProtLogger;
   static late Logger transportProtLogger;
 
-  static const serverUrl = "https://217.66.25.183:7213/z";
-
   static void intitalizeSignalRConnection() async {
     hubProtLogger = Logger("SignalR - hub");
     transportProtLogger = Logger("SignalR - transport");
@@ -34,7 +34,7 @@ class SignalRConnection {
     );
 
     hubConnection = HubConnectionBuilder()
-        .withUrl(serverUrl, options)
+        .withUrl('${Env.serverUrl}z/', options)
         .withAutomaticReconnect()
         .build();
 
