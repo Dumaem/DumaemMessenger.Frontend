@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:status_alert/status_alert.dart';
 
 import '../generated/l10n.dart';
-import 'authorization.dart';
 import '../server/global_variables.dart';
 import '../server/signalr_connection.dart';
 
@@ -132,28 +131,37 @@ class _RegistrationPageState extends State<RegistrationPage> {
 }
 
 class AuthTextFieldWidget extends StatelessWidget {
-  final String textForField;
-  final TextEditingController fieldController;
+  final controller;
+  final String hintText;
+  final bool obscureText;
 
-  const AuthTextFieldWidget(
-      {super.key, required this.textForField, required this.fieldController});
+  const AuthTextFieldWidget({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    required this.obscureText,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * authenticationPageWidgetWidth,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: textPadding),
       child: TextField(
-        controller: fieldController,
+        controller: controller,
+        obscureText: obscureText,
         decoration: InputDecoration(
-            label: Text(textForField),
+            enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
             focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(baseBorderRadius),
-                borderSide: const BorderSide()),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(baseBorderRadius),
-                borderSide: const BorderSide()),
-            prefixIcon: const Icon(Icons.email)),
+              borderSide: BorderSide(color: Colors.grey.shade400),
+            ),
+            fillColor: Colors.grey.shade200,
+            filled: true,
+            hintText: hintText,
+            hintStyle: TextStyle(color: Colors.grey[500])),
       ),
     );
   }
 }
+
