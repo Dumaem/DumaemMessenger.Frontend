@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:status_alert/status_alert.dart';
 
 import '../generated/l10n.dart';
+import '../server/global_variables.dart';
+import '../server/signalr_connection.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -65,28 +67,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         borderRadius: BorderRadius.all(
                             Radius.circular(baseBorderRadius))))),
                 onPressed: () async {
-                  try {
-                    final response = await DioHttpClient.dio
-                        .post('/Authorization/register', data: {
-                      'name': _nameController.text,
-                      'username': _userNameController.text,
-                      'email': _emailController.text,
-                      'password': _passwordController.text
-                    });
-                    Navigator.popAndPushNamed(context, '/');
-                  } catch (ex) {
-                    StatusAlert.show(
-                      context,
-                      duration: const Duration(seconds: 2),
-                      title: 'Ошибка!',
-                      subtitle:
-                          'При регистрации произошла ошибка!\nПопробуйте ввести другие данные!',
-                      configuration: const IconConfiguration(icon: Icons.error),
-                      maxWidth: MediaQuery.of(context).size.width * 0.8,
-                    );
-                  }
-                  //const AlertDialog(content: Text("Выполнен переход"));
-                  // ignore: use_build_context_synchronously
+                  await registrateUser(context);
                 },
                 child: Text(S.of(context).sign_up_title,
                     style: const TextStyle(fontSize: fontSizeForHyperText)),
@@ -105,6 +86,36 @@ class _RegistrationPageState extends State<RegistrationPage> {
         ),
       ),
     );
+  }
+
+  Future<void> registrateUser(BuildContext context) async {
+    try {
+      final response =
+          await DioHttpClient.dio.post('/Authorization/register', data: {
+        'name': _nameController.text,
+        'username': _userNameController.text,
+        'email': _emailController.text,
+        'password': _passwordController.text
+      });
+
+      await storage.write(
+          key: accessTokenKey, value: response.data['accessToken']);
+      await storage.write(
+          key: refreshTokenKey, value: response.data['refreshToken']);
+
+      await SignalRConnection.hubConnection.start();
+      Navigator.popAndPushNamed(context, '/home');
+    } catch (ex) {
+      StatusAlert.show(
+        context,
+        duration: const Duration(seconds: 2),
+        title: 'Ошибка!',
+        subtitle:
+            'При регистрации произошла ошибка!\nПопробуйте ввести другие данные!',
+        configuration: const IconConfiguration(icon: Icons.error),
+        maxWidth: MediaQuery.of(context).size.width * 0.8,
+      );
+    }
   }
 }
 

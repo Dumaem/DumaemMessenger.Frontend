@@ -5,6 +5,7 @@ import 'package:dumaem_messenger/pages/registration.dart';
 import 'package:dumaem_messenger/server/dio_http_client.dart';
 import 'package:dumaem_messenger/class_builder.dart';
 import 'package:dumaem_messenger/pages/settings_page.dart';
+import 'package:dumaem_messenger/server/global_variables.dart';
 import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'components/home_page.dart';
@@ -12,12 +13,14 @@ import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'pages/chat.dart';
+import 'pages/chat_info_page.dart';
 import 'pages/chats_page.dart';
 
 void main() {
   ClassBuilder.registerClasses();
   HttpOverrides.global = MyHttpOverrides();
   DioHttpClient.initializeStaticDio();
+  WidgetsFlutterBinding.ensureInitialized();
   SignalRConnection.intitalizeSignalRConnection();
   runApp(const MessengerApp());
 }
@@ -28,6 +31,8 @@ class MessengerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/home',
+      navigatorKey: navigatorKey,
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -43,14 +48,14 @@ class MessengerApp extends StatelessWidget {
         ),
         primarySwatch:
             buildMaterialColor(const Color.fromARGB(255, 190, 233, 244)),
-        primaryColor: const Color.fromARGB(255, 190, 233, 244),
+        primaryColor: const Color.fromARGB(255, 133, 194, 210),
         buttonTheme: const ButtonThemeData(
           buttonColor: Color.fromARGB(255, 129, 169, 226),
         ),
         textTheme: const TextTheme(
           displayLarge: TextStyle(color: Colors.black),
           titleLarge: TextStyle(color: Colors.black),
-          bodyMedium: TextStyle(color: Colors.black, fontSize: 18),
+          bodyMedium: TextStyle(color: Colors.black, fontSize: 15),
           bodySmall: TextStyle(color: Colors.black),
         ),
         elevatedButtonTheme:
@@ -63,6 +68,7 @@ class MessengerApp extends StatelessWidget {
         '/settings': (context) => const SettingsPage(),
         '/authorization': (context) => const AuthorizationPage(),
         '/chats': (context) => ChatsPage(),
+        '/chatInfo': (context) => const ChatInfoPage(),
         '/chat': (context) => const ChatPage(),
         '/registration': (context) => const RegistrationPage()
       },

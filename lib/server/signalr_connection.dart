@@ -1,6 +1,5 @@
 import 'package:dumaem_messenger/server/auth_interceptor.dart';
 import 'package:dumaem_messenger/server/global_variables.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 //import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -26,7 +25,7 @@ class SignalRConnection {
 
   static const serverUrl = "https://217.66.25.183:7213/z";
 
-  static void intitalizeSignalRConnection() {
+  static void intitalizeSignalRConnection() async {
     hubProtLogger = Logger("SignalR - hub");
     transportProtLogger = Logger("SignalR - transport");
     var options = HttpConnectionOptions(
@@ -34,12 +33,15 @@ class SignalRConnection {
       logging: (level, message) => print(message),
     );
 
-    hubConnection = HubConnectionBuilder().withUrl(serverUrl, options).build();
+    hubConnection = HubConnectionBuilder()
+        .withUrl(serverUrl, options)
+        .withAutomaticReconnect()
+        .build();
 
-    hubConnection.onclose((Exception? error) => print("Connection Closed"));
-
-    hubConnection.on('Test', (argument) {
-      print('test worked');
+    hubConnection.onclose((Exception? error) async {
+      print("Connection Closed");
+      await refreshToken();
+      await startSignalR();
     });
 
     hubConnection.on('ReceiveMessage', (message) {
@@ -48,8 +50,7 @@ class SignalRConnection {
 
     hubConnection.on('Unauthorized', (arguments) async {
       print('Unauthorized error');
-      await refreshToken();
-      await startSignalR();
+      savedRequestList.add(arguments);
     });
 
     Logger.root.level = Level.ALL;
@@ -58,27 +59,18 @@ class SignalRConnection {
       print('${rec.level.name}: ${rec.time}: ${rec.message}');
     });
 
-    startSignalR();
+    try {
+      await hubConnection.start();
+    } catch (error) {
+      await refreshToken();
+      await hubConnection.start();
+    }
   }
 
   static Future<void> startSignalR() async {
-    //await hubConnection.start();
-    // await hubConnection.send(methodName: 'SendMessageToChat', args: <Object>[
-    //   {
-    //     'ContentType': 1,
-    //     'ChatId': 'testChat1',
-    //     'Content': '123',
-    //     'ForwardedMessageId': null,
-    //     'RepliedMessageId': null,
-    //     'UserId': 0,
-    //     'SendDate': formatISOTime(DateTime.now())
-    //   }
-    // ]);
-  }
-
-  static Future<String> getAccessToken() async {
-    //FlutterSecureStorage _storage = const FlutterSecureStorage();
-    return ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbWVuaXJ1QG1haWwucnUiLCJqdGkiOiI3Nzg1ZDI1Zi1mMTk5LTRhMzEtYjRmMC1jMGZiNTI5NmYyM2MiLCJlbWFpbCI6ImFtZW5pcnVAbWFpbC5ydSIsImlkIjoiMiIsImRldmljZUlkIjoiPz80VD8_Pz8uPz9BXHUwMDEwXHUwMDA0XT8_XHUwMDE3YT9cdTAwMTI_QyQ_Pz8_TG1cdTAwMDc0IiwibmJmIjoxNjgzNzQxODQ1LCJleHAiOjE2ODM3NDI3NDUsImlhdCI6MTY4Mzc0MTg0NX0.ceixlGNwwsVzZPBvSXeId-neS2J2N3hDAleBR9bp5cQ");
+    await hubConnection.start();
+    var savedRequest = savedRequestList.removeLast();
+    hubConnection.send(methodName: savedRequest[0], args: savedRequest[1]);
   }
 
   static String formatISOTime(DateTime date) {

@@ -2,10 +2,11 @@ import 'package:dumaem_messenger/generated/l10n.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:dumaem_messenger/server/dio_http_client.dart';
+import 'package:dumaem_messenger/server/global_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:status_alert/status_alert.dart';
 
-import '../server/global_variables.dart';
+import '../server/signalr_connection.dart';
 
 class AuthorizationPage extends StatefulWidget {
   const AuthorizationPage({super.key});
@@ -54,26 +55,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
                         borderRadius: BorderRadius.all(
                             Radius.circular(baseBorderRadius))))),
                 onPressed: () async {
-                  try {
-                    var response = await DioHttpClient.dio
-                        .post('Authorization/login', data: {
-                      'email': _emailController.text,
-                      'password': _passwordController.text
-                    });
-                    await storage.write(key: "id", value: response.data['id']);
-                    Navigator.popAndPushNamed(context, '/chats');
-                  } catch (exception) {
-                    StatusAlert.show(
-                      context,
-                      duration: const Duration(seconds: 2),
-                      title: 'Ошибка!',
-                      subtitle: 'Пользователя с такими данными не существует!',
-                      configuration: const IconConfiguration(icon: Icons.error),
-                      maxWidth: MediaQuery.of(context).size.width * 0.8,
-                    );
-                  }
-
-                  //const AlertDialog(content: Text("Выполнен переход"));
+                  await authorizeUser(context);
                 },
                 child: Text(S.of(context).sign_in_title,
                     style: const TextStyle(fontSize: fontSizeForHyperText)),
@@ -92,6 +74,31 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
         ),
       ),
     );
+  }
+
+  Future<void> authorizeUser(BuildContext context) async {
+    try {
+      var response = await DioHttpClient.dio.post('Authorization/login', data: {
+        'email': _emailController.text,
+        'password': _passwordController.text
+      });
+      await storage.write(
+          key: accessTokenKey, value: response.data['accessToken']);
+      await storage.write(
+          key: refreshTokenKey, value: response.data['refreshToken']);
+
+      await SignalRConnection.hubConnection.start();
+      Navigator.popAndPushNamed(context, '/home');
+    } catch (exception) {
+      StatusAlert.show(
+        context,
+        duration: const Duration(seconds: 2),
+        title: 'Ошибка!',
+        subtitle: 'Пользователя с такими данными не существует!',
+        configuration: const IconConfiguration(icon: Icons.error),
+        maxWidth: MediaQuery.of(context).size.width * 0.8,
+      );
+    }
   }
 }
 
