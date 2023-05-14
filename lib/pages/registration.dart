@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:status_alert/status_alert.dart';
 
 import '../generated/l10n.dart';
+import '../server/global_variables.dart';
+import '../server/signalr_connection.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -95,7 +97,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
         'email': _emailController.text,
         'password': _passwordController.text
       });
-      Navigator.popAndPushNamed(context, '/authorization');
+
+      await storage.write(
+          key: accessTokenKey, value: response.data['accessToken']);
+      await storage.write(
+          key: refreshTokenKey, value: response.data['refreshToken']);
+
+      await SignalRConnection.hubConnection.start();
+      Navigator.popAndPushNamed(context, '/home');
     } catch (ex) {
       StatusAlert.show(
         context,

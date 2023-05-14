@@ -1,4 +1,3 @@
-import 'package:dumaem_messenger/pages/chat_info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
@@ -100,9 +99,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   const SizedBox(
                     width: 10,
                   ),
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
+                    children: <Widget>[
                       Text('Riaz Zaripof',
                           style: TextStyle(fontSize: 17, color: Colors.black)),
                       SizedBox(height: 2),
