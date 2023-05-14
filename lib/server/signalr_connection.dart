@@ -62,8 +62,10 @@ class SignalRConnection {
     try {
       await hubConnection.start();
     } catch (error) {
-      await refreshToken();
-      await hubConnection.start();
+      var refresh = await refreshToken();
+      if (refresh != null) {
+        await hubConnection.start();
+      }
     }
   }
 
