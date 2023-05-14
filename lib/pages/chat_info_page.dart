@@ -46,102 +46,139 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
-        body: Container(
-          color: const Color.fromARGB(255, 190, 233, 244),
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  const Margin40(),
-
-                  // appbar with logo
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // go back button
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: IconButton(
-                              icon: const Icon(Icons.arrow_back),
-                              onPressed: () {
-                                Navigator.popAndPushNamed(context, '/home');
-                              },
-                            ),
-                          ),
-                        ),
-
-                        // chat logo
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: CircleAvatar(
-                            backgroundImage: currentChat.logo,
-                            radius: 50,
-                          ),
-                        ),
-
-                        // settings button
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.topRight,
-                            child: IconButton(
-                              icon: const Icon(Icons.more_vert),
-                              onPressed: () {
-                                Navigator.popAndPushNamed(context, '/home');
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+        backgroundColor: const Color.fromARGB(255, 190, 233, 244),
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                backgroundColor: Colors.amber,
+                expandedHeight: 500,
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.popAndPushNamed(context, '/home');
+                  },
+                ),
+                flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
+                  title: CircleAvatar(
+                    backgroundImage: currentChat.logo,
+                    radius: 50,
                   ),
-
-                  const Margin20(),
-
-                  // chat name
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        currentChat.title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const Margin10(),
-
-                  // chat name
-                  Text(
-                    "${currentChat.countParticipants} participants",
-                    style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                  ),
-
-                  const Margin10(),
-                ],
+                ),
+                pinned: true,
+                floating: true,
+                bottom: TabBar(tabs: tabs),
               ),
-
-              // tab bar
-              TabBar(tabs: tabs),
-
-              //tab bar view
-              Expanded(
-                child: TabBarView(children: tabBarViews),
-              ),
-            ],
-          ),
+            ];
+          },
+          body: TabBarView(children: tabBarViews),
         ),
       ),
     );
   }
+
+// @override
+// Widget build(BuildContext context) {
+//   return DefaultTabController(
+//     length: tabs.length,
+//     child: Scaffold(
+//       body: Container(
+//         color: const Color.fromARGB(255, 190, 233, 244),
+//         child: Column(
+//           children: [
+//             Column(
+//               children: [
+//                 const Margin40(),
+//
+//                 // appbar with logo
+//                 Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 20),
+//                   child: Row(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       // go back button
+//                       Expanded(
+//                         child: Container(
+//                           alignment: Alignment.topLeft,
+//                           child: IconButton(
+//                             icon: const Icon(Icons.arrow_back),
+//                             onPressed: () {
+//                               Navigator.popAndPushNamed(context, '/home');
+//                             },
+//                           ),
+//                         ),
+//                       ),
+//
+//                       // chat logo
+//                       Padding(
+//                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+//                         child: CircleAvatar(
+//                           backgroundImage: currentChat.logo,
+//                           radius: 50,
+//                         ),
+//                       ),
+//
+//                       // settings button
+//                       Expanded(
+//                         child: Container(
+//                           alignment: Alignment.topRight,
+//                           child: IconButton(
+//                             icon: const Icon(Icons.more_vert),
+//                             onPressed: () {
+//                               Navigator.popAndPushNamed(context, '/home');
+//                             },
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//
+//                 const Margin20(),
+//
+//                 // chat name
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     Text(
+//                       currentChat.title,
+//                       style: const TextStyle(
+//                         fontWeight: FontWeight.bold,
+//                         fontSize: 18,
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//
+//                 const Margin10(),
+//
+//                 // chat name
+//                 Text(
+//                   "${currentChat.countParticipants} participants",
+//                   style: const TextStyle(
+//                       fontSize: 14,
+//                       fontWeight: FontWeight.bold,
+//                       color: Colors.grey),
+//                 ),
+//
+//                 const Margin10(),
+//               ],
+//             ),
+//
+//             // tab bar
+//             TabBar(tabs: tabs),
+//
+//             //tab bar view
+//             Expanded(
+//               child: TabBarView(children: tabBarViews),
+//             ),
+//           ],
+//         ),
+//       ),
+//     ),
+//   );
+// }
 }
 
 Chat chat = Chat(
