@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:dumaem_messenger/envied/env.dart';
 import 'package:dumaem_messenger/server/auth_interceptor.dart';
 
 class DioHttpClient {
   static late Dio dio;
 
   static BaseOptions options =
-      BaseOptions(baseUrl: 'https://217.66.25.183:7213/api/', headers: {
+      BaseOptions(baseUrl: '${Env.serverUrl}api/', headers: {
     "Access-Control-Allow-Origin": '*',
     'Content-Type': 'application/json',
     'Accept': 'application/json',
