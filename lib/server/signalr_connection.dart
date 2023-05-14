@@ -24,7 +24,7 @@ class SignalRConnection {
   static late Logger hubProtLogger;
   static late Logger transportProtLogger;
 
-  static const serverUrl = "https://10.0.2.2:7213/z";
+  static const serverUrl = "https://217.66.25.183:7213/z";
 
   static void intitalizeSignalRConnection() {
     hubProtLogger = Logger("SignalR - hub");
@@ -62,7 +62,7 @@ class SignalRConnection {
   }
 
   static Future<void> startSignalR() async {
-    await hubConnection.start();
+    //await hubConnection.start();
     // await hubConnection.send(methodName: 'SendMessageToChat', args: <Object>[
     //   {
     //     'ContentType': 1,

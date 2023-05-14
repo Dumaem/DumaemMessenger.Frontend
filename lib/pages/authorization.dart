@@ -5,6 +5,8 @@ import 'package:dumaem_messenger/server/dio_http_client.dart';
 import 'package:flutter/material.dart';
 import 'package:status_alert/status_alert.dart';
 
+import '../server/global_variables.dart';
+
 class AuthorizationPage extends StatefulWidget {
   const AuthorizationPage({super.key});
 
@@ -58,7 +60,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
                       'email': _emailController.text,
                       'password': _passwordController.text
                     });
-                    
+                    await storage.write(key: "id", value: response.data['id']);
                     Navigator.popAndPushNamed(context, '/chats');
                   } catch (exception) {
                     StatusAlert.show(

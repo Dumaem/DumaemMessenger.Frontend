@@ -12,7 +12,8 @@ class AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final accessToken = await storage.read(key: 'accessToken');
+    // final accessToken = await storage.read(key: 'accessToken');
+    final accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ3aW5naW1vYmlsZUBnbWFpbC5jb20iLCJqdGkiOiI0N2ZiYTJkZi1kZTBmLTQ5Y2UtODZlZS01NDNhYmRkMWQ0YzEiLCJlbWFpbCI6IndpbmdpbW9iaWxlQGdtYWlsLmNvbSIsImlkIjoiMSIsImRldmljZUlkIjoiP2hDYz8_XHUwMDAyMD9rXHUwMDFlNz89P1I7XHUwMDA2fzU_Mz92Pz8oXHIwPz9uIiwibmJmIjoxNjg0MDQ3MDAyLCJleHAiOjE2ODQwNDc2MTIsImlhdCI6MTY4NDA0NzAwMn0.yo5pMW4JPGewSOhZ9Pt7sn9FX6WCa1oY7q4EsU7Qd5Q";
     options.headers['Authorization'] = 'Bearer $accessToken';
     handler.next(options);
   }
@@ -62,7 +63,9 @@ class AuthInterceptor extends Interceptor {
 
 Future<String?> refreshToken() async {
   try {
+    //final refreshToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbWVuaXJ1QG1haWwucnUiLCJqdGkiOiJkMDY4ZjRjZi0xNDhiLTRhNzktYmZlZS0zNWRmZmU1NzBmMWUiLCJlbWFpbCI6ImFtZW5pcnVAbWFpbC5ydSIsImlkIjoiMiIsImRldmljZUlkIjoiP2hDYz8_XHUwMDAyMD9rXHUwMDFlNz89P1I7XHUwMDA2fzU_Mz92Pz8oXHIwPz9uIiwibmJmIjoxNjg0MDA3MzI5LCJleHAiOjE2ODQwMDc5MzksImlhdCI6MTY4NDAwNzMyOX0.InRCyLN92QweM6J6VLyPJzHNm2K2kl5BiLNsvfapJn4";
     final refreshToken = await storage.read(key: refreshTokenKey);
+    //final accessToken = "9b5239b7-ed86-403f-9bf8-731f4c863f37";
     final accessToken = await storage.read(key: accessTokenKey);
 
     // Create a new Dio instance for the token refresh request

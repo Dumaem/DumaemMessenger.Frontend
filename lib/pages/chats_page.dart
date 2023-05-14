@@ -1,9 +1,14 @@
 import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
+import 'package:dumaem_messenger/server/chats/chat_service.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
+import 'package:status_alert/status_alert.dart';
 
 import '../generated/l10n.dart';
+import '../models/chat_list_model.dart';
+
+List<ChatListModel> chatsList = List.empty();
 
 class ChatsPage extends KFDrawerContent {
   @override
@@ -14,46 +19,62 @@ class _ChatsPageState extends State<ChatsPage> {
   bool isDefaultAppBar = true;
   String searchText = "";
   TextEditingController searchController = TextEditingController();
-  List<Chat> filterChats = chatsList;
+  List<ChatListModel> filterChats = chatsList;
+  final ChatService _chatService = ChatService();
+  Future<List<ChatListModel>>? _getChats;
+
+  @override
+  void initState() {
+    super.initState();
+    _getChats = _chatService.GetChatsView();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: isDefaultAppBar
-          ? getSearchAppBar(context)
-          : getDefaultAppBar(context),
-      body: ListView(
-        children: filterChats.map(
-          (chat) {
-            return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(baseBorderRadius),
-              ),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(baseBorderRadius),
-                ),
-                leading: CircleAvatar(
-                  child: Text(chat.title![0].toUpperCase()),
-                ),
-                trailing: CircleAvatar(
-                  maxRadius: chatCircleAvatarRadius,
-                  child: Text(chat.countOfUnreadMessages.toString(),
-                      style: const TextStyle(fontSize: chatTextFontSize)),
-                ),
-                title: Text(chat.title!,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Text(chat.lastMessage!),
-                onTap: () {
-                  Navigator.pushNamed(context, '/chat',
-                      arguments: ScreenArguments(chat.id));
+        appBar: isDefaultAppBar
+            ? getSearchAppBar(context)
+            : getDefaultAppBar(context),
+        body: FutureBuilder<List<ChatListModel>>(
+          future: _getChats,
+          builder: (BuildContext context,
+              AsyncSnapshot<List<ChatListModel>> snapshot) {
+            if (!snapshot.hasData) {
+              return const CircularProgressIndicator();
+            } else {
+              return ListView(
+                  children: filterChats.map(
+                (chat) {
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(baseBorderRadius),
+                    ),
+                    child: ListTile(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(baseBorderRadius),
+                      ),
+                      leading: CircleAvatar(
+                        child: Text(chat.chatName![0].toUpperCase()),
+                      ),
+                      trailing: CircleAvatar(
+                        maxRadius: chatCircleAvatarRadius,
+                        child: Text(chat.countOfUnreadMessages.toString(),
+                            style: const TextStyle(fontSize: chatTextFontSize)),
+                      ),
+                      title: Text(chat.chatName!,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: Text(chat.lastMessage!),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/chat',
+                            arguments: ScreenArguments(chat.id));
+                      },
+                    ),
+                  );
                 },
-              ),
-            );
+              ).toList());
+            }
           },
-        ).toList(),
-      ),
-    );
+        ));
   }
 
   AppBar getDefaultAppBar(BuildContext context) {
@@ -76,7 +97,7 @@ class _ChatsPageState extends State<ChatsPage> {
             searchText = value.toLowerCase();
             filterChats = chatsList
                 .where((element) =>
-                    element.title!.toLowerCase().contains(searchText))
+                    element.chatName!.toLowerCase().contains(searchText))
                 .toList();
           });
         },
@@ -129,79 +150,79 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 }
 
-// test data
-class Chat {
-  int id;
-  String? title;
-  String? lastMessage;
-  int? countOfUnreadMessages;
+// // test data
+// class Chat {
+//   int id;
+//   String? title;
+//   String? lastMessage;
+//   int? countOfUnreadMessages;
 
-  Chat(
-      {required this.id,
-      this.title,
-      this.lastMessage,
-      this.countOfUnreadMessages});
-}
+//   Chat(
+//       {required this.id,
+//       this.title,
+//       this.lastMessage,
+//       this.countOfUnreadMessages});
+// }
 
-List<Chat> chatsList = [
-  Chat(
-      id: 1,
-      title: 'Фермеры',
-      lastMessage: 'Купить молоко,хлеб,сыр',
-      countOfUnreadMessages: 10),
-  Chat(
-      id: 2,
-      title: 'КТИТС',
-      lastMessage: 'Прописать Flutter upgrade',
-      countOfUnreadMessages: 87),
-  Chat(
-      id: 3,
-      title: 'думаем',
-      lastMessage: 'Выиграть в турнире',
-      countOfUnreadMessages: 4),
-  Chat(
-      id: 4,
-      title: "Избранное",
-      lastMessage: "Сходить за посылкой на почту",
-      countOfUnreadMessages: 1),
-  Chat(
-      id: 5,
-      title: 'Фермеры',
-      lastMessage: 'Купить молоко,хлеб,сыр',
-      countOfUnreadMessages: 10),
-  Chat(
-      id: 6,
-      title: 'КТИТС',
-      lastMessage: 'Прописать Flutter upgrade',
-      countOfUnreadMessages: 87),
-  Chat(
-      id: 7,
-      title: 'думаем',
-      lastMessage: 'Выиграть в турнире',
-      countOfUnreadMessages: 4),
-  Chat(
-      id: 8,
-      title: "Избранное",
-      lastMessage: "Сходить за посылкой на почту",
-      countOfUnreadMessages: 1),
-  Chat(
-      id: 9,
-      title: 'Фермеры',
-      lastMessage: 'Купить молоко,хлеб,сыр',
-      countOfUnreadMessages: 10),
-  Chat(
-      id: 10,
-      title: 'КТИТС',
-      lastMessage: 'Прописать Flutter upgrade',
-      countOfUnreadMessages: 87),
-  Chat(
-      id: 11,
-      title: 'думаем',
-      lastMessage: 'Выиграть в турнире',
-      countOfUnreadMessages: 4),
-  Chat(
-      id: 12,
-      title: "Избранное",
-      lastMessage: "Сходить за посылкой на почту",
-      countOfUnreadMessages: 1),
-];
+// List<ChatShortModel> chatsList = [
+//   Chat(
+//       id: 1,
+//       title: 'Фермеры',
+//       lastMessage: 'Купить молоко,хлеб,сыр',
+//       countOfUnreadMessages: 10),
+//   Chat(
+//       id: 2,
+//       title: 'КТИТС',
+//       lastMessage: 'Прописать Flutter upgrade',
+//       countOfUnreadMessages: 87),
+//   Chat(
+//       id: 3,
+//       title: 'думаем',
+//       lastMessage: 'Выиграть в турнире',
+//       countOfUnreadMessages: 4),
+//   Chat(
+//       id: 4,
+//       title: "Избранное",
+//       lastMessage: "Сходить за посылкой на почту",
+//       countOfUnreadMessages: 1),
+//   Chat(
+//       id: 5,
+//       title: 'Фермеры',
+//       lastMessage: 'Купить молоко,хлеб,сыр',
+//       countOfUnreadMessages: 10),
+//   Chat(
+//       id: 6,
+//       title: 'КТИТС',
+//       lastMessage: 'Прописать Flutter upgrade',
+//       countOfUnreadMessages: 87),
+//   Chat(
+//       id: 7,
+//       title: 'думаем',
+//       lastMessage: 'Выиграть в турнире',
+//       countOfUnreadMessages: 4),
+//   Chat(
+//       id: 8,
+//       title: "Избранное",
+//       lastMessage: "Сходить за посылкой на почту",
+//       countOfUnreadMessages: 1),
+//   Chat(
+//       id: 9,
+//       title: 'Фермеры',
+//       lastMessage: 'Купить молоко,хлеб,сыр',
+//       countOfUnreadMessages: 10),
+//   Chat(
+//       id: 10,
+//       title: 'КТИТС',
+//       lastMessage: 'Прописать Flutter upgrade',
+//       countOfUnreadMessages: 87),
+//   Chat(
+//       id: 11,
+//       title: 'думаем',
+//       lastMessage: 'Выиграть в турнире',
+//       countOfUnreadMessages: 4),
+//   Chat(
+//       id: 12,
+//       title: "Избранное",
+//       lastMessage: "Сходить за посылкой на почту",
+//       countOfUnreadMessages: 1),
+// ];

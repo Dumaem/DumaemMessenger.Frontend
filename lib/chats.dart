@@ -1,6 +1,7 @@
 import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
-import 'package:dumaem_messenger/server/http_client.dart';
+import 'package:dumaem_messenger/server/dio_http_client.dart';
+import 'package:dumaem_messenger/server/global_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 
@@ -24,7 +25,7 @@ class _ChatsPageState extends State<ChatsPage> {
   {
     try{
       var response = await DioHttpClient.dio
-                    .get('Chat/get-user-chats-by-id', queryParameters: {"id":1}); 
+                    .get('Chat/get-user-chats-by-id', queryParameters: {"id":storage.read(key: "id")}); 
       if(response.statusCode == 200)
       {
         
