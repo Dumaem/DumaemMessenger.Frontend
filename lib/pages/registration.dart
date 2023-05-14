@@ -1,6 +1,6 @@
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
-import 'package:dumaem_messenger/server/http_client.dart';
+import 'package:dumaem_messenger/server/dio_http_client.dart';
 import 'package:flutter/material.dart';
 import 'package:status_alert/status_alert.dart';
 
@@ -65,28 +65,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         borderRadius: BorderRadius.all(
                             Radius.circular(baseBorderRadius))))),
                 onPressed: () async {
-                  try {
-                    final response = await DioHttpClient.dio
-                        .post('/Authorization/register', data: {
-                      'name': _nameController.text,
-                      'username': _userNameController.text,
-                      'email': _emailController.text,
-                      'password': _passwordController.text
-                    });
-                    Navigator.popAndPushNamed(context, '/');
-                  } catch (ex) {
-                    StatusAlert.show(
-                      context,
-                      duration: const Duration(seconds: 2),
-                      title: 'Ошибка!',
-                      subtitle:
-                          'При регистрации произошла ошибка!\nПопробуйте ввести другие данные!',
-                      configuration: const IconConfiguration(icon: Icons.error),
-                      maxWidth: MediaQuery.of(context).size.width * 0.8,
-                    );
-                  }
-                  //const AlertDialog(content: Text("Выполнен переход"));
-                  // ignore: use_build_context_synchronously
+                  await registrateUser(context);
                 },
                 child: Text(S.of(context).sign_up_title,
                     style: const TextStyle(fontSize: fontSizeForHyperText)),
@@ -105,6 +84,29 @@ class _RegistrationPageState extends State<RegistrationPage> {
         ),
       ),
     );
+  }
+
+  Future<void> registrateUser(BuildContext context) async {
+    try {
+      final response =
+          await DioHttpClient.dio.post('/Authorization/register', data: {
+        'name': _nameController.text,
+        'username': _userNameController.text,
+        'email': _emailController.text,
+        'password': _passwordController.text
+      });
+      Navigator.popAndPushNamed(context, '/authorization');
+    } catch (ex) {
+      StatusAlert.show(
+        context,
+        duration: const Duration(seconds: 2),
+        title: 'Ошибка!',
+        subtitle:
+            'При регистрации произошла ошибка!\nПопробуйте ввести другие данные!',
+        configuration: const IconConfiguration(icon: Icons.error),
+        maxWidth: MediaQuery.of(context).size.width * 0.8,
+      );
+    }
   }
 }
 
