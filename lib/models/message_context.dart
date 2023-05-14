@@ -1,9 +1,11 @@
+import 'dart:ffi';
+
 class MessageContext {
   late int ContentType;
-  late Object Content;
+  late String Content;
   late int UserId;
   late DateTime SendDate;
   late String ChatId;
-  late int? ForwardedMessageId;
-  late int? RepliedMessageId;
+  late Int64? ForwardedMessageId;
+  late Int64? RepliedMessageId;
 }

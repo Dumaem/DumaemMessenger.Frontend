@@ -38,10 +38,6 @@ class SignalRConnection {
 
     hubConnection.onclose((Exception? error) => print("Connection Closed"));
 
-    hubConnection.on('Test', (argument) {
-      print('test worked');
-    });
-
     hubConnection.on('ReceiveMessage', (message) {
       print('123');
     });
@@ -63,22 +59,6 @@ class SignalRConnection {
 
   static Future<void> startSignalR() async {
     await hubConnection.start();
-    // await hubConnection.send(methodName: 'SendMessageToChat', args: <Object>[
-    //   {
-    //     'ContentType': 1,
-    //     'ChatId': 'testChat1',
-    //     'Content': '123',
-    //     'ForwardedMessageId': null,
-    //     'RepliedMessageId': null,
-    //     'UserId': 0,
-    //     'SendDate': formatISOTime(DateTime.now())
-    //   }
-    // ]);
-  }
-
-  static Future<String> getAccessToken() async {
-    //FlutterSecureStorage _storage = const FlutterSecureStorage();
-    return ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbWVuaXJ1QG1haWwucnUiLCJqdGkiOiI3Nzg1ZDI1Zi1mMTk5LTRhMzEtYjRmMC1jMGZiNTI5NmYyM2MiLCJlbWFpbCI6ImFtZW5pcnVAbWFpbC5ydSIsImlkIjoiMiIsImRldmljZUlkIjoiPz80VD8_Pz8uPz9BXHUwMDEwXHUwMDA0XT8_XHUwMDE3YT9cdTAwMTI_QyQ_Pz8_TG1cdTAwMDc0IiwibmJmIjoxNjgzNzQxODQ1LCJleHAiOjE2ODM3NDI3NDUsImlhdCI6MTY4Mzc0MTg0NX0.ceixlGNwwsVzZPBvSXeId-neS2J2N3hDAleBR9bp5cQ");
   }
 
   static String formatISOTime(DateTime date) {

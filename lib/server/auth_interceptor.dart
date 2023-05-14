@@ -12,34 +12,14 @@ class AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final accessToken = await storage.read(key: 'accessToken');
+    final accessToken = await storage.read(key: accessTokenKey);
     options.headers['Authorization'] = 'Bearer $accessToken';
     handler.next(options);
   }
 
-  // // You can also perform some actions in the response or onError.
-  // @override
-  // Future<void> onResponse(
-  //     Response response, ResponseInterceptorHandler handler) async {
-  //   if (response.statusCode == 401) {
-  //     final newAccessToken = await refreshToken();
-  //     if (newAccessToken != null) {
-  //       response.requestOptions.headers['Authorization'] =
-  //           'Bearer $accessTokenKey';
-  //       DioHttpClient.dio.request(response.requestOptions.path,
-  //           options: Options(
-  //               method: response.requestOptions.method,
-  //               headers: response.requestOptions.headers,
-  //               extra: response.extra));
-  //     }
-  //   }
-  //   return handler.next(response);
-  // }
-
   @override
   Future<dynamic> onError(DioError err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
-      // Access token expired, refresh it
       final newAccessToken = await refreshToken();
       if (newAccessToken != null) {
         // Update the access token in the interceptor and retry the original request
@@ -65,8 +45,6 @@ Future<String?> refreshToken() async {
     final refreshToken = await storage.read(key: refreshTokenKey);
     final accessToken = await storage.read(key: accessTokenKey);
 
-    // Create a new Dio instance for the token refresh request
-
     final response = await DioHttpClient.dio.post(
       'Authorization/refresh',
       data: {
@@ -78,13 +56,12 @@ Future<String?> refreshToken() async {
       final newAccessToken = response.data['token'][accessTokenKey];
       final newRefreshToken = response.data['token'][refreshTokenKey];
 
-      // Update the stored access token
       await storage.write(key: accessTokenKey, value: newAccessToken);
       await storage.write(key: refreshTokenKey, value: newRefreshToken);
 
       return newAccessToken;
     }
   } catch (error) {
-    throw Exception("Tokens can not be updated");
+    navigatorKey.currentState?.popAndPushNamed('/authorization');
   }
 }

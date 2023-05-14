@@ -5,6 +5,7 @@ import 'package:dumaem_messenger/pages/registration.dart';
 import 'package:dumaem_messenger/server/dio_http_client.dart';
 import 'package:dumaem_messenger/class_builder.dart';
 import 'package:dumaem_messenger/pages/settings_page.dart';
+import 'package:dumaem_messenger/server/global_variables.dart';
 import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'components/home_page.dart';
@@ -28,6 +29,7 @@ class MessengerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
