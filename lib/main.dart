@@ -19,6 +19,7 @@ void main() {
   ClassBuilder.registerClasses();
   HttpOverrides.global = MyHttpOverrides();
   DioHttpClient.initializeStaticDio();
+  WidgetsFlutterBinding.ensureInitialized();
   SignalRConnection.intitalizeSignalRConnection();
   runApp(const MessengerApp());
 }
@@ -29,6 +30,7 @@ class MessengerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/home',
       navigatorKey: navigatorKey,
       localizationsDelegates: const [
         S.delegate,

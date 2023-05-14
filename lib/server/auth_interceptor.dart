@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dumaem_messenger/server/dio_http_client.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'global_variables.dart';
@@ -48,7 +49,10 @@ Future<String?> refreshToken() async {
     final response = await DioHttpClient.dio.post(
       'Authorization/refresh',
       data: {
-        'token': {accessTokenKey: accessToken, refreshTokenKey: refreshToken}
+        'token': {
+          accessTokenKey: 'Bearer $accessToken',
+          refreshTokenKey: refreshToken
+        }
       },
     );
 
@@ -62,6 +66,7 @@ Future<String?> refreshToken() async {
       return newAccessToken;
     }
   } catch (error) {
-    navigatorKey.currentState?.popAndPushNamed('/authorization');
+    navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        '/authorization', (Route<dynamic> route) => false);
   }
 }

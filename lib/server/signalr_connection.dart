@@ -1,5 +1,6 @@
 import 'package:dumaem_messenger/server/auth_interceptor.dart';
 import 'package:dumaem_messenger/server/global_variables.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -24,9 +25,9 @@ class SignalRConnection {
   static late Logger hubProtLogger;
   static late Logger transportProtLogger;
 
-  static const serverUrl = "https://10.0.2.2:7213/z";
+  static const serverUrl = "https://217.66.25.183:7213/z";
 
-  static void intitalizeSignalRConnection() {
+  static void intitalizeSignalRConnection() async {
     hubProtLogger = Logger("SignalR - hub");
     transportProtLogger = Logger("SignalR - transport");
     var options = HttpConnectionOptions(
@@ -54,7 +55,11 @@ class SignalRConnection {
       print('${rec.level.name}: ${rec.time}: ${rec.message}');
     });
 
-    startSignalR();
+    try {
+      await hubConnection.start();
+    } catch (error) {
+      await refreshToken();
+    }
   }
 
   static Future<void> startSignalR() async {
