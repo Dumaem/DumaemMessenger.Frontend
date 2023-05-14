@@ -5,3 +5,4 @@ const String accessTokenKey = 'accessToken';
 const String refreshTokenKey = 'refreshToken';
 FlutterSecureStorage storage = const FlutterSecureStorage();
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+final List<dynamic> savedRequestList = List.empty(growable: true);

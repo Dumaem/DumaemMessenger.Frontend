@@ -49,16 +49,13 @@ Future<String?> refreshToken() async {
     final response = await DioHttpClient.dio.post(
       'Authorization/refresh',
       data: {
-        'token': {
-          accessTokenKey: 'Bearer $accessToken',
-          refreshTokenKey: refreshToken
-        }
+        'token': {accessTokenKey: accessToken, refreshTokenKey: refreshToken}
       },
     );
 
     if (response.statusCode == 200) {
-      final newAccessToken = response.data['token'][accessTokenKey];
-      final newRefreshToken = response.data['token'][refreshTokenKey];
+      final newAccessToken = response.data[accessTokenKey];
+      final newRefreshToken = response.data[refreshTokenKey];
 
       await storage.write(key: accessTokenKey, value: newAccessToken);
       await storage.write(key: refreshTokenKey, value: newRefreshToken);

@@ -1,6 +1,11 @@
+import 'dart:ffi';
+import 'dart:typed_data';
+
 import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
+import 'package:dumaem_messenger/server/auth_interceptor.dart';
 import 'package:dumaem_messenger/server/dio_http_client.dart';
+import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
@@ -119,8 +124,9 @@ class _ChatsPageState extends State<ChatsPage> {
             setState(() {
               isDefaultAppBar = !isDefaultAppBar;
               filterChats = chatsList;
-              var response = DioHttpClient.dio.get('Message/list');
             });
+            SignalRConnection.hubConnection
+                .send(methodName: 'DeleteMessage', args: List<int>.from([1]));
           },
           icon: const Icon(
             Icons.search,

@@ -35,9 +35,16 @@ class SignalRConnection {
       logging: (level, message) => print(message),
     );
 
-    hubConnection = HubConnectionBuilder().withUrl(serverUrl, options).build();
+    hubConnection = HubConnectionBuilder()
+        .withUrl(serverUrl, options)
+        .withAutomaticReconnect()
+        .build();
 
-    hubConnection.onclose((Exception? error) => print("Connection Closed"));
+    hubConnection.onclose((Exception? error) async {
+      print("Connection Closed");
+      await refreshToken();
+      await startSignalR();
+    });
 
     hubConnection.on('ReceiveMessage', (message) {
       print('123');
@@ -45,8 +52,7 @@ class SignalRConnection {
 
     hubConnection.on('Unauthorized', (arguments) async {
       print('Unauthorized error');
-      await refreshToken();
-      await startSignalR();
+      savedRequestList.add(arguments);
     });
 
     Logger.root.level = Level.ALL;
@@ -59,11 +65,14 @@ class SignalRConnection {
       await hubConnection.start();
     } catch (error) {
       await refreshToken();
+      await hubConnection.start();
     }
   }
 
   static Future<void> startSignalR() async {
     await hubConnection.start();
+    var savedRequest = savedRequestList.removeLast();
+    hubConnection.send(methodName: savedRequest[0], args: savedRequest[1]);
   }
 
   static String formatISOTime(DateTime date) {

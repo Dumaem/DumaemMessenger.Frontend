@@ -87,7 +87,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
       await storage.write(
           key: refreshTokenKey, value: response.data['refreshToken']);
 
-      await SignalRConnection.startSignalR();
+      await SignalRConnection.hubConnection.start();
       Navigator.popAndPushNamed(context, '/home');
     } catch (exception) {
       StatusAlert.show(
