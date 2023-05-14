@@ -1,7 +1,5 @@
 import 'package:dumaem_messenger/server/auth_interceptor.dart';
 import 'package:dumaem_messenger/server/global_variables.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 //import 'package:flutter_secure_storage/flutter_secure_storage.dart';
