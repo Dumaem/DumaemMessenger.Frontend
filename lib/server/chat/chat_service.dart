@@ -3,16 +3,17 @@ import '../dio_http_client.dart';
 import '../global_variables.dart';
 
 class ChatService{
-  Future<List<ChatListModel>> GetChatsView() async
+  Future<List<ChatListModel>> getChatsView() async
   {
-    List<ChatListModel> data = List.empty(); 
+    List<ChatListModel> data = List.empty(growable: true); 
 
-    int userId = int.parse(await storage.read(key: 'id') as String);
+    int userId = int.parse(await storage.read(key: userKey) as String);
     Map<String, int> queryParameters = {
       "id": userId
     };
     var response = await DioHttpClient.dio.get('Chat/get-user-chats-by-id', queryParameters: queryParameters);
 
+ 
     for(var jsonData in response.data)
     {
       data.add(ChatListModel.fromJson(jsonData));

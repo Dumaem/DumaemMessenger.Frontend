@@ -1,6 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
-import 'package:dumaem_messenger/server/chats/chat_service.dart';
+import 'package:dumaem_messenger/server/chat/chat_service.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:status_alert/status_alert.dart';
@@ -8,7 +9,7 @@ import 'package:status_alert/status_alert.dart';
 import '../generated/l10n.dart';
 import '../models/chat_list_model.dart';
 
-List<ChatListModel> chatsList = List.empty();
+List<ChatListModel>? chatsList = List.empty(growable: true);
 
 class ChatsPage extends KFDrawerContent {
   @override
@@ -19,18 +20,13 @@ class _ChatsPageState extends State<ChatsPage> {
   bool isDefaultAppBar = true;
   String searchText = "";
   TextEditingController searchController = TextEditingController();
-  List<ChatListModel> filterChats = chatsList;
+  List<ChatListModel>? filterChats = chatsList;
   final ChatService _chatService = ChatService();
   Future<List<ChatListModel>>? _getChats;
 
   @override
-  void initState() {
-    super.initState();
-    _getChats = _chatService.GetChatsView();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    _getChats = _chatService.getChatsView();
     return Scaffold(
         appBar: isDefaultAppBar
             ? getSearchAppBar(context)
@@ -42,8 +38,10 @@ class _ChatsPageState extends State<ChatsPage> {
             if (!snapshot.hasData) {
               return const CircularProgressIndicator();
             } else {
+              chatsList = snapshot.data;
+              filterChats = chatsList;
               return ListView(
-                  children: filterChats.map(
+                  children: filterChats!.map(
                 (chat) {
                   return Card(
                     shape: RoundedRectangleBorder(
@@ -63,7 +61,7 @@ class _ChatsPageState extends State<ChatsPage> {
                       ),
                       title: Text(chat.chatName!,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text(chat.lastMessage!),
+                      subtitle: chat.lastMessage != null ? Text("${chat.senderName!}: ${chat.lastMessage!}") : const Text("") ,
                       onTap: () {
                         Navigator.pushNamed(context, '/chat',
                             arguments: ScreenArguments(chat.id));
@@ -95,7 +93,7 @@ class _ChatsPageState extends State<ChatsPage> {
         onChanged: (value) {
           setState(() {
             searchText = value.toLowerCase();
-            filterChats = chatsList
+            filterChats = chatsList!
                 .where((element) =>
                     element.chatName!.toLowerCase().contains(searchText))
                 .toList();

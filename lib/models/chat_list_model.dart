@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class ChatListModel{
     int id;
     String? chatName;
@@ -15,7 +17,7 @@ class ChatListModel{
       return ChatListModel(
         id: json['chatId'],
         chatName: json['chatName'],
-        lastMessage: json['lastMessage'].fromJson(json['content']).fromJson(json['content']),
+        lastMessage: json['lastMessage'] != null ? json['lastMessage']['content']['content'] : null,
         senderName: json['senderName']
       );
     }
