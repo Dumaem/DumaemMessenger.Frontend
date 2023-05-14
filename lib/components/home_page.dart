@@ -99,9 +99,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   const SizedBox(
                     width: 10,
                   ),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: const <Widget>[
                       Text('Riaz Zaripof',
                           style: TextStyle(fontSize: 17, color: Colors.black)),
                       SizedBox(height: 2),

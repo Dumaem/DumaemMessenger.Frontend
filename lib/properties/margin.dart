@@ -11,6 +11,17 @@ class MarginWidget extends StatelessWidget {
   }
 }
 
+class SmallMarginWidget extends StatelessWidget {
+  const SmallMarginWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.01,
+    );
+  }
+}
+
 class Margin10 extends StatelessWidget {
   const Margin10({super.key});
 

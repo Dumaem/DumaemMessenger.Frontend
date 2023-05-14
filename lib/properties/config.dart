@@ -5,3 +5,4 @@ const double smallBorderRadius = 2;
 const double chatCircleAvatarRadius = 12;
 const double chatTextFontSize = 12;
 const double authenticationPageWidgetWidth = 0.7;
+const double textPadding = 25.0;
