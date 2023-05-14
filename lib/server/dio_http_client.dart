@@ -18,6 +18,7 @@ class DioHttpClient {
 
   static void initializeStaticDio() {
     dio = Dio(options);
+    addInterceptors();
   }
 
   static Dio? addInterceptors() {

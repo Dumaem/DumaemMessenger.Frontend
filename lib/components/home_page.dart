@@ -34,13 +34,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           icon: const Icon(Icons.account_box, color: Colors.black),
           page: ChatsPage(),
         ),
-        KFDrawerItem.initWithPage(
+        KFDrawerItem(
           text: const Text(
             'Notifications',
             style: TextStyle(color: Colors.black, fontSize: 18),
           ),
           icon: const Icon(Icons.notifications_active, color: Colors.black),
-          page: ChatsPage(),
+          onPressed: () {
+            Navigator.popAndPushNamed(context, '/chatInfo');
+          },
         ),
         KFDrawerItem(
           text: const Text(
@@ -97,9 +99,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   const SizedBox(
                     width: 10,
                   ),
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
+                    children: <Widget>[
                       Text('Riaz Zaripof',
                           style: TextStyle(fontSize: 17, color: Colors.black)),
                       SizedBox(height: 2),
