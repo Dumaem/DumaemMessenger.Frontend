@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 const double fontSizeForTitle = 30;
 const double fontSizeForHyperText = 15;
 const double baseBorderRadius = 8;
