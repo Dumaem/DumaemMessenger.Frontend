@@ -34,6 +34,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "message_name_title": MessageLookupByLibrary.simpleMessage("Message"),
         "name_title": MessageLookupByLibrary.simpleMessage("Name"),
         "password_title": MessageLookupByLibrary.simpleMessage("Password"),
+        "settings_support_title": MessageLookupByLibrary.simpleMessage(
+            "Feel Free to Ask, We Ready to Help"),
         "settings_title": MessageLookupByLibrary.simpleMessage("Settings"),
         "shop_title": MessageLookupByLibrary.simpleMessage("Shop"),
         "sign_in_title": MessageLookupByLibrary.simpleMessage("Sign in"),

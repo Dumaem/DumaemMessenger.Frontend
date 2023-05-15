@@ -1,6 +1,7 @@
 {
   "app_bar_title": "Dumaem Messenger",
   "settings_title": "Settings",
+  "settings_support_title": "Feel Free to Ask, We Ready to Help",
   "shop_title": "Shop",
   "info_title": "Info",
   "email_title": "Email",
@@ -14,5 +15,4 @@
   "account_name_test": "Riaz",
   "account_email_test": "riaz@mail.com",
   "message_name_title": "Message"
-
 }

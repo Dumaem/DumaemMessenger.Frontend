@@ -1,19 +1,66 @@
 import 'package:flutter/material.dart';
 
-class SettingsPage extends StatelessWidget {
+import '../models/setting.dart';
+import '../widgets/avatar_card.dart';
+import '../widgets/setting_tile.dart';
+import '../widgets/support_card.dart';
+
+class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.popAndPushNamed(context, '/home');
-          },
+        appBar: AppBar(
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.popAndPushNamed(context, '/home');
+            },
+          ),
         ),
-      ),
+
+        body: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const AvatarCard(),
+                  const SizedBox(height: 20),
+                  const Divider(),
+                  const SizedBox(height: 10),
+                  Column(
+                    children: List.generate(
+                      settings.length,
+                          (index) => SettingTile(setting: settings[index]),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const Divider(),
+                  const SizedBox(height: 10),
+                  Column(
+                    children: List.generate(
+                      settings2.length,
+                          (index) => SettingTile(setting: settings2[index]),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const SupportCard()
+                ],
+              ),
+            ),
+          ),
+        ),
     );
   }
 }
+
