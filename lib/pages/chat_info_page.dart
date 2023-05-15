@@ -1,6 +1,8 @@
+import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:flutter/material.dart';
 
+import '../generated/l10n.dart';
 import '../tabs/chat_participants_view.dart';
 import '../tabs/photos_view.dart';
 import '../tabs/videos_view.dart';
@@ -14,130 +16,115 @@ class ChatInfoPage extends StatefulWidget {
 
 class _ChatInfoPageState extends State<ChatInfoPage> {
   final Chat currentChat = chat;
+  late List<Widget> tabBarViews;
+  late List<Widget> tabs;
 
-  // tabs
-  final List<Widget> tabs = const [
-    // chat participants tab
-    Tab(
-      icon: Icon(Icons.supervised_user_circle_rounded),
-    ),
-    // photos tab
-    Tab(
-      icon: Icon(Icons.image),
-    ),
-    // videos tab
-    Tab(
-      icon: Icon(Icons.video_collection_rounded),
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
 
-  // tab bar views
-  final List<Widget> tabBarViews = const [
-    // chat participants view
-    ChatParticipantsView(),
-    // photos view
-    PhotosView(),
-    // videos view
-    VideosView(),
-  ];
+    tabs = [
+      // chat participants tab
+      const Tab(
+        icon: Icon(Icons.supervised_user_circle_rounded),
+        text: 'participants',
+      ),
+
+      // на будущее
+
+      /*// photos tab
+      Tab(
+        icon: Icon(Icons.image),
+      ),
+      // videos tab
+      Tab(
+        icon: Icon(Icons.video_collection_rounded),
+      ),*/
+    ];
+
+    tabBarViews = const [
+      // chat participants view
+      ChatParticipantsView(),
+
+      // на будущее
+
+      /*// photos view
+      PhotosView(),
+      // videos view
+      VideosView(),*/
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
-        body: Container(
-          color: const Color.fromARGB(255, 190, 233, 244),
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  const Margin40(),
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                pinned: true,
+                floating: true,
+                actions: [
+                  // settings button
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        icon: const Icon(Icons.more_vert),
+                        onPressed: () { },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: bigChatCircleAvatarRadius,
+                      child: Text(chat.title![0].toUpperCase()),
+                    ),
 
-                  // appbar with logo
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    const Margin20(),
+
+                    // chat name
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // go back button
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: IconButton(
-                              icon: const Icon(Icons.arrow_back),
-                              onPressed: () {
-                                Navigator.popAndPushNamed(context, '/home');
-                              },
-                            ),
-                          ),
-                        ),
-
-                        // chat logo
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: CircleAvatar(
-                            backgroundImage: currentChat.logo,
-                            radius: 50,
-                          ),
-                        ),
-
-                        // settings button
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.topRight,
-                            child: IconButton(
-                              icon: const Icon(Icons.more_vert),
-                              onPressed: () {
-                                Navigator.popAndPushNamed(context, '/home');
-                              },
-                            ),
+                        Text(
+                          currentChat.title,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
                           ),
                         ),
                       ],
                     ),
-                  ),
 
-                  const Margin20(),
+                    const Margin10(),
 
-                  // chat name
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        currentChat.title,
-                        style: const TextStyle(
+                    // chat name
+                    Text(
+                      "${currentChat.countParticipants} ${S.of(context).participants_title.toLowerCase()}",
+                      style: const TextStyle(
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const Margin10(),
-
-                  // chat name
-                  Text(
-                    "${currentChat.countParticipants} participants",
-                    style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                  ),
-
-                  const Margin10(),
-                ],
+                          color: Colors.grey),
+                    ),
+                  ],
+                ),
               ),
-
-              // tab bar
-              TabBar(tabs: tabs),
-
-              //tab bar view
-              Expanded(
-                child: TabBarView(children: tabBarViews),
-              ),
-            ],
-          ),
+            ];
+          },
+          body: TabBarView(children: tabBarViews),
         ),
       ),
     );
