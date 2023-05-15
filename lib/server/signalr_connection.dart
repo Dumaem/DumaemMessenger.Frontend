@@ -1,4 +1,4 @@
-import 'package:dumaem_messenger/server/auth_interceptor.dart';
+import 'package:dumaem_messenger/server/authorization/auth_interceptor.dart';
 import 'package:dumaem_messenger/server/global_variables.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -25,7 +25,7 @@ class SignalRConnection {
 
   static const serverUrl = "https://217.66.25.183:7213/z";
 
-  static void intitalizeSignalRConnection() async {
+  static Future<bool> intitalizeSignalRConnection() async {
     hubProtLogger = Logger("SignalR - hub");
     transportProtLogger = Logger("SignalR - transport");
     var options = HttpConnectionOptions(
@@ -61,12 +61,16 @@ class SignalRConnection {
 
     try {
       await hubConnection.start();
-    } catch (error) {
+    } catch (error) { 
       var refresh = await refreshToken();
       if (refresh != null) {
         await hubConnection.start();
       }
+      else {
+        return false;
+      }
     }
+    return true;
   }
 
   static Future<void> startSignalR() async {

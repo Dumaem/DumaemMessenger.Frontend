@@ -3,7 +3,7 @@ import 'package:dumaem_messenger/server/dio_http_client.dart';
 import 'package:dumaem_messenger/server/global_functions.dart';
 import 'package:flutter/widgets.dart';
 
-import 'global_variables.dart';
+import '../global_variables.dart';
 
 class AuthInterceptor extends Interceptor {
   AuthInterceptor();
