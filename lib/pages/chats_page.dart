@@ -19,8 +19,10 @@ class ChatsPage extends KFDrawerContent {
 class _ChatsPageState extends State<ChatsPage> {
   bool isDefaultAppBar = true;
   String searchText = "";
+
   TextEditingController searchController = TextEditingController();
   List<ChatListModel>? filterChats = chatsList;
+
   final ChatService _chatService = ChatService();
   Future<List<ChatListModel>>? _getChats;
 
