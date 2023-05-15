@@ -130,6 +130,16 @@ class S {
     );
   }
 
+  /// `Participants`
+  String get participants_title {
+    return Intl.message(
+      'Participants',
+      name: 'participants_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sign in`
   String get sign_in_title {
     return Intl.message(
