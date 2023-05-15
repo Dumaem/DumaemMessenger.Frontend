@@ -29,9 +29,9 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
         child: Column(
           children: [
             const MarginWidget(),
-            const Icon(
-              Icons.lock,
-              size: 100,
+            Image.asset(
+              'lib/images/logo.png',
+              width: 100,
             ),
             const MarginWidget(),
             Text(
