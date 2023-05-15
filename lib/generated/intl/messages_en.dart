@@ -33,6 +33,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "logout_title": MessageLookupByLibrary.simpleMessage("Logout"),
         "message_name_title": MessageLookupByLibrary.simpleMessage("Message"),
         "name_title": MessageLookupByLibrary.simpleMessage("Name"),
+        "participants_title":
+            MessageLookupByLibrary.simpleMessage("Participants"),
         "password_title": MessageLookupByLibrary.simpleMessage("Password"),
         "settings_title": MessageLookupByLibrary.simpleMessage("Settings"),
         "shop_title": MessageLookupByLibrary.simpleMessage("Shop"),
