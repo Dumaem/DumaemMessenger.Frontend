@@ -54,11 +54,6 @@ class _ChatsPageState extends State<ChatsPage> {
                       leading: CircleAvatar(
                         child: Text(chat.chatName![0].toUpperCase()),
                       ),
-                      trailing: CircleAvatar(
-                        maxRadius: chatCircleAvatarRadius,
-                        child: Text(chat.countOfUnreadMessages.toString(),
-                            style: const TextStyle(fontSize: chatTextFontSize)),
-                      ),
                       title: Text(chat.chatName!,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
                       subtitle: chat.lastMessage != null ? Text("${chat.senderName!}: ${chat.lastMessage!}") : const Text("") ,
