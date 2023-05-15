@@ -24,16 +24,6 @@ final List<Setting> settings = [
     route: "/",
     icon: Icons.settings,
   ),
-  Setting(
-    title: "E-Statements",
-    route: "/",
-    icon: CupertinoIcons.doc_fill,
-  ),
-  Setting(
-    title: "Refferal Code",
-    route: "/",
-    icon: CupertinoIcons.heart_fill,
-  ),
 ];
 
 final List<Setting> settings2 = [

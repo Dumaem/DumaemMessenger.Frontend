@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
           icon: const Icon(Icons.settings, color: Colors.black),
           onPressed: () {
-            Navigator.pushNamed(context, '/settings');
+            Navigator.popAndPushNamed(context, '/settings');
           },
         ),
       ],
@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   bottom: MediaQuery.of(context).size.height * 0.1),
               child: ListTile(
                 onTap: () {
-                  Navigator.pushNamed(context, '/settings');
+                  Navigator.popAndPushNamed(context, '/settings');
                 },
                 title: Row(
                   children: <Widget>[
