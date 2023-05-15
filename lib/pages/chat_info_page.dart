@@ -1,6 +1,8 @@
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:flutter/material.dart';
 
+import '../generated/l10n.dart';
+import '../properties/config.dart';
 import '../tabs/chat_participants_view.dart';
 import '../tabs/photos_view.dart';
 import '../tabs/videos_view.dart';
@@ -85,14 +87,36 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                         // settings button
                         Expanded(
                           child: Container(
-                            alignment: Alignment.topRight,
-                            child: IconButton(
-                              icon: const Icon(Icons.more_vert),
-                              onPressed: () {
-                                Navigator.popAndPushNamed(context, '/home');
-                              },
-                            ),
-                          ),
+                              alignment: Alignment.topRight,
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    dropListWidth,
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  icon: const Icon(Icons.more_vert),
+                                  items: <String>[
+                                    S.of(context).add_member_title,
+                                    S.of(context).edit_name_chat_title
+                                  ].map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style:
+                                            TextStyle(fontSize: smallFontSize),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (_) {},
+                                ),
+                              )
+                              // IconButton(
+                              //   icon: const Icon(Icons.more_vert),
+                              //   onPressed: () {
+                              //     Navigator.popAndPushNamed(context, '/home');
+                              //   },
+                              // ),
+                              ),
                         ),
                       ],
                     ),

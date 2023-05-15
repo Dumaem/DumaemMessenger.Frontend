@@ -25,9 +25,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "account_email_test":
             MessageLookupByLibrary.simpleMessage("riaz@mail.com"),
         "account_name_test": MessageLookupByLibrary.simpleMessage("Riaz"),
+        "add_member_title": MessageLookupByLibrary.simpleMessage("Add member"),
         "app_bar_title":
             MessageLookupByLibrary.simpleMessage("Dumaem Messenger"),
         "chat_name_title": MessageLookupByLibrary.simpleMessage("Name"),
+        "edit_name_chat_title":
+            MessageLookupByLibrary.simpleMessage("Edit name"),
         "email_title": MessageLookupByLibrary.simpleMessage("Email"),
         "info_title": MessageLookupByLibrary.simpleMessage("Info"),
         "logout_title": MessageLookupByLibrary.simpleMessage("Logout"),

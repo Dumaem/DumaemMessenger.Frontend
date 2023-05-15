@@ -13,6 +13,7 @@
   "logout_title": "Logout",
   "account_name_test": "Riaz",
   "account_email_test": "riaz@mail.com",
-  "message_name_title": "Message"
-
+  "message_name_title": "Message",
+  "add_member_title": "Add member",
+  "edit_name_chat_title": "Edit name"
 }
