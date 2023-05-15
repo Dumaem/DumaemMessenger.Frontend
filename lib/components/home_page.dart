@@ -3,6 +3,8 @@ import 'package:kf_drawer/kf_drawer.dart';
 
 import '../class_builder.dart';
 import '../pages/chats_page.dart';
+import '../server/global_variables.dart';
+import '../server/signalr_connection.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -71,7 +73,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             'Logout',
             style: TextStyle(color: Colors.black, fontSize: 18),
           ),
-          onPressed: () {
+          onPressed: () async{
+            await SignalRConnection.hubConnection.stop();
+            await storage.deleteAll();
             Navigator.popAndPushNamed(context, '/authorization');
           },
         ),
