@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:dumaem_messenger/models/message_context.dart';
 import 'package:dumaem_messenger/server/chat/chat_service.dart';
 import 'package:dumaem_messenger/server/global_variables.dart';
+import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 
 import '../generated/l10n.dart';
+import '../properties/chat_page_arguments.dart';
 
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid.
 String randomString() {
@@ -24,31 +27,40 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  List<types.Message> _messages = List.empty(growable: true);
-  List<types.Message> _filter_messages = List.empty(growable: true);
+  List<types.Message> _messages = [];
+  List<types.Message> _filter_messages = [];
   bool isDefaultAppBar = true;
   String searchText = "";
   TextEditingController searchController = TextEditingController();
   var user = types.User(id: "1");
   var _chatService = ChatService();
 
+  // @override
+  // void initState() async {
+  //   _messages = await _chatService.getChatMessages();
+  //   super.initState();
+  // }
+
   @override
-  void initState() async {
-    _messages = await _chatService.getChatMessages();
-    super.initState();
+  Widget build(BuildContext context) { 
+    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+    SignalRConnection.hubConnection.on("ReceiveMessage", ((message) {
+      var res = MessageContext.fromJson(message![0]);
+      //print(res);
+      var messageText = types.TextMessage(author: types.User(id: res.UserId.toString(), firstName: res.UserName), id: res.MessageId.toString(), type: types.MessageType.text, text: res.Content as String);
+      _addMessage(messageText);
+    }));
+    return Scaffold(
+        appBar: isDefaultAppBar
+            ? getSearchAppBar(context)
+            : getDefaultAppBar(context),
+        body: Chat(
+          messages: _filter_messages,
+          onSendPressed: _handleSendPressed,
+          user: user,
+        ),
+    );
   }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: isDefaultAppBar
-          ? getSearchAppBar(context)
-          : getDefaultAppBar(context),
-      body: Chat(
-        messages: _filter_messages,
-        onSendPressed: _handleSendPressed,
-        user: user,
-      ));
-
   void _addMessage(types.Message message) {
     setState(() {
       _messages.insert(0, message);
@@ -132,21 +144,21 @@ class _ChatPageState extends State<ChatPage> {
   }
 }
 
-class Message {
-  int? id;
-  String? sender;
-  String? content;
-  Message({this.id, this.sender, this.content});
-}
+// class Message {
+//   int? id;
+//   String? sender;
+//   String? content;
+//   Message({this.id, this.sender, this.content});
+// }
 
-List<Message> messagesList = [
-  Message(id: 1, sender: 'Фермер', content: 'Привет!'),
-  Message(id: 2, sender: 'Копатель', content: 'Привет!'),
-  Message(id: 3, sender: 'Космонавт', content: 'Привет!'),
-  Message(id: 4, sender: 'Майнер', content: 'Привет!'),
-  Message(id: 5, sender: 'Ринат', content: 'Привет!'),
-  Message(id: 6, sender: 'Камиль', content: 'Привет!'),
-];
+// List<Message> messagesList = [
+//   Message(id: 1, sender: 'Фермер', content: 'Привет!'),
+//   Message(id: 2, sender: 'Копатель', content: 'Привет!'),
+//   Message(id: 3, sender: 'Космонавт', content: 'Привет!'),
+//   Message(id: 4, sender: 'Майнер', content: 'Привет!'),
+//   Message(id: 5, sender: 'Ринат', content: 'Привет!'),
+//   Message(id: 6, sender: 'Камиль', content: 'Привет!'),
+// ];
 
 class InputWidget extends StatelessWidget {
   const InputWidget({

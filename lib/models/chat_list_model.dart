@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class ChatListModel {
   int id;
-  String? chatGName;
+  String? chatGuid;
   String? chatName;
   String? lastMessage;
   String? senderName;
@@ -14,7 +14,7 @@ class ChatListModel {
       this.lastMessage,
       this.countOfUnreadMessages,
       this.senderName,
-      this.chatGName});
+      this.chatGuid});
 
   factory ChatListModel.fromJson(Map<String, dynamic> json) {
     return ChatListModel(
@@ -24,6 +24,6 @@ class ChatListModel {
             ? json['lastMessage']['content']['content']
             : null,
         senderName: json['senderName'],
-        chatGName: json['']);
+        chatGuid: json['chatGuid']);
   }
 }

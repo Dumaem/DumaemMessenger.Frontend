@@ -21,11 +21,30 @@ class ChatService {
     return data;
   }
 
-  Future<List<types.Message>> getChatMessages() async {
-    List<Message> data = List.empty(growable: true);
-    int userId = int.parse(await storage.read(key: userKey) as String);
-    Map<String, int> queryParameters = {"id": userId};
-    var response = await DioHttpClient.dio
-        .get('Chat/get-user-chats-by-id', queryParameters: queryParameters);
-  }
+  // Future<List<types.Message>> getChatMessages(String chatName) async {
+  //   List<types.Message> data = List.empty(growable: true);
+  //   Map<String, String> queryParameters = {"chatName": chatName};
+  //   var response = await DioHttpClient.dio
+  //       .get('Chat/get-user-chats-by-id', queryParameters: queryParameters);
+
+  //   for (var jsonData in response.data) {
+  //     var messageContext = MessageContext.fromJson(jsonData);
+  //     var user = types.User(
+  //         id: messageContext.UserId.toString(),
+  //         firstName: messageContext.UserName);
+  //     var newMessage = types.TextMessage(
+  //         author: user,
+  //         id: messageContext.MessageId.toString(),
+  //         text: messageContext.Content as String);
+  //     data.add();
+  //   }
+
+  //   return data;
+  // }
+
+  // Future<String> getUserName() async{
+  //   var response
+  // }
+
+  
 }

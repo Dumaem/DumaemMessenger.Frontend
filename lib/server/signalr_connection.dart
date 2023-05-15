@@ -44,9 +44,9 @@ class SignalRConnection {
       await startSignalR();
     });
 
-    hubConnection.on('ReceiveMessage', (message) {
-      print('123');
-    });
+    // hubConnection.on('ReceiveMessage', (message) {
+    //   print('123');
+    // });
 
     hubConnection.on('Unauthorized', (arguments) async {
       print('Unauthorized error');
