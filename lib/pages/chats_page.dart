@@ -56,10 +56,12 @@ class _ChatsPageState extends State<ChatsPage> {
                       ),
                       title: Text(chat.chatName!,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: chat.lastMessage != null ? Text("${chat.senderName!}: ${chat.lastMessage!}") : const Text("") ,
+                      subtitle: chat.lastMessage != null
+                          ? Text("${chat.senderName!}: ${chat.lastMessage!}")
+                          : const Text(""),
                       onTap: () {
                         Navigator.pushNamed(context, '/chat',
-                            arguments: ScreenArguments(chat.id));
+                            arguments: ScreenArguments(chat.id, chat.chatName));
                       },
                     ),
                   );

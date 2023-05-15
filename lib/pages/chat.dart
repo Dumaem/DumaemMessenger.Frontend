@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:dumaem_messenger/server/chat/chat_service.dart';
+import 'package:dumaem_messenger/server/global_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
@@ -22,24 +24,30 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  List<types.Message> _messages = [];
-  List<types.Message> _filter_messages = [];
-  final _user = const types.User(id: '1');
+  List<types.Message> _messages = List.empty(growable: true);
+  List<types.Message> _filter_messages = List.empty(growable: true);
   bool isDefaultAppBar = true;
   String searchText = "";
   TextEditingController searchController = TextEditingController();
+  var user = types.User(id: "1");
+  var _chatService = ChatService();
+
+  @override
+  void initState() async {
+    _messages = await _chatService.getChatMessages();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: isDefaultAppBar
-            ? getSearchAppBar(context)
-            : getDefaultAppBar(context),
-        body: Chat(
-          messages: _filter_messages,
-          onSendPressed: _handleSendPressed,
-          user: _user,
-        ),
-      );
+      appBar: isDefaultAppBar
+          ? getSearchAppBar(context)
+          : getDefaultAppBar(context),
+      body: Chat(
+        messages: _filter_messages,
+        onSendPressed: _handleSendPressed,
+        user: user,
+      ));
 
   void _addMessage(types.Message message) {
     setState(() {
@@ -50,7 +58,7 @@ class _ChatPageState extends State<ChatPage> {
 
   void _handleSendPressed(types.PartialText message) {
     final textMessage = types.TextMessage(
-      author: _user,
+      author: user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: randomString(),
       text: message.text,
