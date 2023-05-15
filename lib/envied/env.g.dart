@@ -7,5 +7,5 @@ part of 'env.dart';
 // **************************************************************************
 
 class _Env {
-  static const serverUrl = 'https://217.66.25.183:7213/';
+  static const serverUrl = 'https://217.66.25.183:7213';
 }
