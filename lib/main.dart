@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:dumaem_messenger/pages/authorization.dart';
+import 'package:dumaem_messenger/pages/landing.dart';
 import 'package:dumaem_messenger/pages/registration.dart';
-import 'package:dumaem_messenger/server/http_client.dart';
+import 'package:dumaem_messenger/server/dio_http_client.dart';
 import 'package:dumaem_messenger/class_builder.dart';
 import 'package:dumaem_messenger/pages/settings_page.dart';
+import 'package:dumaem_messenger/server/global_variables.dart';
+import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'components/home_page.dart';
 import 'generated/l10n.dart';
@@ -18,7 +21,7 @@ void main() {
   ClassBuilder.registerClasses();
   HttpOverrides.global = MyHttpOverrides();
   DioHttpClient.initializeStaticDio();
-  DioHttpClient.addInterceptors();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MessengerApp());
 }
 
@@ -28,6 +31,8 @@ class MessengerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/landing',
+      navigatorKey: navigatorKey,
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -59,6 +64,7 @@ class MessengerApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const AuthorizationPage(),
       routes: {
+        '/landing': (context) => const LandingPage(),
         '/home': (context) => const HomePage(),
         '/settings': (context) => const SettingsPage(),
         '/authorization': (context) => const AuthorizationPage(),

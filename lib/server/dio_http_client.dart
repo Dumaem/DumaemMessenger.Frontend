@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:dumaem_messenger/server/auth_interceptor.dart';
+import 'package:dumaem_messenger/server/authorization/auth_interceptor.dart';
 
 class DioHttpClient {
   static late Dio dio;
@@ -18,6 +18,7 @@ class DioHttpClient {
 
   static void initializeStaticDio() {
     dio = Dio(options);
+    addInterceptors();
   }
 
   static Dio? addInterceptors() {

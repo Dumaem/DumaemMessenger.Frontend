@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "email_title": MessageLookupByLibrary.simpleMessage("Почта"),
         "info_title": MessageLookupByLibrary.simpleMessage("Информация"),
         "message_name_title": MessageLookupByLibrary.simpleMessage("Сообщение"),
-        "name_tile": MessageLookupByLibrary.simpleMessage("Имя пользователя"),
+        "name_title": MessageLookupByLibrary.simpleMessage("Имя пользователя"),
         "password_title": MessageLookupByLibrary.simpleMessage("Пароль"),
         "settings_title": MessageLookupByLibrary.simpleMessage("Настройки"),
         "shop_title": MessageLookupByLibrary.simpleMessage("Магазин"),

@@ -121,10 +121,10 @@ class S {
   }
 
   /// `Name`
-  String get name_tile {
+  String get name_title {
     return Intl.message(
       'Name',
-      name: 'name_tile',
+      name: 'name_title',
       desc: '',
       args: [],
     );
