@@ -9,7 +9,7 @@
 .atom/
 .buildlog/
 .history
-.svn
+.svn/
 .env
 
 # IntelliJ related
