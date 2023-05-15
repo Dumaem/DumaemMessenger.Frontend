@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
 import '../class_builder.dart';
+import '../generated/l10n.dart';
 import '../pages/chats_page.dart';
+import '../properties/config.dart';
 import '../server/global_variables.dart';
 import '../server/signalr_connection.dart';
 
@@ -29,21 +31,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           page: ChatsPage(),
         ),
         KFDrawerItem.initWithPage(
-          text: const Text(
-            'Profile',
-            style: TextStyle(color: Colors.black, fontSize: 18),
-          ),
-          icon: const Icon(Icons.account_box, color: Colors.black),
-          page: ChatsPage(),
-        ),
-        KFDrawerItem(
-          text: const Text(
-            'Notifications',
-            style: TextStyle(color: Colors.black, fontSize: 18),
-          ),
-          icon: const Icon(Icons.notifications_active, color: Colors.black),
+          text: const Text('Create chat',
+              style: TextStyle(color: Colors.black, fontSize: 18)),
+          icon: const Icon(Icons.people_alt_rounded, color: Colors.black),
           onPressed: () {
-            Navigator.popAndPushNamed(context, '/chatInfo');
+            Navigator.popAndPushNamed(context, '/createChat');
           },
         ),
         KFDrawerItem(
@@ -66,14 +58,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       body: KFDrawer(
         borderRadius: 20,
         shadowBorderRadius: 20.0,
-        scrollable: true,
         controller: _drawerController,
         footer: KFDrawerItem(
           text: const Text(
             'Logout',
             style: TextStyle(color: Colors.black, fontSize: 18),
           ),
-          onPressed: () async{
+          onPressed: () async {
             await SignalRConnection.hubConnection.stop();
             await storage.deleteAll();
             Navigator.popAndPushNamed(context, '/authorization');
@@ -87,33 +78,26 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             child: Container(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).size.height * 0.1),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        image: const DecorationImage(
-                            image: NetworkImage(
-                                // временная затычка.
-                                "https://sun9-48.userapi.com/impg/3Tr7i0Yi7Edt6tKh2_sgVacRsDu42XGst7phpw/qIdXkvVR5vE.jpg?size=1536x2048&quality=95&sign=b3c6d31138f00b7cde0e1898d5303f3c&type=album"),
-                            fit: BoxFit.cover)),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      Text('Riaz Zaripof',
-                          style: TextStyle(fontSize: 17, color: Colors.black)),
-                      SizedBox(height: 2),
-                      Text('Developer',
-                          style: TextStyle(fontSize: 15, color: Colors.black)),
-                    ],
-                  ),
-                ],
+              child: ListTile(
+                leading: const CircleAvatar(
+                  radius: secondaryCircleAvatarRadius,
+                  child: Text("R"),
+                ),
+                onTap: () {
+                  Navigator.popAndPushNamed(context, '/settings');
+                },
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(S.of(context).account_name_test,
+                        style:
+                            const TextStyle(fontSize: 17, color: Colors.black)),
+                    const SizedBox(height: 2),
+                    Text(S.of(context).account_email_test,
+                        style:
+                            const TextStyle(fontSize: 15, color: Colors.black)),
+                  ],
+                ),
               ),
             ),
           ),
