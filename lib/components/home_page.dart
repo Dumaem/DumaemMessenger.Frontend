@@ -30,6 +30,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           icon: const Icon(Icons.chat, color: Colors.black),
           page: ChatsPage(),
         ),
+        KFDrawerItem.initWithPage(
+          text: const Text('Create chat',
+              style: TextStyle(color: Colors.black, fontSize: 18)),
+          icon: const Icon(Icons.people_alt_rounded, color: Colors.black),
+          onPressed: () {
+            Navigator.popAndPushNamed(context, '/createChat');
+          },
+        ),
         KFDrawerItem(
           text: const Text(
             'Settings',
@@ -71,30 +79,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).size.height * 0.1),
               child: ListTile(
+                leading: const CircleAvatar(
+                  radius: secondaryCircleAvatarRadius,
+                  child: Text("R"),
+                ),
                 onTap: () {
                   Navigator.popAndPushNamed(context, '/settings');
                 },
-                title: Row(
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const CircleAvatar(
-                      radius: secondaryCircleAvatarRadius,
-                      child: Text("R"),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(S.of(context).account_name_test,
-                            style: const TextStyle(
-                                fontSize: 17, color: Colors.black)),
-                        const SizedBox(height: 2),
-                        Text(S.of(context).account_email_test,
-                            style: const TextStyle(
-                                fontSize: 15, color: Colors.black)),
-                      ],
-                    ),
+                    Text(S.of(context).account_name_test,
+                        style:
+                            const TextStyle(fontSize: 17, color: Colors.black)),
+                    const SizedBox(height: 2),
+                    Text(S.of(context).account_email_test,
+                        style:
+                            const TextStyle(fontSize: 15, color: Colors.black)),
                   ],
                 ),
               ),
