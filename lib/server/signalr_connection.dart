@@ -34,7 +34,7 @@ class SignalRConnection {
     );
 
     hubConnection = HubConnectionBuilder()
-        .withUrl('${Env.serverUrl}z/', options)
+        .withUrl('${Env.serverUrl}/z/', options)
         .withAutomaticReconnect()
         .build();
 

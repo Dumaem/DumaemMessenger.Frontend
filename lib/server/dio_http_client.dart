@@ -6,7 +6,7 @@ class DioHttpClient {
   static late Dio dio;
 
   static BaseOptions options =
-      BaseOptions(baseUrl: '${Env.serverUrl}api/', headers: {
+      BaseOptions(baseUrl: '${Env.serverUrl}/api/', headers: {
     "Access-Control-Allow-Origin": '*',
     'Content-Type': 'application/json',
     'Accept': 'application/json',
