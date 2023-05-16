@@ -1,9 +1,13 @@
 import 'dart:ffi';
 
+import 'package:dumaem_messenger/models/user.dart';
+import 'package:dumaem_messenger/server/global_functions.dart';
+
 class MessageContext {
   late int? ContentType;
   late int? MessageId;
   late String? Content;
+  late String? ChatName;
   late int? UserId;
   late String? UserName;
   late DateTime? SendDate;
@@ -32,7 +36,21 @@ class MessageContext {
       RepliedMessageId: json['repliedMessageId'],
       UserId: json['userId'],
       MessageId: json['id'],
-      UserName: json['user']['name'] 
+      UserName: json['user']['name'],
     );
+  }
+
+  Map<String, dynamic> toJson(){
+    return{
+      'user': null,
+      'chatId': ChatId,
+      'sendDate':GlobalFunctions.formatISOTime(SendDate as DateTime),
+      'content': Content,
+      'contentType': 1,
+      'userId': UserId,
+      'repliedMessageId': null,
+      'forwardedMessageId': null,
+      'id':0
+    };
   }
 }

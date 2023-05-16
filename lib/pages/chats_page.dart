@@ -3,6 +3,7 @@ import 'package:dumaem_messenger/pages/chat_info_page.dart';
 import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/server/chat/chat_service.dart';
+import 'package:dumaem_messenger/server/global_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:status_alert/status_alert.dart';
@@ -62,10 +63,10 @@ class _ChatsPageState extends State<ChatsPage> {
                           ? Text(
                               "${filterChats![index].senderName}: ${filterChats![index].lastMessage!}")
                           : const Text(""),
-                      onTap: () {
+                      onTap: () async{
                         Navigator.pushNamed(context, '/chat',
                             arguments:
-                                ScreenArguments(filterChats![index].chatGuid));
+                                ScreenArguments(filterChats![index].chatGuid, int.parse(await storage.read(key: userKey) as String)));
                       },
                     ),
                   );

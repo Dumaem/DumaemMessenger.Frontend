@@ -1,16 +1,31 @@
 class User {
-  int Id = null!;
+  late int? Id;
 
-  String? Username;
+  late String? Username;
 
-  String Name = null!;
+  late String? Name;
 
-  String Password = null!;
+  late String? Password;
 
-  String Email = null!;
+  late String? Email;
 
-  bool IsVerified = null!;
+  late bool? IsVerified;
 
-  User(this.Id, this.Email, this.Name, this.Password, this.Username,
-      this.IsVerified);
+  User(
+      {this.Id,
+      this.Email,
+      this.Name,
+      this.Password,
+      this.Username,
+      this.IsVerified});
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+        Id: json['id'],
+        Username: json['username'],
+        Name: json['name'],
+        Email: json['email'],
+        Password: json['password'],
+        IsVerified: json['isVerified']);
+  }
 }
