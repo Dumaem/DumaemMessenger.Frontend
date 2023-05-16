@@ -1,3 +1,4 @@
+import 'package:dumaem_messenger/server/global_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
@@ -73,10 +74,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             'Logout',
             style: TextStyle(color: Colors.black, fontSize: 18),
           ),
-          onPressed: () async{
-            await SignalRConnection.hubConnection.stop();
-            await storage.deleteAll();
-            Navigator.popAndPushNamed(context, '/authorization');
+          onPressed: () async {
+            GlobalFunctions.logout();
           },
         ),
         header: Align(

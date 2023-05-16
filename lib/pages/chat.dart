@@ -49,6 +49,12 @@ class _ChatPageState extends State<ChatPage> {
         _addMessage(messageText);
     }));
   }
+
+  @override
+  void dispose() {
+    //SignalRConnection.hubConnection.off("ReceiveMessage");
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;

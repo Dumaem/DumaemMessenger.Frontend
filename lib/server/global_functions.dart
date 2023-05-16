@@ -1,11 +1,10 @@
+import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 
 import 'global_variables.dart';
 
-class GlobalFunctions
-{
-  static Future<dynamic> writeUserInfo(dynamic response)
-  async {
+class GlobalFunctions {
+  static Future<dynamic> writeUserInfo(dynamic response) async {
     final newAccessToken = response.data[accessTokenKey];
     final newRefreshToken = response.data[refreshTokenKey];
     final userId = response.data[userKey];
@@ -16,5 +15,12 @@ class GlobalFunctions
     await storage.read(key: userKey);
 
     return newAccessToken;
+  }
+
+  static Future logout() async {
+    await SignalRConnection.hubConnection.stop();
+    await storage.deleteAll();
+    navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        '/authorization', (Route<dynamic> route) => false);
   }
 }
