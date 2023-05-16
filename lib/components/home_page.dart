@@ -1,13 +1,14 @@
-import 'package:dumaem_messenger/server/user/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
 import '../class_builder.dart';
+import '../generated/l10n.dart';
 import '../models/user_model.dart';
 import '../pages/chats_page.dart';
 import '../properties/config.dart';
 import '../server/global_variables.dart';
 import '../server/signalr_connection.dart';
+import '../server/user/user_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,21 +37,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           page: ChatsPage(),
         ),
         KFDrawerItem.initWithPage(
-          text: const Text(
-            'Profile',
-            style: TextStyle(color: Colors.black, fontSize: 18),
-          ),
-          icon: const Icon(Icons.account_box, color: Colors.black),
-          page: ChatsPage(),
-        ),
-        KFDrawerItem(
-          text: const Text(
-            'Notifications',
-            style: TextStyle(color: Colors.black, fontSize: 18),
-          ),
-          icon: const Icon(Icons.notifications_active, color: Colors.black),
+          text: const Text('Create chat',
+              style: TextStyle(color: Colors.black, fontSize: 18)),
+          icon: const Icon(Icons.people_alt_rounded, color: Colors.black),
           onPressed: () {
-            Navigator.popAndPushNamed(context, '/chatInfo');
+            Navigator.popAndPushNamed(context, '/createChat');
           },
         ),
         KFDrawerItem(
@@ -69,12 +60,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    var name;
     return Scaffold(
       body: KFDrawer(
         borderRadius: 20,
         shadowBorderRadius: 20.0,
-        scrollable: true,
         controller: _drawerController,
         footer: KFDrawerItem(
           text: const Text(

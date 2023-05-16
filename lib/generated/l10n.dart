@@ -70,6 +70,16 @@ class S {
     );
   }
 
+  /// `Feel Free to Ask, We Ready to Help`
+  String get settings_support_title {
+    return Intl.message(
+      'Feel Free to Ask, We Ready to Help',
+      name: 'settings_support_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Shop`
   String get shop_title {
     return Intl.message(
@@ -125,6 +135,16 @@ class S {
     return Intl.message(
       'Name',
       name: 'name_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Participants`
+  String get participants_title {
+    return Intl.message(
+      'Participants',
+      name: 'participants_title',
       desc: '',
       args: [],
     );
