@@ -4,9 +4,8 @@ import '../generated/l10n.dart';
 import '../properties/config.dart';
 
 class AvatarCard extends StatelessWidget {
-  const AvatarCard({
-    super.key,
-  });
+  const AvatarCard({super.key});
+
 
   @override
   Widget build(BuildContext context) {
