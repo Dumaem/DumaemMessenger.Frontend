@@ -19,8 +19,10 @@ class ChatsPage extends KFDrawerContent {
 class _ChatsPageState extends State<ChatsPage> {
   bool isDefaultAppBar = true;
   String searchText = "";
+
   TextEditingController searchController = TextEditingController();
   List<ChatListModel>? filterChats = chatsList;
+
   final ChatService _chatService = ChatService();
   Future<List<ChatListModel>>? _getChats;
 
@@ -142,80 +144,3 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 }
-
-// // test data
-// class Chat {
-//   int id;
-//   String? title;
-//   String? lastMessage;
-//   int? countOfUnreadMessages;
-
-//   Chat(
-//       {required this.id,
-//       this.title,
-//       this.lastMessage,
-//       this.countOfUnreadMessages});
-// }
-
-// List<ChatShortModel> chatsList = [
-//   Chat(
-//       id: 1,
-//       title: 'Фермеры',
-//       lastMessage: 'Купить молоко,хлеб,сыр',
-//       countOfUnreadMessages: 10),
-//   Chat(
-//       id: 2,
-//       title: 'КТИТС',
-//       lastMessage: 'Прописать Flutter upgrade',
-//       countOfUnreadMessages: 87),
-//   Chat(
-//       id: 3,
-//       title: 'думаем',
-//       lastMessage: 'Выиграть в турнире',
-//       countOfUnreadMessages: 4),
-//   Chat(
-//       id: 4,
-//       title: "Избранное",
-//       lastMessage: "Сходить за посылкой на почту",
-//       countOfUnreadMessages: 1),
-//   Chat(
-//       id: 5,
-//       title: 'Фермеры',
-//       lastMessage: 'Купить молоко,хлеб,сыр',
-//       countOfUnreadMessages: 10),
-//   Chat(
-//       id: 6,
-//       title: 'КТИТС',
-//       lastMessage: 'Прописать Flutter upgrade',
-//       countOfUnreadMessages: 87),
-//   Chat(
-//       id: 7,
-//       title: 'думаем',
-//       lastMessage: 'Выиграть в турнире',
-//       countOfUnreadMessages: 4),
-//   Chat(
-//       id: 8,
-//       title: "Избранное",
-//       lastMessage: "Сходить за посылкой на почту",
-//       countOfUnreadMessages: 1),
-//   Chat(
-//       id: 9,
-//       title: 'Фермеры',
-//       lastMessage: 'Купить молоко,хлеб,сыр',
-//       countOfUnreadMessages: 10),
-//   Chat(
-//       id: 10,
-//       title: 'КТИТС',
-//       lastMessage: 'Прописать Flutter upgrade',
-//       countOfUnreadMessages: 87),
-//   Chat(
-//       id: 11,
-//       title: 'думаем',
-//       lastMessage: 'Выиграть в турнире',
-//       countOfUnreadMessages: 4),
-//   Chat(
-//       id: 12,
-//       title: "Избранное",
-//       lastMessage: "Сходить за посылкой на почту",
-//       countOfUnreadMessages: 1),
-// ];
