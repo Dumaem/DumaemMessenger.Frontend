@@ -1,17 +1,14 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:dumaem_messenger/models/message_context.dart';
 import 'package:dumaem_messenger/server/chat/chat_service.dart';
-import 'package:dumaem_messenger/server/global_variables.dart';
 import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 
 import '../generated/l10n.dart';
-import '../models/user.dart';
 import '../properties/chat_page_arguments.dart';
 import '../server/user/user_service.dart';
 
@@ -46,14 +43,22 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     SignalRConnection.hubConnection.on("ReceiveMessage", ((message) {
       var res = MessageContext.fromJson(message![0]);
-      //print(res);
+
+      if (res.ChatId != _chatName) {
+        return;
+      }
+      if (res.UserId == _userId) {
+        return;
+      }
+
       var messageText = types.TextMessage(
-        showStatus: true,
+          showStatus: true,
           author:
               types.User(id: res.UserId.toString(), firstName: res.UserName),
           id: res.MessageId.toString(),
           type: types.MessageType.text,
           text: res.Content as String);
+
       _addMessage(messageText);
     }));
   }
@@ -68,7 +73,8 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     _chatName = (ModalRoute.of(context)!.settings.arguments as ScreenArguments)
         .chatGuid as String;
-    _userId = (ModalRoute.of(context)!.settings.arguments as ScreenArguments).userId as int;
+    _userId = (ModalRoute.of(context)!.settings.arguments as ScreenArguments)
+        .userId as int;
     _currentUser = types.User(id: _userId.toString());
     return Scaffold(
       appBar: isDefaultAppBar
@@ -105,7 +111,8 @@ class _ChatPageState extends State<ChatPage> {
         SendDate: DateTime.now(),
         UserId: _userId,
         ContentType: 1);
-    await SignalRConnection.hubConnection.send(methodName: "SendMessage" , args: [messageContext.toJson()]);
+    await SignalRConnection.hubConnection
+        .send(methodName: "SendMessage", args: [messageContext.toJson()]);
     _addMessage(textMessage);
   }
 
