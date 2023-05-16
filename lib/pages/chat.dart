@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:dumaem_messenger/models/message_context.dart';
 import 'package:dumaem_messenger/server/chat/chat_service.dart';
-import 'package:dumaem_messenger/server/global_variables.dart';
 import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -35,32 +34,36 @@ class _ChatPageState extends State<ChatPage> {
   var user = types.User(id: "1");
   var _chatService = ChatService();
 
-  // @override
-  // void initState() async {
-  //   _messages = await _chatService.getChatMessages();
-  //   super.initState();
-  // }
-
   @override
-  Widget build(BuildContext context) { 
-    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+  void initState() {
+    super.initState();
     SignalRConnection.hubConnection.on("ReceiveMessage", ((message) {
-      var res = MessageContext.fromJson(message![0]);
-      //print(res);
-      var messageText = types.TextMessage(author: types.User(id: res.UserId.toString(), firstName: res.UserName), id: res.MessageId.toString(), type: types.MessageType.text, text: res.Content as String);
-      _addMessage(messageText);
+        var res = MessageContext.fromJson(message![0]);
+        //print(res);
+        var messageText = types.TextMessage(
+            author:
+                types.User(id: res.UserId.toString(), firstName: res.UserName),
+            id: res.MessageId.toString(),
+            type: types.MessageType.text,
+            text: res.Content as String);
+        _addMessage(messageText);
     }));
+  }
+  @override
+  Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     return Scaffold(
-        appBar: isDefaultAppBar
-            ? getSearchAppBar(context)
-            : getDefaultAppBar(context),
-        body: Chat(
-          messages: _filter_messages,
-          onSendPressed: _handleSendPressed,
-          user: user,
-        ),
+      appBar: isDefaultAppBar
+          ? getSearchAppBar(context)
+          : getDefaultAppBar(context),
+      body: Chat(
+        messages: _filter_messages,
+        onSendPressed: _handleSendPressed,
+        user: user,
+      ),
     );
   }
+
   void _addMessage(types.Message message) {
     setState(() {
       _messages.insert(0, message);
