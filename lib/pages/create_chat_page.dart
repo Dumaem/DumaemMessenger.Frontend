@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../generated/l10n.dart';
 import '../models/chat_model.dart';
-import '../widgets/contact_card.dart';
+import '../models/user_model.dart';
+import '../server/user/user_service.dart';
+import '../widgets/user_card.dart';
+
+List<UserModel>? usersList = List.empty(growable: true);
 
 class CreateChatPage extends StatefulWidget {
   const CreateChatPage({super.key});
@@ -12,177 +16,141 @@ class CreateChatPage extends StatefulWidget {
 }
 
 class _CreateChatPageState extends State<CreateChatPage> {
-  List<ChatModel> contacts = [
-    ChatModel(name: "Dev Stack", status: "A full stack developer"),
-    ChatModel(name: "Balram", status: "Flutter Developer..........."),
-    ChatModel(name: "Saket", status: "Web developer..."),
-    ChatModel(name: "Bhanu Dev", status: "App developer...."),
-    ChatModel(name: "Collins", status: "Raect developer.."),
-    ChatModel(name: "Kishor", status: "Full Stack Web"),
-    ChatModel(name: "Testing1", status: "Example work"),
-    ChatModel(name: "Testing2", status: "Sharing is caring"),
-    ChatModel(name: "Divyanshu", status: "....."),
-    ChatModel(name: "Helper", status: "Love you Mom Dad"),
-    ChatModel(name: "Tester", status: "I find the bugs"),
-    ChatModel(name: "Dev Stack", status: "A full stack developer"),
-    ChatModel(name: "Balram", status: "Flutter Developer..........."),
-    ChatModel(name: "Saket", status: "Web developer..."),
-    ChatModel(name: "Bhanu Dev", status: "App developer...."),
-    ChatModel(name: "Collins", status: "Raect developer.."),
-    ChatModel(name: "Kishor", status: "Full Stack Web"),
-    ChatModel(name: "Testing1", status: "Example work"),
-    ChatModel(name: "Testing2", status: "Sharing is caring"),
-    ChatModel(name: "Divyanshu", status: "....."),
-    ChatModel(name: "Helper", status: "Love you Mom Dad"),
-    ChatModel(name: "Tester", status: "I find the bugs"),
-  ];
-  late List<ChatModel> filterContacts = contacts;
-  List<ChatModel> groupmember = [];
+  final UserService _userService = UserService();
+  Future<List<UserModel>>? _getUsers;
+  List<UserModel>? filterUsers = usersList;
+
+  List<UserModel> selectedUsers = [];
   bool isDefaultAppBar = true;
   String searchText = "";
   TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    _getUsers = _userService.getAllUsersView();
     return Scaffold(
       appBar: isDefaultAppBar
           ? getSearchAppBar(context)
           : getDefaultAppBar(context),
       floatingActionButton: FloatingActionButton(
           onPressed: () {}, child: const Icon(Icons.arrow_forward)),
-      body: Stack(
-        children: [
-          ListView.builder(
-            itemCount: filterContacts.length + 1,
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return Container(
-                  height: groupmember.isNotEmpty ? 90 : 10,
-                );
-              }
-              return InkWell(
-                onTap: () {
-                  setState(() {
-                    if (filterContacts[index - 1].select == true) {
-                      groupmember.remove(filterContacts[index - 1]);
-                      filterContacts[index - 1].select = false;
-                    } else {
-                      groupmember.add(filterContacts[index - 1]);
-                      filterContacts[index - 1].select = true;
+      body: FutureBuilder<List<UserModel>>(
+        future: _getUsers,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const CircularProgressIndicator();
+          } else {
+            usersList = snapshot.data;
+            filterUsers = usersList;
+
+            return Stack(
+              children: [
+                ListView.builder(
+                  itemCount: filterUsers!.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return Container(
+                        height: selectedUsers.isNotEmpty ? 90 : 10,
+                      );
                     }
-                  });
-                },
-                child: ContactCard(
-                  contact: filterContacts[index - 1],
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          if (filterUsers![index - 1].select == true) {
+                            selectedUsers.remove(filterUsers![index - 1]);
+                            filterUsers![index - 1].select = false;
+                          } else {
+                            selectedUsers.add(filterUsers![index - 1]);
+                            filterUsers![index - 1].select = true;
+                          }
+                        });
+                      },
+                      child: UserCard(
+                        user: filterUsers![index - 1],
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-          groupmember.isNotEmpty
-              ? Align(
-                  alignment: Alignment.topCenter,
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 75,
-                        color: Colors.white,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: filterContacts.length,
-                          itemBuilder: (context, index) {
-                            if (filterContacts[index].select == true) {
-                              return InkWell(
-                                onTap: () {
-                                  setState(
-                                    () {
-                                      groupmember.remove(filterContacts[index]);
-                                      filterContacts[index].select = false;
-                                    },
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 2, horizontal: 8),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Stack(
-                                        children: const [
-                                          CircleAvatar(
-                                            radius: 23,
-                                            child: Text("D"),
-                                          ),
-                                          Positioned(
-                                            bottom: 0,
-                                            right: 0,
-                                            child: CircleAvatar(
-                                              backgroundColor: Colors.grey,
-                                              radius: 11,
-                                              child: Icon(
-                                                Icons.clear,
-                                                color: Colors.white,
-                                                size: 13,
+                selectedUsers.isNotEmpty
+                    ? Align(
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 75,
+                              color: Colors.amberAccent,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: filterUsers?.length,
+                                itemBuilder: (context, index) {
+                                  if (filterUsers![index].select == true) {
+                                    return InkWell(
+                                      onTap: () {
+                                        setState(
+                                          () {
+                                            selectedUsers
+                                                .remove(filterUsers![index]);
+                                            filterUsers![index].select = false;
+                                          },
+                                        );
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 2, horizontal: 8),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Stack(
+                                              children: const [
+                                                CircleAvatar(
+                                                  radius: 23,
+                                                  child: Text("D"),
+                                                ),
+                                                Positioned(
+                                                  bottom: 0,
+                                                  right: 0,
+                                                  child: CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.grey,
+                                                    radius: 11,
+                                                    child: Icon(
+                                                      Icons.clear,
+                                                      color: Colors.white,
+                                                      size: 13,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 2,
+                                            ),
+                                            const Text(
+                                              'Riaz',
+                                              style: TextStyle(
+                                                fontSize: 12,
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 2,
-                                      ),
-                                      const Text(
-                                        'Riaz',
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }
+                                    );
+                                  }
 
-                            return Container();
-                          },
+                                  return Container();
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              : Container(),
-        ],
+                      )
+                    : Container(),
+              ],
+            );
+          }
+        },
       ),
-    );
-  }
-
-  AppBar get(BuildContext context) {
-    return AppBar(
-      title: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
-            "New chat",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            "Add participants",
-            style: TextStyle(
-              fontSize: 13,
-            ),
-          )
-        ],
-      ),
-      actions: [
-        IconButton(
-            icon: const Icon(
-              Icons.search,
-              size: 26,
-            ),
-            onPressed: () {}),
-      ],
     );
   }
 
@@ -219,7 +187,7 @@ class _CreateChatPageState extends State<CreateChatPage> {
           onPressed: () {
             setState(() {
               isDefaultAppBar = !isDefaultAppBar;
-              filterContacts = contacts;
+              filterUsers = usersList;
             });
           },
           icon: const Icon(
@@ -249,8 +217,8 @@ class _CreateChatPageState extends State<CreateChatPage> {
         onChanged: (value) {
           setState(() {
             searchText = value.toLowerCase();
-            filterContacts = contacts
-                .where((element) =>
+            filterUsers = usersList
+                ?.where((element) =>
                     element.name.toLowerCase().contains(searchText))
                 .toList();
           });

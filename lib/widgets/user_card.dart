@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../models/chat_model.dart';
+import '../models/user_model.dart';
 
-class ContactCard extends StatelessWidget {
-  final ChatModel contact;
+class UserCard extends StatelessWidget {
+  final UserModel user;
 
-  const ContactCard({super.key, required this.contact});
+  const UserCard({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +16,11 @@ class ContactCard extends StatelessWidget {
         height: 53,
         child: Stack(
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               radius: 23,
-              child: Text("D"),
+              child: Text(user.name[0].toUpperCase()),
             ),
-            contact.select
+            user.select
                 ? const Positioned(
                     bottom: 4,
                     right: 5,
@@ -38,14 +39,14 @@ class ContactCard extends StatelessWidget {
         ),
       ),
       title: Text(
-        contact.name,
+        user.name,
         style: const TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.bold,
         ),
       ),
       subtitle: Text(
-        contact.status,
+        "@${user.username}",
         style: const TextStyle(
           fontSize: 13,
         ),

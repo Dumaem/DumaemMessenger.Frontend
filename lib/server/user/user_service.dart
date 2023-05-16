@@ -16,4 +16,15 @@ class UserService {
 
     return data;
   }
+
+  Future<List<UserModel>> getAllUsersView() async {
+    List<UserModel> data = List.empty(growable: true);
+
+    var response = await DioHttpClient.dio.get('User/users');
+
+    for (var jsonData in response.data) {
+      data.add(UserModel.fromJson(jsonData));
+    }
+    return data;
+  }
 }

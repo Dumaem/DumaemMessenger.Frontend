@@ -3,12 +3,14 @@ class UserModel {
   String? username;
   String name;
   String email;
+  bool select = false;
 
   UserModel({
     required this.id,
     this.username,
     required this.name,
     required this.email,
+    this.select = false,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
