@@ -1,8 +1,10 @@
 import 'package:dumaem_messenger/models/message_context.dart';
 
 import '../../models/chat_list_model.dart';
+import '../../pages/chat.dart';
 import '../dio_http_client.dart';
 import '../global_variables.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class ChatService {
   Future<List<ChatListModel>> getChatsView() async {

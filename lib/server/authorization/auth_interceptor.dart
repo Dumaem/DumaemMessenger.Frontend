@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dumaem_messenger/server/dio_http_client.dart';
 import 'package:dumaem_messenger/server/global_functions.dart';
+import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/widgets.dart';
 
 import '../global_variables.dart';
@@ -58,8 +59,7 @@ Future<String?> refreshToken() async {
       return newAccessToken;
     }
   } catch (error) {
-    navigatorKey.currentState?.pushNamedAndRemoveUntil(
-        '/authorization', (Route<dynamic> route) => false);
+    GlobalFunctions.logout();    
   }
   return null;
 }

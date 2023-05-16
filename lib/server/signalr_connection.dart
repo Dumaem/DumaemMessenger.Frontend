@@ -24,6 +24,7 @@ class SignalRConnection {
   static late Logger transportProtLogger;
 
   static const serverUrl = "https://217.66.25.183:7213/z";
+  // static const serverUrl = "https://10.0.2.2:7152/z";
 
   static Future<bool> intitalizeSignalRConnection() async {
     hubProtLogger = Logger("SignalR - hub");
@@ -44,9 +45,9 @@ class SignalRConnection {
       await startSignalR();
     });
 
-    hubConnection.on('ReceiveMessage', (message) {
-      print('123');
-    });
+    // hubConnection.on('ReceiveMessage', (message) {
+    //   print('123');
+    // });
 
     hubConnection.on('Unauthorized', (arguments) async {
       print('Unauthorized error');
@@ -61,12 +62,11 @@ class SignalRConnection {
 
     try {
       await hubConnection.start();
-    } catch (error) { 
+    } catch (error) {
       var refresh = await refreshToken();
       if (refresh != null) {
         await hubConnection.start();
-      }
-      else {
+      } else {
         return false;
       }
     }
@@ -75,11 +75,11 @@ class SignalRConnection {
 
   static Future<void> startSignalR() async {
     await hubConnection.start();
+    if (savedRequestList.isEmpty) {
+      print('KAKOYTOSTRANNIYDVIZH');
+      return;
+    }
     var savedRequest = savedRequestList.removeLast();
     hubConnection.send(methodName: savedRequest[0], args: savedRequest[1]);
-  }
-
-  static String formatISOTime(DateTime date) {
-    return ("${DateFormat("yyyy-MM-ddTHH:mm:ss.mmm").format(date)}Z");
   }
 }
