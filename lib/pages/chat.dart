@@ -76,18 +76,23 @@ class _ChatPageState extends State<ChatPage> {
     _userId = (ModalRoute.of(context)!.settings.arguments as ScreenArguments)
         .userId as int;
     _currentUser = types.User(id: _userId.toString());
-    return Scaffold(
-      appBar: isDefaultAppBar
-          ? getSearchAppBar(context)
-          : getDefaultAppBar(context),
-      body: Chat(
-        messages: _filterMessages,
-        onSendPressed: _handleSendPressed,
-        user: _currentUser,
-        showUserNames: true,
-        showUserAvatars: true,
-      ),
-    );
+    return WillPopScope(
+        onWillPop: () async {
+          Navigator.popAndPushNamed(context, '/home');
+          return true;
+        },
+        child: Scaffold(
+          appBar: isDefaultAppBar
+              ? getSearchAppBar(context)
+              : getDefaultAppBar(context),
+          body: Chat(
+            messages: _filterMessages,
+            onSendPressed: _handleSendPressed,
+            user: _currentUser,
+            showUserNames: true,
+            showUserAvatars: true,
+          ),
+        ));
   }
 
   void _addMessage(types.Message message) {
