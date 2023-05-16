@@ -1,8 +1,11 @@
+import 'package:dumaem_messenger/server/user/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
 import '../class_builder.dart';
+import '../models/user_model.dart';
 import '../pages/chats_page.dart';
+import '../properties/config.dart';
 import '../server/global_variables.dart';
 import '../server/signalr_connection.dart';
 
@@ -15,10 +18,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late KFDrawerController _drawerController;
+  final UserService _userService = UserService();
+  late Future<UserModel> _getCurrentUser;
 
   @override
   void initState() {
     super.initState();
+    _getCurrentUser = _userService.getUserView();
+
     _drawerController = KFDrawerController(
       initialPage: ClassBuilder.fromString('ChatsPage'),
       items: [
@@ -62,6 +69,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    var name;
     return Scaffold(
       body: KFDrawer(
         borderRadius: 20,
@@ -73,51 +81,60 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             'Logout',
             style: TextStyle(color: Colors.black, fontSize: 18),
           ),
-          onPressed: () async{
+          onPressed: () async {
             await SignalRConnection.hubConnection.stop();
             await storage.deleteAll();
             Navigator.popAndPushNamed(context, '/authorization');
           },
         ),
-        header: Align(
-          alignment: Alignment.centerLeft,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            width: MediaQuery.of(context).size.width * 0.6,
-            child: Container(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height * 0.1),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        image: const DecorationImage(
-                            image: NetworkImage(
-                                // временная затычка.
-                                "https://sun9-48.userapi.com/impg/3Tr7i0Yi7Edt6tKh2_sgVacRsDu42XGst7phpw/qIdXkvVR5vE.jpg?size=1536x2048&quality=95&sign=b3c6d31138f00b7cde0e1898d5303f3c&type=album"),
-                            fit: BoxFit.cover)),
+        header: FutureBuilder<UserModel>(
+            future: _getCurrentUser,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const CircularProgressIndicator();
+              } else {
+                return Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.1),
+                      child: Row(
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: 25,
+                            child: Text(
+                                snapshot.data?.name[0].toUpperCase() as String),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(snapshot.data?.name as String,
+                                      style: const TextStyle(
+                                          fontSize: 17, color: Colors.black)),
+                                  const SizedBox(height: 2),
+                                  Text("@${snapshot.data?.username}",
+                                      style: const TextStyle(
+                                          fontSize: 15, color: Colors.black)),
+                                ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      Text('Riaz Zaripof',
-                          style: TextStyle(fontSize: 17, color: Colors.black)),
-                      SizedBox(height: 2),
-                      Text('Developer',
-                          style: TextStyle(fontSize: 15, color: Colors.black)),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+                );
+              }
+            }),
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
