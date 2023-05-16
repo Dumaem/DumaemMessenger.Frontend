@@ -36,6 +36,7 @@ class _CreateChatPageState extends State<CreateChatPage> {
     ChatModel(name: "Helper", status: "Love you Mom Dad"),
     ChatModel(name: "Tester", status: "I find the bugs"),
   ];
+  late List<ChatModel> filterContacts = contacts;
   List<ChatModel> groupmember = [];
   bool isDefaultAppBar = true;
   String searchText = "";
@@ -52,7 +53,7 @@ class _CreateChatPageState extends State<CreateChatPage> {
       body: Stack(
         children: [
           ListView.builder(
-            itemCount: contacts.length + 1,
+            itemCount: filterContacts.length + 1,
             itemBuilder: (context, index) {
               if (index == 0) {
                 return Container(
@@ -62,17 +63,17 @@ class _CreateChatPageState extends State<CreateChatPage> {
               return InkWell(
                 onTap: () {
                   setState(() {
-                    if (contacts[index - 1].select == true) {
-                      groupmember.remove(contacts[index - 1]);
-                      contacts[index - 1].select = false;
+                    if (filterContacts[index - 1].select == true) {
+                      groupmember.remove(filterContacts[index - 1]);
+                      filterContacts[index - 1].select = false;
                     } else {
-                      groupmember.add(contacts[index - 1]);
-                      contacts[index - 1].select = true;
+                      groupmember.add(filterContacts[index - 1]);
+                      filterContacts[index - 1].select = true;
                     }
                   });
                 },
                 child: ContactCard(
-                  contact: contacts[index - 1],
+                  contact: filterContacts[index - 1],
                 ),
               );
             },
@@ -87,15 +88,15 @@ class _CreateChatPageState extends State<CreateChatPage> {
                         color: Colors.white,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: contacts.length,
+                          itemCount: filterContacts.length,
                           itemBuilder: (context, index) {
-                            if (contacts[index].select == true) {
+                            if (filterContacts[index].select == true) {
                               return InkWell(
                                 onTap: () {
                                   setState(
                                     () {
-                                      groupmember.remove(contacts[index]);
-                                      contacts[index].select = false;
+                                      groupmember.remove(filterContacts[index]);
+                                      filterContacts[index].select = false;
                                     },
                                   );
                                 },
@@ -214,11 +215,11 @@ class _CreateChatPageState extends State<CreateChatPage> {
         ],
       ),
       actions: [
-
         IconButton(
           onPressed: () {
             setState(() {
               isDefaultAppBar = !isDefaultAppBar;
+              filterContacts = contacts;
             });
           },
           icon: const Icon(
@@ -245,6 +246,15 @@ class _CreateChatPageState extends State<CreateChatPage> {
       ],
       title: TextField(
         controller: searchController,
+        onChanged: (value) {
+          setState(() {
+            searchText = value.toLowerCase();
+            filterContacts = contacts
+                .where((element) =>
+                    element.name.toLowerCase().contains(searchText))
+                .toList();
+          });
+        },
         decoration:
             InputDecoration(label: Text(S.of(context).participant_title)),
       ),
