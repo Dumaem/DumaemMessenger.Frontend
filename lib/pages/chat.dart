@@ -48,6 +48,7 @@ class _ChatPageState extends State<ChatPage> {
       var res = MessageContext.fromJson(message![0]);
       //print(res);
       var messageText = types.TextMessage(
+        showStatus: true,
           author:
               types.User(id: res.UserId.toString(), firstName: res.UserName),
           id: res.MessageId.toString(),
@@ -59,7 +60,7 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void dispose() {
-    //SignalRConnection.hubConnection.off("ReceiveMessage");
+    SignalRConnection.hubConnection.off("ReceiveMessage");
     super.dispose();
   }
 
@@ -77,6 +78,8 @@ class _ChatPageState extends State<ChatPage> {
         messages: _filterMessages,
         onSendPressed: _handleSendPressed,
         user: _currentUser,
+        showUserNames: true,
+        showUserAvatars: true,
       ),
     );
   }
@@ -88,7 +91,7 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
-  void _handleSendPressed(types.PartialText message) {
+  void _handleSendPressed(types.PartialText message) async {
     final textMessage = types.TextMessage(
       author: _currentUser,
       createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -102,9 +105,7 @@ class _ChatPageState extends State<ChatPage> {
         SendDate: DateTime.now(),
         UserId: _userId,
         ContentType: 1);
-    Map<String, dynamic> map = messageContext.toJson();
-    String rawJson = jsonEncode(map);
-    SignalRConnection.hubConnection.send(methodName: "SendMessage" , args: [rawJson, []]);
+    await SignalRConnection.hubConnection.send(methodName: "SendMessage" , args: [messageContext.toJson()]);
     _addMessage(textMessage);
   }
 
