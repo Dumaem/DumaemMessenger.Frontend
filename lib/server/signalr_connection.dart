@@ -61,12 +61,11 @@ class SignalRConnection {
 
     try {
       await hubConnection.start();
-    } catch (error) { 
+    } catch (error) {
       var refresh = await refreshToken();
       if (refresh != null) {
         await hubConnection.start();
-      }
-      else {
+      } else {
         return false;
       }
     }
@@ -75,6 +74,10 @@ class SignalRConnection {
 
   static Future<void> startSignalR() async {
     await hubConnection.start();
+    if (savedRequestList.isEmpty) {
+      print('KAKOYTOSTRANNIYDVIZH');
+      return;
+    }
     var savedRequest = savedRequestList.removeLast();
     hubConnection.send(methodName: savedRequest[0], args: savedRequest[1]);
   }

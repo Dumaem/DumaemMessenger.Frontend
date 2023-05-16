@@ -147,22 +147,6 @@ class _ChatPageState extends State<ChatPage> {
   }
 }
 
-// class Message {
-//   int? id;
-//   String? sender;
-//   String? content;
-//   Message({this.id, this.sender, this.content});
-// }
-
-// List<Message> messagesList = [
-//   Message(id: 1, sender: 'Фермер', content: 'Привет!'),
-//   Message(id: 2, sender: 'Копатель', content: 'Привет!'),
-//   Message(id: 3, sender: 'Космонавт', content: 'Привет!'),
-//   Message(id: 4, sender: 'Майнер', content: 'Привет!'),
-//   Message(id: 5, sender: 'Ринат', content: 'Привет!'),
-//   Message(id: 6, sender: 'Камиль', content: 'Привет!'),
-// ];
-
 class InputWidget extends StatelessWidget {
   const InputWidget({
     super.key,
@@ -185,8 +169,8 @@ class InputWidget extends StatelessWidget {
                       offset: Offset(0, 2), blurRadius: 7, color: Colors.grey)
                 ],
               ),
-              child: Row(
-                children: const [
+              child: const Row(
+                children: [
                   Expanded(
                     child: TextField(
                       decoration: InputDecoration(
