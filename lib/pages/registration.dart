@@ -118,6 +118,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
       Navigator.popAndPushNamed(context, '/home');
     } catch (ex) {
       StatusAlert.show(
+        padding: const EdgeInsets.all(alertPadding),
+        margin: const EdgeInsets.all(alertPadding),
         context,
         duration: const Duration(seconds: 2),
         title: 'Ошибка!',
@@ -164,4 +166,3 @@ class AuthTextFieldWidget extends StatelessWidget {
     );
   }
 }
-
