@@ -22,7 +22,7 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  List<types.Message> _messages = [];
+  final List<types.Message> _messages = [];
   List<types.Message> _filter_messages = [];
   final _user = const types.User(id: '1');
   bool isDefaultAppBar = true;
@@ -69,11 +69,14 @@ class _ChatPageState extends State<ChatPage> {
           Icons.arrow_back,
         ),
       ),
-      title: const ListTile(
-        leading: CircleAvatar(
+      title: ListTile(
+        onTap: () {
+          Navigator.pushNamed(context, '/chatInfo');
+        },
+        leading: const CircleAvatar(
           child: Text("D"),
         ),
-        title: Text("Название чата"),
+        title: const Text("Название чата"),
       ),
       actions: [
         IconButton(
