@@ -86,17 +86,21 @@ class _CreateChatPageState extends State<CreateChatPage> {
                               height: 75,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: selectedUsers?.length,
+                                itemCount: selectedUsers.length,
                                 itemBuilder: (context, index) {
-                                  if (selectedUsers![index].select == true) {
+                                  if (selectedUsers[index].select == true) {
                                     return InkWell(
                                       onTap: () {
                                         setState(
                                           () {
+                                            filterUsers!
+                                                .firstWhere((element) =>
+                                                    element ==
+                                                    selectedUsers[index])
+                                                .select = false;
+
                                             selectedUsers
-                                                .remove(filterUsers![index]);
-                                            selectedUsers![index].select =
-                                                false;
+                                                .remove(selectedUsers[index]);
                                           },
                                         );
                                       },
@@ -173,10 +177,10 @@ class _CreateChatPageState extends State<CreateChatPage> {
           Icons.arrow_back,
         ),
       ),
-      title: Column(
+      title: const Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
             "New chat",
             style: TextStyle(
@@ -227,7 +231,7 @@ class _CreateChatPageState extends State<CreateChatPage> {
           setState(() {
             searchText = value.toLowerCase();
             filterUsers = usersList
-                ?.where((element) =>
+                .where((element) =>
                     element.name.toLowerCase().contains(searchText))
                 .toList();
           });
