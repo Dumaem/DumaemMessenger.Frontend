@@ -1,42 +1,66 @@
 import 'package:flutter/material.dart';
 
 import '../generated/l10n.dart';
+import '../models/user_model.dart';
 import '../properties/config.dart';
+import '../server/user/user_service.dart';
 
-class AvatarCard extends StatelessWidget {
+class AvatarCard extends StatefulWidget {
   const AvatarCard({super.key});
 
+  @override
+  State<AvatarCard> createState() => _AvatarCardState();
+}
+
+class _AvatarCardState extends State<AvatarCard> {
+  final UserService _userService = UserService();
+  late Future<UserModel> _getCurrentUser;
+
+  @override
+  void initState() {
+    _getCurrentUser = _userService.getUserView();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const CircleAvatar(
-          radius: primaryCircleAvatarRadius,
-          child: Text("D"),
-        ),
-        const SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              S.of(context).account_name_test,
-              style: const TextStyle(
-                fontSize: kbigFontSize,
-                fontWeight: FontWeight.bold,
+    return FutureBuilder<UserModel>(
+      future: _getCurrentUser,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const CircularProgressIndicator();
+        } else {
+          return Row(
+            children: [
+              CircleAvatar(
+                radius: primaryCircleAvatarRadius,
+                child: Text(snapshot.data?.name[0].toUpperCase() as String),
               ),
-            ),
-            Text(
-              S.of(context).account_email_test,
-              style: TextStyle(
-                fontSize: ksmallFontSize,
-                color: Colors.grey[600],
-              ),
-            )
-          ],
-        )
-      ],
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    snapshot.data?.name as String,
+                    style: const TextStyle(
+                      fontSize: kbigFontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    snapshot.data?.email as String,
+                    style: TextStyle(
+                      fontSize: ksmallFontSize,
+                      color: Colors.grey[600],
+                    ),
+                  )
+                ],
+              )
+            ],
+          );
+        }
+      },
     );
   }
 }
