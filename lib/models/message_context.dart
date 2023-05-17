@@ -49,7 +49,8 @@ class MessageContext {
           SendDate: DateTime.parse(json['dateOfDispatch']),
           ForwardedMessageId: json['forwardedMessageId'],
           RepliedMessageId: json['repliedMessageId'],
-          MessageId: json['id']);
+          MessageId: json['id'],
+          UserName: json['senderName']);
   }
 
   Map<String, dynamic> toJson(){
