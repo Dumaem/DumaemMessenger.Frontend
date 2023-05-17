@@ -1,3 +1,4 @@
+import '../../models/user.dart';
 import '../../models/user_model.dart';
 import '../dio_http_client.dart';
 import '../global_variables.dart';

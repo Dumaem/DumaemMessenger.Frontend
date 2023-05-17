@@ -1,5 +1,6 @@
 class ScreenArguments {
-  final int id;
+  final String? chatGuid;
+  final int? userId;
 
-  ScreenArguments(this.id);
+  ScreenArguments(this.chatGuid, this.userId);
 }

@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:dumaem_messenger/pages/chat_info_page.dart';
 import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/server/chat/chat_service.dart';
+import 'package:dumaem_messenger/server/global_variables.dart';
 import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
@@ -44,44 +46,49 @@ class _ChatsPageState extends State<ChatsPage> {
             ? getSearchAppBar(context)
             : getDefaultAppBar(context),
         body: FutureBuilder<List<ChatListModel>>(
-          future: _getChats,
-          builder: (BuildContext context,
-              AsyncSnapshot<List<ChatListModel>> snapshot) {
-            if (!snapshot.hasData) {
-              return const CircularProgressIndicator();
-            } else {
-              chatsList = snapshot.data;
-              filterChats = chatsList;
-              return ListView(
-                  children: filterChats!.map(
-                (chat) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(baseBorderRadius),
-                    ),
-                    child: ListTile(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(baseBorderRadius),
-                      ),
-                      leading: CircleAvatar(
-                        child: Text(chat.chatName![0].toUpperCase()),
-                      ),
-                      title: Text(chat.chatName!,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: chat.lastMessage != null
-                          ? Text("${chat.senderName!}: ${chat.lastMessage!}")
-                          : const Text(""),
-                      onTap: () {
-                        Navigator.pushNamed(context, '/chat',
-                            arguments: ScreenArguments(chat.id));
-                      },
-                    ),
-                  );
-                },
-              ).toList());
-            }
-          },
-        ));
+            future: _getChats,
+            builder: (BuildContext context,
+                AsyncSnapshot<List<ChatListModel>> snapshot) {
+              if (!snapshot.hasData) {
+                return const CircularProgressIndicator();
+              } else {
+                chatsList = snapshot.data;
+                filterChats = chatsList;
+                return ListView.builder(
+                    itemCount: filterChats!.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(baseBorderRadius),
+                        ),
+                        child: ListTile(
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(baseBorderRadius),
+                          ),
+                          leading: CircleAvatar(
+                            child: Text(
+                                filterChats![index].chatName![0].toUpperCase()),
+                          ),
+                          title: Text(filterChats![index].chatName!,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
+                          subtitle: filterChats![index].lastMessage != null
+                              ? Text(
+                                  "${filterChats![index].senderName}: ${filterChats![index].lastMessage!}")
+                              : const Text(""),
+                          onTap: () async {
+                            Navigator.pushNamed(context, '/chat',
+                                arguments: ScreenArguments(
+                                    filterChats![index].chatGuid,
+                                    int.parse(await storage.read(key: userKey)
+                                        as String)));
+                          },
+                        ),
+                      );
+                    });
+              }
+            }));
   }
 
   AppBar getDefaultAppBar(BuildContext context) {
