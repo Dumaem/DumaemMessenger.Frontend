@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dumaem_messenger/models/message_context.dart';
+import 'package:flutter/services.dart';
 
 import '../../models/chat_list_model.dart';
 import '../../models/message_list_result.dart';
@@ -24,6 +25,17 @@ class ChatService {
     return data;
   }
 
+  types.TextMessage convertToTextMessage(MessageContext messageContext) {
+    return types.TextMessage(
+        showStatus: true,
+        author: types.User(
+            id: messageContext.UserId.toString(),
+            firstName: messageContext.UserName),
+        id: messageContext.MessageId.toString(),
+        type: types.MessageType.text,
+        text: messageContext.Content as String);
+  }
+
   Future<ListResult> getChatMessages(
       String chatName, int count, int page) async {
     List<types.Message> data = List.empty(growable: true);
@@ -35,25 +47,11 @@ class ChatService {
     var response = await DioHttpClient.dio
         .get('Message', queryParameters: queryParameters);
     for (var jsonData in response.data['items']) {
-      var messageContext = MessageContext(
-        ChatId: chatName,
-        Content: jsonData['content']['content'],
-        UserId: jsonData['senderId'],
-        SendDate: DateTime.parse(jsonData['dateOfDispatch']),
-        ForwardedMessageId: jsonData['forwardedMessageId'],
-        RepliedMessageId: jsonData['repliedMessageId'],
-        MessageId: jsonData['id']
-      );
-      data.add(types.TextMessage(
-          showStatus: true,
-          author: types.User(
-              id: messageContext.UserId.toString(),
-              firstName: messageContext.UserName),
-          id: messageContext.MessageId.toString(),
-          type: types.MessageType.text,
-          text: messageContext.Content as String));
+      var messageContext = MessageContext.chatMessagefromJson(jsonData, chatName);
+      data.add(convertToTextMessage(messageContext));
     }
-    return ListResult(items: data, totalItemsCount: response.data['totalItemsCount']);
+    return ListResult(
+        items: data, totalItemsCount: response.data['totalItemsCount']);
   }
 
   Future<ListResult> getChatMessagesFromCount(
@@ -63,29 +61,15 @@ class ChatService {
       'chatName': chatName,
       'count': count,
       'page': page,
-      'initialCount':initialCount
+      'initialCount': initialCount
     };
     var response = await DioHttpClient.dio
-        .get('Message', queryParameters: queryParameters);
+        .get('Message/getFromCount', queryParameters: queryParameters);
     for (var jsonData in response.data['items']) {
-      var messageContext = MessageContext(
-        ChatId: chatName,
-        Content: jsonData['content']['content'],
-        UserId: jsonData['senderId'],
-        SendDate: DateTime.parse(jsonData['dateOfDispatch']),
-        ForwardedMessageId: jsonData['forwardedMessageId'],
-        RepliedMessageId: jsonData['repliedMessageId'],
-        MessageId: jsonData['id']
-      );
-      data.add(types.TextMessage(
-          showStatus: true,
-          author: types.User(
-              id: messageContext.UserId.toString(),
-              firstName: messageContext.UserName),
-          id: messageContext.MessageId.toString(),
-          type: types.MessageType.text,
-          text: messageContext.Content as String));
+      var messageContext = MessageContext.chatMessagefromJson(jsonData, chatName);
+      data.add(convertToTextMessage(messageContext));
     }
-    return ListResult(items: data, totalItemsCount: response.data['totalItemsCount']);
+    return ListResult(
+        items: data, totalItemsCount: response.data['totalItemsCount']);
   }
 }

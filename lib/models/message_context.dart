@@ -40,6 +40,18 @@ class MessageContext {
     );
   }
 
+  factory MessageContext.chatMessagefromJson(Map<String, dynamic> json, String chatName)
+  {
+    return  MessageContext(
+          ChatId: chatName,
+          Content: json['content']['content'],
+          UserId: json['senderId'],
+          SendDate: DateTime.parse(json['dateOfDispatch']),
+          ForwardedMessageId: json['forwardedMessageId'],
+          RepliedMessageId: json['repliedMessageId'],
+          MessageId: json['id']);
+  }
+
   Map<String, dynamic> toJson(){
     return{
       'user': null,

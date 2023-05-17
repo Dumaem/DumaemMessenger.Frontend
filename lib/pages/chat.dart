@@ -34,15 +34,16 @@ class _ChatPageState extends State<ChatPage> {
   String searchText = "";
   TextEditingController searchController = TextEditingController();
   late types.User _currentUser;
-  var _chatService = ChatService();
-  var _userService = UserService();
+  final _chatService = ChatService();
   late String _chatName;
   late int _userId;
   int _page = 0;
-  int _count = 15;
+  final int _count = 20;
+  int _initalCount = 0;
   int _maxPageNum = 0;
   Future<ListResult>? _getMessages;
   bool _loaded = false;
+  bool _sendRequest = true;
 
   @override
   void initState() {
@@ -102,6 +103,7 @@ class _ChatPageState extends State<ChatPage> {
               } else {
                 _messages = snapshot.data!.items;
                 _filterMessages = _messages;
+                _initalCount = snapshot.data!.totalItemsCount;
                 return Scaffold(
                   appBar: isDefaultAppBar
                       ? getSearchAppBar(context)
@@ -120,18 +122,23 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> _handleEndReached() async {
-    final res = await _chatService.getChatMessages(_chatName, _count, _page);
-    setState(() {
-      if (_messages.toSet().intersection(res.items.toSet()).isNotEmpty) {
-        return;
-      }
-      _messages.addAll(res.items);
-      _maxPageNum = res.totalItemsCount ~/ _count;
-      _page = _page + 1;
-      if (_maxPageNum < _page) {
-        _page = _maxPageNum;
-      }
-    });
+    final ListResult? res;
+    if (!_sendRequest) {
+      return;
+    } else {
+      res = await _chatService.getChatMessagesFromCount(
+          _chatName, _count, _page, _initalCount);
+      setState(() {
+        _messages.addAll(res!.items);
+        _maxPageNum = res.totalItemsCount ~/ _count +
+            (res.totalItemsCount % _count != 0 ? 1 : 0);
+        _page = _page + 1;
+
+        if (_maxPageNum <= _page) {
+          _sendRequest = false;
+        }
+      });
+    }
   }
 
   void _addMessage(types.Message message) {
