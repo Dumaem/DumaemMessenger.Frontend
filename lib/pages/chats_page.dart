@@ -26,8 +26,7 @@ class _ChatsPageState extends State<ChatsPage> {
   @override
   void initState() {
     SignalRConnection.hubConnection.on('ChatCreated', (chat) {
-      var newChat = ChatListModel.onChatCreatedFromJson(chat![0]);
-      chatsList!.add(newChat);
+      setState(() {});
     });
     super.initState();
   }
