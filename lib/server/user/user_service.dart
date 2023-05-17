@@ -26,7 +26,32 @@ class UserService {
       data.add(UserModel.fromJson(jsonData));
     }
     UserModel currentUser = await getUserView();
-    var dataWithoutCurrentUser = data.where((element) => element.id != currentUser.id).toList();
+    var dataWithoutCurrentUser = data.where((element) =>
+    element.id != currentUser.id).toList();
     return dataWithoutCurrentUser;
+  }
+
+  Future<void> putUserData(String newName, String newUsername,
+      String newEmail) async {
+    int userId = int.parse(await storage.read(key: userKey) as String);
+
+    Map<String, dynamic> queryNameParameters = {"id": userId,
+      "name": newName};
+    Map<String, dynamic> queryUsernameParameters = {"id": userId,
+      "username": newUsername};
+    Map<String, dynamic> queryEmailParameters = {"id": userId,
+      "email": newEmail};
+
+    try {
+      await DioHttpClient.dio
+          .put('User/changeName', queryParameters: queryNameParameters);
+      await DioHttpClient.dio
+          .put('User/changeUsername', queryParameters: queryUsernameParameters);
+      await DioHttpClient.dio
+          .put('User/changeEmail', queryParameters: queryEmailParameters);
+    }
+    catch(exception) {
+      throw Exception('Изменение данных невозможно');
+    }
   }
 }
