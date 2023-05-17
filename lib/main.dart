@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dumaem_messenger/pages/authorization.dart';
 import 'package:dumaem_messenger/pages/create_chat_page.dart';
+import 'package:dumaem_messenger/pages/select_users_for_new_chat_page.dart';
 import 'package:dumaem_messenger/pages/landing.dart';
 import 'package:dumaem_messenger/pages/registration.dart';
 import 'package:dumaem_messenger/server/dio_http_client.dart';
@@ -72,7 +73,9 @@ class MessengerApp extends StatelessWidget {
         '/chats': (context) => ChatsPage(),
         '/chatInfo': (context) => const ChatInfoPage(),
         '/chat': (context) => const ChatPage(),
-        '/createChat': (context) => const CreateChatPage(),
+        '/selectUsersForNewChat': (context) =>
+            const SelectUsersForNewChatPage(),
+        'createChat': (context) => CreateChatPage(),
         '/registration': (context) => const RegistrationPage()
       },
     );

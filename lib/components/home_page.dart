@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               style: TextStyle(color: Colors.black, fontSize: 18)),
           icon: const Icon(Icons.people_alt_rounded, color: Colors.black),
           onPressed: () {
-            Navigator.popAndPushNamed(context, '/createChat');
+            Navigator.popAndPushNamed(context, '/selectUsersForNewChat');
           },
         ),
         KFDrawerItem(
