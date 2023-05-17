@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               style: TextStyle(color: Colors.black, fontSize: 18)),
           icon: const Icon(Icons.people_alt_rounded, color: Colors.black),
           onPressed: () {
-            Navigator.popAndPushNamed(context, '/createChat');
+            Navigator.popAndPushNamed(context, '/selectUsersForNewChat');
           },
         ),
         KFDrawerItem(
@@ -99,22 +99,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           const SizedBox(
                             width: 10,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(snapshot.data?.name as String,
-                                      style: const TextStyle(
-                                          fontSize: 17, color: Colors.black)),
-                                  const SizedBox(height: 2),
-                                  Text("@${snapshot.data?.username}",
-                                      style: const TextStyle(
-                                          fontSize: 15, color: Colors.black)),
-                                ],
-                              )
-                            ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(snapshot.data?.name as String,
+                                    style: const TextStyle(
+                                        fontSize: 17, color: Colors.black)),
+                                const SizedBox(height: 2),
+                                Text("@${snapshot.data?.username}",
+                                    style: const TextStyle(
+                                        fontSize: 15, color: Colors.black)),
+                              ],
+                            ),
                           ),
                         ],
                       ),

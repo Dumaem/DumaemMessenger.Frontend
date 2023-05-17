@@ -26,4 +26,12 @@ class ChatListModel {
         senderName: json['senderName'],
         chatGuid: json['chatGuid']);
   }
+
+  factory ChatListModel.onChatCreatedFromJson(Map<String, dynamic> json) {
+    return ChatListModel(
+        id: json['id'],
+        chatName: json['groupName'],
+        lastMessage: null,
+        senderName: null);
+  }
 }

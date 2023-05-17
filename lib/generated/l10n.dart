@@ -150,6 +150,26 @@ class S {
     );
   }
 
+  /// `Participant`
+  String get participant_title {
+    return Intl.message(
+      'Participant',
+      name: 'participant_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create chat`
+  String get create_chat_title {
+    return Intl.message(
+      'Create chat',
+      name: 'create_chat_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sign in`
   String get sign_in_title {
     return Intl.message(
