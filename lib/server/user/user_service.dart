@@ -1,11 +1,20 @@
 import '../../models/user.dart';
+import '../../models/user_model.dart';
 import '../dio_http_client.dart';
+import '../global_variables.dart';
 
 class UserService {
-  Future<User> getUser(int id) async {
-    Map<String, int> queryParameters = {"id": id};
+  Future<UserModel> getUserView() async {
+    UserModel data;
+
+    int userId = int.parse(await storage.read(key: userKey) as String);
+    Map<String, int> queryParameters = {"id": userId};
+
     var response = await DioHttpClient.dio
         .get('User/user-by-id', queryParameters: queryParameters);
-    return User.fromJson(response.data);
+
+    data = (UserModel.fromJson(response.data));
+
+    return data;
   }
 }
