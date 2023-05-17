@@ -3,7 +3,7 @@ class UserModel {
   String? username;
   String name;
   String email;
-  bool select = false;
+  bool select;
 
   UserModel({
     required this.id,

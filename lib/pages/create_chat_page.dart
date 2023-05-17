@@ -6,8 +6,6 @@ import '../models/user_model.dart';
 import '../server/user/user_service.dart';
 import '../widgets/user_card.dart';
 
-List<UserModel>? usersList = List.empty(growable: true);
-
 class CreateChatPage extends StatefulWidget {
   const CreateChatPage({super.key});
 
@@ -16,18 +14,25 @@ class CreateChatPage extends StatefulWidget {
 }
 
 class _CreateChatPageState extends State<CreateChatPage> {
+  List<UserModel> usersList = List.empty(growable: true);
+
   final UserService _userService = UserService();
-  Future<List<UserModel>>? _getUsers;
-  List<UserModel>? filterUsers = usersList;
+  late List<UserModel>? filterUsers = usersList;
 
   List<UserModel> selectedUsers = [];
   bool isDefaultAppBar = true;
   String searchText = "";
   TextEditingController searchController = TextEditingController();
 
+  Future<List<UserModel>> _getUsers() async {
+    if (usersList.isEmpty) {
+      usersList = await _userService.getAllUsersView();
+    }
+    return usersList;
+  }
+
   @override
   Widget build(BuildContext context) {
-    _getUsers = _userService.getAllUsersView();
     return Scaffold(
       appBar: isDefaultAppBar
           ? getSearchAppBar(context)
@@ -35,14 +40,15 @@ class _CreateChatPageState extends State<CreateChatPage> {
       floatingActionButton: FloatingActionButton(
           onPressed: () {}, child: const Icon(Icons.arrow_forward)),
       body: FutureBuilder<List<UserModel>>(
-        future: _getUsers,
+        future: _getUsers(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const CircularProgressIndicator();
           } else {
-            usersList = snapshot.data;
-            filterUsers = usersList;
-
+            if (usersList.isEmpty) {
+              usersList = snapshot.data as List<UserModel>;
+              filterUsers = usersList;
+            }
             return Stack(
               children: [
                 ListView.builder(
@@ -76,21 +82,21 @@ class _CreateChatPageState extends State<CreateChatPage> {
                         alignment: Alignment.topCenter,
                         child: Column(
                           children: [
-                            Container(
+                            SizedBox(
                               height: 75,
-                              color: Colors.amberAccent,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: filterUsers?.length,
+                                itemCount: selectedUsers?.length,
                                 itemBuilder: (context, index) {
-                                  if (filterUsers![index].select == true) {
+                                  if (selectedUsers![index].select == true) {
                                     return InkWell(
                                       onTap: () {
                                         setState(
                                           () {
                                             selectedUsers
                                                 .remove(filterUsers![index]);
-                                            filterUsers![index].select = false;
+                                            selectedUsers![index].select =
+                                                false;
                                           },
                                         );
                                       },
@@ -102,12 +108,15 @@ class _CreateChatPageState extends State<CreateChatPage> {
                                               MainAxisAlignment.end,
                                           children: [
                                             Stack(
-                                              children: const [
+                                              children: [
                                                 CircleAvatar(
                                                   radius: 23,
-                                                  child: Text("D"),
+                                                  child: Text(
+                                                      selectedUsers![index]
+                                                          .name[0]
+                                                          .toUpperCase()),
                                                 ),
-                                                Positioned(
+                                                const Positioned(
                                                   bottom: 0,
                                                   right: 0,
                                                   child: CircleAvatar(
@@ -126,9 +135,9 @@ class _CreateChatPageState extends State<CreateChatPage> {
                                             const SizedBox(
                                               height: 2,
                                             ),
-                                            const Text(
-                                              'Riaz',
-                                              style: TextStyle(
+                                            Text(
+                                              selectedUsers![index].name,
+                                              style: const TextStyle(
                                                 fontSize: 12,
                                               ),
                                             ),

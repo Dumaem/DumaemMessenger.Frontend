@@ -25,6 +25,8 @@ class UserService {
     for (var jsonData in response.data) {
       data.add(UserModel.fromJson(jsonData));
     }
-    return data;
+    UserModel currentUser = await getUserView();
+    var dataWithoutCurrentUser = data.where((element) => element.id != currentUser.id).toList();
+    return dataWithoutCurrentUser;
   }
 }
