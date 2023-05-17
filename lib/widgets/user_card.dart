@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../models/chat_model.dart';
 import '../models/user_model.dart';
 
 class UserCard extends StatelessWidget {
