@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:dumaem_messenger/server/dio_http_client.dart';
+import 'package:dumaem_messenger/server/global_functions.dart';
 import 'package:flutter/widgets.dart';
 
-import 'global_variables.dart';
+import '../global_variables.dart';
 
 class AuthInterceptor extends Interceptor {
   AuthInterceptor();
@@ -53,16 +54,12 @@ Future<String?> refreshToken() async {
     );
 
     if (response.statusCode == 200) {
-      final newAccessToken = response.data[accessTokenKey];
-      final newRefreshToken = response.data[refreshTokenKey];
-
-      await storage.write(key: accessTokenKey, value: newAccessToken);
-      await storage.write(key: refreshTokenKey, value: newRefreshToken);
-
+      var newAccessToken = await GlobalFunctions.writeUserInfo(response);
       return newAccessToken;
     }
   } catch (error) {
     navigatorKey.currentState?.pushNamedAndRemoveUntil(
         '/authorization', (Route<dynamic> route) => false);
   }
+  return null;
 }

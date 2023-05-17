@@ -1,9 +1,8 @@
 import 'package:dumaem_messenger/generated/l10n.dart';
-import 'package:dumaem_messenger/pages/registration.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:dumaem_messenger/server/dio_http_client.dart';
-import 'package:dumaem_messenger/server/global_variables.dart';
+import 'package:dumaem_messenger/server/global_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:status_alert/status_alert.dart';
 
@@ -97,12 +96,10 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
         'email': _emailController.text,
         'password': _passwordController.text
       });
-      await storage.write(
-          key: accessTokenKey, value: response.data['accessToken']);
-      await storage.write(
-          key: refreshTokenKey, value: response.data['refreshToken']);
 
+      await GlobalFunctions.writeUserInfo(response);
       await SignalRConnection.hubConnection.start();
+
       Navigator.popAndPushNamed(context, '/home');
     } catch (exception) {
       StatusAlert.show(
