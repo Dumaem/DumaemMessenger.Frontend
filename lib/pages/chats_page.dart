@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/server/chat/chat_service.dart';
+import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:status_alert/status_alert.dart';
@@ -19,8 +20,19 @@ class ChatsPage extends KFDrawerContent {
 class _ChatsPageState extends State<ChatsPage> {
   bool isDefaultAppBar = true;
   String searchText = "";
+
+  @override
+  void initState() {
+    SignalRConnection.hubConnection.on('ChatCreated', (chat) {
+      var newChat = ChatListModel.onChatCreatedFromJson(chat![0]);
+      chatsList!.add(newChat);
+    });
+    super.initState();
+  }
+
   TextEditingController searchController = TextEditingController();
   List<ChatListModel>? filterChats = chatsList;
+
   final ChatService _chatService = ChatService();
   Future<List<ChatListModel>>? _getChats;
 
@@ -56,7 +68,9 @@ class _ChatsPageState extends State<ChatsPage> {
                       ),
                       title: Text(chat.chatName!,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: chat.lastMessage != null ? Text("${chat.senderName!}: ${chat.lastMessage!}") : const Text("") ,
+                      subtitle: chat.lastMessage != null
+                          ? Text("${chat.senderName!}: ${chat.lastMessage!}")
+                          : const Text(""),
                       onTap: () {
                         Navigator.pushNamed(context, '/chat',
                             arguments: ScreenArguments(chat.id));
@@ -142,80 +156,3 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 }
-
-// // test data
-// class Chat {
-//   int id;
-//   String? title;
-//   String? lastMessage;
-//   int? countOfUnreadMessages;
-
-//   Chat(
-//       {required this.id,
-//       this.title,
-//       this.lastMessage,
-//       this.countOfUnreadMessages});
-// }
-
-// List<ChatShortModel> chatsList = [
-//   Chat(
-//       id: 1,
-//       title: 'Фермеры',
-//       lastMessage: 'Купить молоко,хлеб,сыр',
-//       countOfUnreadMessages: 10),
-//   Chat(
-//       id: 2,
-//       title: 'КТИТС',
-//       lastMessage: 'Прописать Flutter upgrade',
-//       countOfUnreadMessages: 87),
-//   Chat(
-//       id: 3,
-//       title: 'думаем',
-//       lastMessage: 'Выиграть в турнире',
-//       countOfUnreadMessages: 4),
-//   Chat(
-//       id: 4,
-//       title: "Избранное",
-//       lastMessage: "Сходить за посылкой на почту",
-//       countOfUnreadMessages: 1),
-//   Chat(
-//       id: 5,
-//       title: 'Фермеры',
-//       lastMessage: 'Купить молоко,хлеб,сыр',
-//       countOfUnreadMessages: 10),
-//   Chat(
-//       id: 6,
-//       title: 'КТИТС',
-//       lastMessage: 'Прописать Flutter upgrade',
-//       countOfUnreadMessages: 87),
-//   Chat(
-//       id: 7,
-//       title: 'думаем',
-//       lastMessage: 'Выиграть в турнире',
-//       countOfUnreadMessages: 4),
-//   Chat(
-//       id: 8,
-//       title: "Избранное",
-//       lastMessage: "Сходить за посылкой на почту",
-//       countOfUnreadMessages: 1),
-//   Chat(
-//       id: 9,
-//       title: 'Фермеры',
-//       lastMessage: 'Купить молоко,хлеб,сыр',
-//       countOfUnreadMessages: 10),
-//   Chat(
-//       id: 10,
-//       title: 'КТИТС',
-//       lastMessage: 'Прописать Flutter upgrade',
-//       countOfUnreadMessages: 87),
-//   Chat(
-//       id: 11,
-//       title: 'думаем',
-//       lastMessage: 'Выиграть в турнире',
-//       countOfUnreadMessages: 4),
-//   Chat(
-//       id: 12,
-//       title: "Избранное",
-//       lastMessage: "Сходить за посылкой на почту",
-//       countOfUnreadMessages: 1),
-// ];
