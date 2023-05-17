@@ -28,11 +28,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "app_bar_title":
             MessageLookupByLibrary.simpleMessage("Dumaem Messenger"),
         "chat_name_title": MessageLookupByLibrary.simpleMessage("Name"),
+        "create_chat_title":
+            MessageLookupByLibrary.simpleMessage("Create chat"),
         "email_title": MessageLookupByLibrary.simpleMessage("Email"),
         "info_title": MessageLookupByLibrary.simpleMessage("Info"),
         "logout_title": MessageLookupByLibrary.simpleMessage("Logout"),
         "message_name_title": MessageLookupByLibrary.simpleMessage("Message"),
         "name_title": MessageLookupByLibrary.simpleMessage("Name"),
+        "participant_title":
+            MessageLookupByLibrary.simpleMessage("Participant"),
         "participants_title":
             MessageLookupByLibrary.simpleMessage("Participants"),
         "password_title": MessageLookupByLibrary.simpleMessage("Password"),

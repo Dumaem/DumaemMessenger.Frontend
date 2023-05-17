@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/server/chat/chat_service.dart';
+import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:status_alert/status_alert.dart';
@@ -19,6 +20,15 @@ class ChatsPage extends KFDrawerContent {
 class _ChatsPageState extends State<ChatsPage> {
   bool isDefaultAppBar = true;
   String searchText = "";
+
+  @override
+  void initState() {
+    SignalRConnection.hubConnection.on('ChatCreated', (chat) {
+      var newChat = ChatListModel.onChatCreatedFromJson(chat![0]);
+      chatsList!.add(newChat);
+    });
+    super.initState();
+  }
 
   TextEditingController searchController = TextEditingController();
   List<ChatListModel>? filterChats = chatsList;
@@ -58,7 +68,9 @@ class _ChatsPageState extends State<ChatsPage> {
                       ),
                       title: Text(chat.chatName!,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: chat.lastMessage != null ? Text("${chat.senderName!}: ${chat.lastMessage!}") : const Text("") ,
+                      subtitle: chat.lastMessage != null
+                          ? Text("${chat.senderName!}: ${chat.lastMessage!}")
+                          : const Text(""),
                       onTap: () {
                         Navigator.pushNamed(context, '/chat',
                             arguments: ScreenArguments(chat.id));
