@@ -4,7 +4,7 @@ import '../main.dart';
 
 const double fontSizeForTitle = 30;
 const double fontSizeForHyperText = 15;
-const double fontForDarwerText = 18;
+const double fontForDrawerText = 18;
 const double baseBorderRadius = 8;
 const double smallBorderRadius = 2;
 const double chatCircleAvatarRadius = 12;

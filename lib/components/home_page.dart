@@ -33,13 +33,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       items: [
         KFDrawerItem.initWithPage(
           text: const Text('Chats',
-              style: TextStyle(fontSize: fontForDarwerText)),
+              style: TextStyle(fontSize: fontForDrawerText)),
           icon: const Icon(Icons.chat),
           page: ChatsPage(),
         ),
         KFDrawerItem.initWithPage(
           text: const Text('Create chat',
-              style: TextStyle(fontSize: fontForDarwerText)),
+              style: TextStyle(fontSize: fontForDrawerText)),
           icon: const Icon(Icons.people_alt_rounded),
           onPressed: () {
             Navigator.popAndPushNamed(context, '/selectUsersForNewChat');
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         KFDrawerItem(
           text: const Text(
             'Settings',
-            style: TextStyle(fontSize: fontForDarwerText),
+            style: TextStyle(fontSize: fontForDrawerText),
           ),
           icon: const Icon(Icons.settings),
           onPressed: () {
