@@ -1,6 +1,7 @@
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../generated/l10n.dart';
 import '../models/chat_model.dart';
@@ -30,7 +31,6 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
   late String _chatGuidName;
   final _chatService = ChatService();
   Future<ChatModel>? _getChatModel;
-
 
   @override
   void initState() {
@@ -105,14 +105,33 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                         actions: [
                           // settings button
                           Expanded(
-                            child: Container(
-                              alignment: Alignment.topRight,
-                              child: IconButton(
-                                icon: const Icon(Icons.more_vert),
-                                onPressed: () {},
-                              ),
-                            ),
-                          ),
+                              child: Container(
+                                  alignment: Alignment.topRight,
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        dropListWidth,
+                                    child: DropdownButton<String>(
+                                      isExpanded: true,
+                                      icon: const Icon(Icons.more_vert),
+                                      items: <String>[
+                                        S.of(context).add_member_title,
+                                        S.of(context).edit_name_chat_title
+                                      ].map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: TextStyle(
+                                                fontSize: smallFontSize),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        if (value ==
+                                            S.of(context).add_member_title) {}
+                                      },
+                                    ),
+                                  ))),
                         ],
                       ),
                       SliverToBoxAdapter(
