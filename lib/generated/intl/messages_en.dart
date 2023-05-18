@@ -29,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "app_bar_title":
             MessageLookupByLibrary.simpleMessage("Dumaem Messenger"),
         "chat_name_title": MessageLookupByLibrary.simpleMessage("Name"),
+        "create_chat_title":
+            MessageLookupByLibrary.simpleMessage("Create chat"),
         "edit_name_chat_title":
             MessageLookupByLibrary.simpleMessage("Edit name"),
         "email_title": MessageLookupByLibrary.simpleMessage("Email"),
@@ -36,7 +38,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "logout_title": MessageLookupByLibrary.simpleMessage("Logout"),
         "message_name_title": MessageLookupByLibrary.simpleMessage("Message"),
         "name_title": MessageLookupByLibrary.simpleMessage("Name"),
+        "participant_title":
+            MessageLookupByLibrary.simpleMessage("Participant"),
+        "participants_title":
+            MessageLookupByLibrary.simpleMessage("Participants"),
         "password_title": MessageLookupByLibrary.simpleMessage("Password"),
+        "settings_support_title": MessageLookupByLibrary.simpleMessage(
+            "Feel Free to Ask, We Ready to Help"),
         "settings_title": MessageLookupByLibrary.simpleMessage("Settings"),
         "shop_title": MessageLookupByLibrary.simpleMessage("Shop"),
         "sign_in_title": MessageLookupByLibrary.simpleMessage("Sign in"),
