@@ -33,14 +33,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       items: [
         KFDrawerItem.initWithPage(
           text: const Text('Chats',
-              style: TextStyle(fontSize: fontForDrawerText)),
-          icon: const Icon(Icons.chat),
+              style: TextStyle(color: Colors.black, fontSize: 18)),
+          icon: const Icon(Icons.chat, color: Colors.black),
           page: ChatsPage(),
         ),
         KFDrawerItem.initWithPage(
           text: const Text('Create chat',
-              style: TextStyle(fontSize: fontForDrawerText)),
-          icon: const Icon(Icons.people_alt_rounded),
+              style: TextStyle(color: Colors.black, fontSize: 18)),
+          icon: const Icon(Icons.people_alt_rounded, color: Colors.black),
           onPressed: () {
             Navigator.popAndPushNamed(context, '/selectUsersForNewChat');
           },
@@ -48,9 +48,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         KFDrawerItem(
           text: const Text(
             'Settings',
-            style: TextStyle(fontSize: fontForDrawerText),
+            style: TextStyle(color: Colors.black, fontSize: 18),
           ),
-          icon: const Icon(Icons.settings),
+          icon: const Icon(Icons.settings, color: Colors.black),
           onPressed: () {
             Navigator.popAndPushNamed(context, '/settings');
           },
@@ -65,12 +65,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       body: KFDrawer(
         borderRadius: 20,
         shadowBorderRadius: 20.0,
-        shadowOffset: 0.0,
         controller: _drawerController,
         footer: KFDrawerItem(
           text: const Text(
             'Logout',
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(color: Colors.black, fontSize: 18),
           ),
           onPressed: () async {
             GlobalFunctions.logout();
@@ -105,10 +104,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(snapshot.data?.name as String,
-                                    style: const TextStyle(fontSize: 17)),
+                                    style: const TextStyle(
+                                        fontSize: 17, color: Colors.black)),
                                 const SizedBox(height: 2),
                                 Text("@${snapshot.data?.username}",
-                                    style: const TextStyle(fontSize: 15)),
+                                    style: const TextStyle(
+                                        fontSize: 15, color: Colors.black)),
                               ],
                             ),
                           ),
@@ -119,7 +120,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 );
               }
             }),
-        decoration: BoxDecoration(),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color.fromARGB(234, 253, 252, 255),
+              Color.fromARGB(234, 253, 252, 255)
+            ],
+            tileMode: TileMode.repeated,
+          ),
+        ),
       ),
     );
   }

@@ -7,9 +7,9 @@ import 'package:dumaem_messenger/server/global_variables.dart';
 import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
+import 'package:status_alert/status_alert.dart';
 
 import '../generated/l10n.dart';
-import '../main.dart';
 import '../models/chat_list_model.dart';
 
 List<ChatListModel>? chatsList = List.empty(growable: true);
@@ -98,7 +98,7 @@ class _ChatsPageState extends State<ChatsPage> {
           shadowColor: Colors.transparent,
           color: Colors.transparent,
           child: IconButton(
-            icon: const Icon(Icons.menu),
+            icon: const Icon(Icons.menu, color: Colors.black),
             onPressed: widget.onMenuPressed,
           ),
         ),
@@ -133,24 +133,7 @@ class _ChatsPageState extends State<ChatsPage> {
 
   AppBar getSearchAppBar(BuildContext context) {
     return AppBar(
-      title: Row(
-        children: [
-          Text(S.of(context).app_bar_title),
-          IconButton(
-            onPressed: () {
-              setState(() {
-                isLightTheme = !isLightTheme;
-                if (isLightTheme) {
-                  Messenger.of(context).changeTheme(ThemeMode.light);
-                } else {
-                  Messenger.of(context).changeTheme(ThemeMode.dark);
-                }
-              });
-            },
-            icon: Icon(isLightTheme ? lightIcon : darkIcon),
-          )
-        ],
-      ),
+      title: Text(S.of(context).app_bar_title),
       centerTitle: true,
       leading: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(32.0)),
