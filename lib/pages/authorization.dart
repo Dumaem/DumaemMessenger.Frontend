@@ -92,16 +92,19 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
 
   Future<void> authorizeUser(BuildContext context) async {
     try {
+      print('sending login request');
       var response = await DioHttpClient.dio.post('Authorization/login', data: {
         'email': _emailController.text,
         'password': _passwordController.text
       });
+      print('login request succeded');
 
       await GlobalFunctions.writeUserInfo(response);
       await SignalRConnection.hubConnection.start();
 
       Navigator.popAndPushNamed(context, '/home');
     } catch (exception) {
+      print('login request failed with exception: ${exception}');
       StatusAlert.show(
         context,
         duration: const Duration(seconds: 2),

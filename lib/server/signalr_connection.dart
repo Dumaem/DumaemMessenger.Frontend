@@ -13,6 +13,7 @@ class CustomClient extends http.BaseClient {
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
     final accessToken = await storage.read(key: accessTokenKey);
 
+    print('making a request with signalR http client');
     request.headers['Authorization'] = 'Bearer $accessToken';
     return client.send(request);
   }
@@ -41,13 +42,23 @@ class SignalRConnection {
 
     hubConnection.onclose((Exception? error) async {
       print("Connection Closed");
-      await refreshToken();
-      await startSignalR();
+      if (logoutRequested) {
+        logoutRequested = false;
+        return;
+      }
+      try {
+        await startSignalR();
+        print('hub connection restarted');
+      } catch (error) {
+        print('refershing after hub connection closed');
+        var refresh = await refreshToken();
+        if (refresh == null) {
+          print('refresh after hubconnection closed resulted a failure');
+        }
+        await startSignalR();
+        print('hub connection restarted');
+      }
     });
-
-    // hubConnection.on('ReceiveMessage', (message) {
-    //   print('123');
-    // });
 
     hubConnection.on('Unauthorized', (arguments) async {
       print('Unauthorized error');
@@ -61,11 +72,16 @@ class SignalRConnection {
     });
 
     try {
+      print('starting signalR connection');
       await hubConnection.start();
+      print('signalR connection started');
     } catch (error) {
+      print('refreshing token before accession singalR');
       var refresh = await refreshToken();
       if (refresh != null) {
+        print('starting hub connection after refreshing');
         await hubConnection.start();
+        print('hubconnection started with refresh');
       } else {
         return false;
       }
@@ -74,6 +90,7 @@ class SignalRConnection {
   }
 
   static Future<void> startSignalR() async {
+    print('starting hub connection with startSingalR method');
     await hubConnection.start();
     if (savedRequestList.isEmpty) {
       print('KAKOYTOSTRANNIYDVIZH');
@@ -81,5 +98,6 @@ class SignalRConnection {
     }
     var savedRequest = savedRequestList.removeLast();
     hubConnection.send(methodName: savedRequest[0], args: savedRequest[1]);
+    print('saved request ${savedRequest[0]} sent');
   }
 }

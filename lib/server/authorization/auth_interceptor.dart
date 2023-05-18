@@ -38,6 +38,8 @@ class AuthInterceptor extends Interceptor {
         );
       }
     }
+
+    print('received a ${err.response?.statusCode} error');
     return super.onError(err, handler);
   }
 }
@@ -47,19 +49,22 @@ Future<String?> refreshToken() async {
     final refreshToken = await storage.read(key: refreshTokenKey);
     final accessToken = await storage.read(key: accessTokenKey);
 
+    print('refreshing a token');
     final response = await DioHttpClient.dio.post(
       'Authorization/refresh',
       data: {
         'token': {accessTokenKey: accessToken, refreshTokenKey: refreshToken}
       },
     );
+    print('token refresh resulted success');
 
     if (response.statusCode == 200) {
       var newAccessToken = await GlobalFunctions.writeUserInfo(response);
       return newAccessToken;
     }
   } catch (error) {
-    GlobalFunctions.logout();    
+    print('token refresh resulted an error: $error');
+    GlobalFunctions.logout();
   }
   return null;
 }
