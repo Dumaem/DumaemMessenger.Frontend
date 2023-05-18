@@ -1,6 +1,7 @@
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../generated/l10n.dart';
 import '../properties/config.dart';
@@ -76,14 +77,31 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                 actions: [
                   // settings button
                   Expanded(
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                        icon: const Icon(Icons.more_vert),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ),
+                      child: Container(
+                          alignment: Alignment.topRight,
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width *
+                                dropListWidth,
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              icon: const Icon(Icons.more_vert),
+                              items: <String>[
+                                S.of(context).add_member_title,
+                                S.of(context).edit_name_chat_title
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(fontSize: smallFontSize),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                if (value == S.of(context).add_member_title) {}
+                              },
+                            ),
+                          ))),
                 ],
               ),
               SliverToBoxAdapter(
@@ -91,7 +109,7 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                   children: [
                     CircleAvatar(
                       radius: bigChatCircleAvatarRadius,
-                      child: Text(chat.title![0].toUpperCase()),
+                      child: Text(chat.title[0].toUpperCase()),
                     ),
 
                     const Margin20(),
