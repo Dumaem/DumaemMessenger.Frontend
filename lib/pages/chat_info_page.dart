@@ -79,7 +79,7 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                       alignment: Alignment.topRight,
                       child: IconButton(
                         icon: const Icon(Icons.more_vert),
-                        onPressed: () { },
+                        onPressed: () {},
                       ),
                     ),
                   ),

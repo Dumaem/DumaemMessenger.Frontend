@@ -1,10 +1,10 @@
-import 'package:dio/dio.dart';
+import 'package:dumaem_messenger/main.dart';
 import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/server/chat/chat_service.dart';
+import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
-import 'package:status_alert/status_alert.dart';
 
 import '../generated/l10n.dart';
 import '../models/chat_list_model.dart';
@@ -58,7 +58,9 @@ class _ChatsPageState extends State<ChatsPage> {
                       ),
                       title: Text(chat.chatName!,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: chat.lastMessage != null ? Text("${chat.senderName!}: ${chat.lastMessage!}") : const Text("") ,
+                      subtitle: chat.lastMessage != null
+                          ? Text("${chat.senderName!}: ${chat.lastMessage!}")
+                          : const Text(""),
                       onTap: () {
                         Navigator.pushNamed(context, '/chat',
                             arguments: ScreenArguments(chat.id));
@@ -115,7 +117,24 @@ class _ChatsPageState extends State<ChatsPage> {
 
   AppBar getSearchAppBar(BuildContext context) {
     return AppBar(
-      title: Text(S.of(context).app_bar_title),
+      title: Row(
+        children: [
+          Text(S.of(context).app_bar_title),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                isLightTheme = !isLightTheme;
+                if (isLightTheme) {
+                  Messenger.of(context).changeTheme(ThemeMode.light);
+                } else {
+                  Messenger.of(context).changeTheme(ThemeMode.dark);
+                }
+              });
+            },
+            icon: Icon(isLightTheme ? lightIcon : darkIcon),
+          )
+        ],
+      ),
       centerTitle: true,
       leading: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(32.0)),
