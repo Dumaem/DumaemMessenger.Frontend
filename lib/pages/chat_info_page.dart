@@ -105,14 +105,33 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                         actions: [
                           // settings button
                           Expanded(
-                            child: Container(
-                              alignment: Alignment.topRight,
-                              child: IconButton(
-                                icon: const Icon(Icons.more_vert),
-                                onPressed: () {},
-                              ),
-                            ),
-                          ),
+                              child: Container(
+                                  alignment: Alignment.topRight,
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        dropListWidth,
+                                    child: DropdownButton<String>(
+                                      isExpanded: true,
+                                      icon: const Icon(Icons.more_vert),
+                                      items: <String>[
+                                        S.of(context).add_member_title,
+                                        S.of(context).edit_name_chat_title
+                                      ].map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: TextStyle(
+                                                fontSize: smallFontSize),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        if (value ==
+                                            S.of(context).add_member_title) {}
+                                      },
+                                    ),
+                                  ))),
                         ],
                       ),
                       SliverToBoxAdapter(
