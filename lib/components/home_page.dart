@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       body: KFDrawer(
         borderRadius: 20,
         shadowBorderRadius: 20.0,
+        shadowOffset: 0.0,
         controller: _drawerController,
         footer: KFDrawerItem(
           text: const Text(
@@ -116,7 +117,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 );
               }
             }),
-        decoration: const BoxDecoration(),
+        decoration: BoxDecoration(),
       ),
     );
   }
