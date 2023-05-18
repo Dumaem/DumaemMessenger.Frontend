@@ -239,6 +239,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Add member`
+  String get add_member_title {
+    return Intl.message(
+      'Add member',
+      name: 'add_member_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit name`
+  String get edit_name_chat_title {
+    return Intl.message(
+      'Edit name',
+      name: 'edit_name_chat_title',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

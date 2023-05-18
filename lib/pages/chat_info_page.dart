@@ -8,6 +8,7 @@ import '../models/user_model.dart';
 import '../properties/chat_page_arguments.dart';
 import '../server/chat/chat_service.dart';
 import '../server/user/user_service.dart';
+import '../properties/config.dart';
 import '../tabs/chat_participants_view.dart';
 import '../tabs/photos_view.dart';
 import '../tabs/videos_view.dart';
