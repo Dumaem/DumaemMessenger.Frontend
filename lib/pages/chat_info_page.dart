@@ -143,7 +143,7 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
 
                             // chat name
                             Text(
-                              "${S.of(context).participants_title.toLowerCase()}:",
+                              "${snapshot.data!.groupName} ${S.of(context).participants_title.toLowerCase()}",
                               style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
