@@ -54,27 +54,9 @@ class MessengerApp extends State<Messenger> {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color.fromARGB(255, 190, 233, 244),
-        cardColor: Colors.white,
-        appBarTheme: const AppBarTheme(
-          color: Color.fromARGB(255, 190, 233, 244),
-        ),
-        primarySwatch:
-            buildMaterialColor(const Color.fromARGB(255, 190, 233, 244)),
-        primaryColor: const Color.fromARGB(255, 133, 194, 210),
-        buttonTheme: const ButtonThemeData(
-          buttonColor: Color.fromARGB(255, 129, 169, 226),
-        ),
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(color: Colors.black),
-          titleLarge: TextStyle(color: Colors.black),
-          bodyMedium: TextStyle(color: Colors.black, fontSize: 15),
-          bodySmall: TextStyle(color: Colors.black),
-        ),
-        elevatedButtonTheme:
-            const ElevatedButtonThemeData(style: ButtonStyle()),
-      ),
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: _themeMode,
       debugShowCheckedModeBanner: false,
       home: const AuthorizationPage(),
       routes: {

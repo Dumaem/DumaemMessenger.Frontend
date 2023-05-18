@@ -102,12 +102,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(snapshot.data?.name as String,
-                                    style: const TextStyle(
-                                        fontSize: 17, color: Colors.black)),
+                                    style: const TextStyle(fontSize: 17)),
                                 const SizedBox(height: 2),
                                 Text("@${snapshot.data?.username}",
-                                    style: const TextStyle(
-                                        fontSize: 15, color: Colors.black)),
+                                    style: const TextStyle(fontSize: 15)),
                               ],
                             ),
                           ),
@@ -118,17 +116,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 );
               }
             }),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color.fromARGB(234, 253, 252, 255),
-              Color.fromARGB(234, 253, 252, 255)
-            ],
-            tileMode: TileMode.repeated,
-          ),
-        ),
+        decoration: const BoxDecoration(),
       ),
     );
   }

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
 import '../generated/l10n.dart';
+import '../main.dart';
 import '../models/chat_list_model.dart';
 
 List<ChatListModel>? chatsList = List.empty(growable: true);
@@ -97,7 +98,7 @@ class _ChatsPageState extends State<ChatsPage> {
           shadowColor: Colors.transparent,
           color: Colors.transparent,
           child: IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
+            icon: const Icon(Icons.menu),
             onPressed: widget.onMenuPressed,
           ),
         ),
