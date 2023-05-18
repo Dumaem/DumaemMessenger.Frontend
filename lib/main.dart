@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:dumaem_messenger/pages/authorization.dart';
 import 'package:dumaem_messenger/pages/create_chat_page.dart';
+import 'package:dumaem_messenger/pages/personal_data_page.dart';
+import 'package:dumaem_messenger/pages/select_users_for_new_chat_page.dart';
 import 'package:dumaem_messenger/pages/landing.dart';
 import 'package:dumaem_messenger/pages/registration.dart';
 import 'package:dumaem_messenger/properties/config.dart';
@@ -42,34 +44,53 @@ class MessengerApp extends State<Messenger> {
 
   @override
   Widget build(BuildContext context) {
-    return EasyDynamicThemeWidget(
-      child: MaterialApp(
-        initialRoute: '/landing',
-        navigatorKey: navigatorKey,
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        theme: lightTheme,
-        darkTheme: darkTheme,
-        themeMode: _themeMode,
-        debugShowCheckedModeBanner: false,
-        home: const AuthorizationPage(),
-        routes: {
-          '/landing': (context) => const LandingPage(),
-          '/home': (context) => const HomePage(),
-          '/settings': (context) => const SettingsPage(),
-          '/authorization': (context) => const AuthorizationPage(),
-          '/chats': (context) => ChatsPage(),
-          '/chatInfo': (context) => const ChatInfoPage(),
-          '/chat': (context) => const ChatPage(),
-          '/createChat': (context) => const CreateChatPage(),
-          '/registration': (context) => const RegistrationPage()
-        },
+    return MaterialApp(
+      initialRoute: '/landing',
+      navigatorKey: navigatorKey,
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      theme: ThemeData(
+        scaffoldBackgroundColor: const Color.fromARGB(255, 190, 233, 244),
+        cardColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          color: Color.fromARGB(255, 190, 233, 244),
+        ),
+        primarySwatch:
+            buildMaterialColor(const Color.fromARGB(255, 190, 233, 244)),
+        primaryColor: const Color.fromARGB(255, 133, 194, 210),
+        buttonTheme: const ButtonThemeData(
+          buttonColor: Color.fromARGB(255, 129, 169, 226),
+        ),
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(color: Colors.black),
+          titleLarge: TextStyle(color: Colors.black),
+          bodyMedium: TextStyle(color: Colors.black, fontSize: 15),
+          bodySmall: TextStyle(color: Colors.black),
+        ),
+        elevatedButtonTheme:
+            const ElevatedButtonThemeData(style: ButtonStyle()),
       ),
+      debugShowCheckedModeBanner: false,
+      home: const AuthorizationPage(),
+      routes: {
+        '/landing': (context) => const LandingPage(),
+        '/home': (context) => const HomePage(),
+        '/settings': (context) => const SettingsPage(),
+        '/authorization': (context) => const AuthorizationPage(),
+        '/chats': (context) => ChatsPage(),
+        '/chatInfo': (context) => const ChatInfoPage(),
+        '/chat': (context) => const ChatPage(),
+        '/selectUsersForNewChat': (context) =>
+            const SelectUsersForNewChatPage(),
+        'createChat': (context) => const CreateChatPage(),
+        '/registration': (context) => const RegistrationPage(),
+        '/personalData': (context) => const PersonalDataPage()
+      },
     );
   }
 

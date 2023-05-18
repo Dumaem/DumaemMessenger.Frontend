@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/personal_data_page.dart';
+
 class Setting {
   final String title;
   final String route;
@@ -16,12 +18,12 @@ class Setting {
 final List<Setting> settings = [
   Setting(
     title: "Personal Data",
-    route: "/",
+    route: "/personalData",
     icon: CupertinoIcons.person_fill,
   ),
   Setting(
     title: "Settings",
-    route: "/",
+    route: "/home",
     icon: Icons.settings,
   ),
 ];
@@ -29,17 +31,17 @@ final List<Setting> settings = [
 final List<Setting> settings2 = [
   Setting(
     title: "FAQ",
-    route: "/",
+    route: "/home",
     icon: CupertinoIcons.ellipsis_vertical_circle_fill,
   ),
   Setting(
     title: "Our Handbook",
-    route: "/",
+    route: "/home",
     icon: CupertinoIcons.pencil_circle_fill,
   ),
   Setting(
     title: "Community",
-    route: "/",
+    route: "/home",
     icon: CupertinoIcons.person_3_fill,
   ),
 ];

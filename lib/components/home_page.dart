@@ -1,3 +1,4 @@
+import 'package:dumaem_messenger/server/global_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           text: const Text('Create chat', style: TextStyle(fontSize: 18)),
           icon: const Icon(Icons.people_alt_rounded),
           onPressed: () {
-            Navigator.popAndPushNamed(context, '/createChat');
+            Navigator.popAndPushNamed(context, '/selectUsersForNewChat');
           },
         ),
         KFDrawerItem(
@@ -69,9 +70,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             style: TextStyle(fontSize: 18),
           ),
           onPressed: () async {
-            await SignalRConnection.hubConnection.stop();
-            await storage.deleteAll();
-            Navigator.popAndPushNamed(context, '/authorization');
+            GlobalFunctions.logout();
           },
         ),
         header: FutureBuilder<UserModel>(
@@ -98,20 +97,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           const SizedBox(
                             width: 10,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(snapshot.data?.name as String,
-                                      style: const TextStyle(fontSize: 17)),
-                                  const SizedBox(height: 2),
-                                  Text("@${snapshot.data?.username}",
-                                      style: const TextStyle(fontSize: 15)),
-                                ],
-                              )
-                            ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(snapshot.data?.name as String,
+                                    style: const TextStyle(
+                                        fontSize: 17, color: Colors.black)),
+                                const SizedBox(height: 2),
+                                Text("@${snapshot.data?.username}",
+                                    style: const TextStyle(
+                                        fontSize: 15, color: Colors.black)),
+                              ],
+                            ),
                           ),
                         ],
                       ),

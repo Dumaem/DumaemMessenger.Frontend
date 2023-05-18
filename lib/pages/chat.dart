@@ -1,11 +1,17 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:dumaem_messenger/models/message_list_result.dart';
+import 'package:dumaem_messenger/models/message_context.dart';
+import 'package:dumaem_messenger/server/chat/chat_service.dart';
+import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 
 import '../generated/l10n.dart';
+import '../properties/chat_page_arguments.dart';
+import '../server/user/user_service.dart';
 
 // For the testing purposes, you should probably use https://pub.dev/packages/uuid.
 String randomString() {
@@ -22,40 +28,142 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final List<types.Message> _messages = [];
-  List<types.Message> _filter_messages = [];
-  final _user = const types.User(id: '1');
+  List<types.Message> _messages = [];
+  List<types.Message> _filterMessages = [];
   bool isDefaultAppBar = true;
   String searchText = "";
   TextEditingController searchController = TextEditingController();
+  late types.User _currentUser;
+  final _chatService = ChatService();
+  late String _chatName;
+  late int _userId;
+  int _page = 0;
+  final int _count = 20;
+  int _initalCount = 0;
+  int _maxPageNum = 0;
+  Future<ListResult>? _getMessages;
+  bool _loaded = false;
+  bool _sendRequest = true;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: isDefaultAppBar
-            ? getSearchAppBar(context)
-            : getDefaultAppBar(context),
-        body: Chat(
-          messages: _filter_messages,
-          onSendPressed: _handleSendPressed,
-          user: _user,
-        ),
-      );
+  void initState() {
+    super.initState();
+    SignalRConnection.hubConnection.on("ReceiveMessage", ((message) {
+      var res = MessageContext.fromJson(message![0]);
+
+      if (res.ChatId != _chatName) {
+        return;
+      }
+      if (res.UserId == _userId) {
+        return;
+      }
+
+      var messageText = types.TextMessage(
+          showStatus: true,
+          author:
+              types.User(id: res.UserId.toString(), firstName: res.UserName),
+          id: res.MessageId.toString(),
+          type: types.MessageType.text,
+          text: res.Content as String);
+
+      _addMessage(messageText);
+    }));
+  }
+
+  @override
+  void dispose() {
+    SignalRConnection.hubConnection.off("ReceiveMessage");
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _chatName = (ModalRoute.of(context)!.settings.arguments as ScreenArguments)
+        .chatGuid as String;
+    _userId = (ModalRoute.of(context)!.settings.arguments as ScreenArguments)
+        .userId as int;
+    _currentUser = types.User(id: _userId.toString());
+    if (!_loaded) {
+      _getMessages = _chatService.getChatMessages(_chatName, _count, _page);
+      _page += 1;
+      _loaded = true;
+    }
+
+    return WillPopScope(
+        onWillPop: () async {
+          Navigator.popAndPushNamed(context, '/home');
+          return true;
+        },
+        child: FutureBuilder<ListResult>(
+            future: _getMessages,
+            builder:
+                (BuildContext context, AsyncSnapshot<ListResult> snapshot) {
+              if (!snapshot.hasData) {
+                return const CircularProgressIndicator();
+              } else {
+                _messages = snapshot.data!.items;
+                _filterMessages = _messages;
+                _initalCount = snapshot.data!.totalItemsCount;
+                return Scaffold(
+                  appBar: isDefaultAppBar
+                      ? getSearchAppBar(context)
+                      : getDefaultAppBar(context),
+                  body: Chat(
+                    messages: _filterMessages,
+                    onSendPressed: _handleSendPressed,
+                    user: _currentUser,
+                    showUserNames: true,
+                    showUserAvatars: true,
+                    onEndReached: _handleEndReached,
+                  ),
+                );
+              }
+            }));
+  }
+
+  Future<void> _handleEndReached() async {
+    final ListResult? res;
+    if (!_sendRequest) {
+      return;
+    } else {
+      res = await _chatService.getChatMessagesFromCount(
+          _chatName, _count, _page, _initalCount);
+      setState(() {
+        _messages.addAll(res!.items);
+        _maxPageNum = res.totalItemsCount ~/ _count +
+            (res.totalItemsCount % _count != 0 ? 1 : 0);
+        _page = _page + 1;
+
+        if (_maxPageNum <= _page) {
+          _sendRequest = false;
+        }
+      });
+    }
+  }
 
   void _addMessage(types.Message message) {
     setState(() {
       _messages.insert(0, message);
-      _filter_messages = _messages;
+      _filterMessages = _messages;
     });
   }
 
-  void _handleSendPressed(types.PartialText message) {
+  void _handleSendPressed(types.PartialText message) async {
     final textMessage = types.TextMessage(
-      author: _user,
+      author: _currentUser,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: randomString(),
       text: message.text,
     );
 
+    var messageContext = MessageContext(
+        ChatId: _chatName,
+        Content: textMessage.text,
+        SendDate: DateTime.now(),
+        UserId: _userId,
+        ContentType: 1);
+    await SignalRConnection.hubConnection
+        .send(methodName: "SendMessage", args: [messageContext.toJson()]);
     _addMessage(textMessage);
   }
 
@@ -102,7 +210,7 @@ class _ChatPageState extends State<ChatPage> {
               searchController.clear();
               searchText = "";
               isDefaultAppBar = !isDefaultAppBar;
-              _filter_messages = _messages;
+              _filterMessages = _messages;
             });
           },
           icon: const Icon(Icons.close),
@@ -113,7 +221,7 @@ class _ChatPageState extends State<ChatPage> {
         onChanged: (value) {
           setState(() {
             searchText = value.toLowerCase();
-            _filter_messages = _messages
+            _filterMessages = _messages
                 .where((element) => (element as types.TextMessage)
                     .text
                     .contains(searchText.toLowerCase()))
@@ -126,22 +234,6 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
-
-class Message {
-  int? id;
-  String? sender;
-  String? content;
-  Message({this.id, this.sender, this.content});
-}
-
-List<Message> messagesList = [
-  Message(id: 1, sender: 'Фермер', content: 'Привет!'),
-  Message(id: 2, sender: 'Копатель', content: 'Привет!'),
-  Message(id: 3, sender: 'Космонавт', content: 'Привет!'),
-  Message(id: 4, sender: 'Майнер', content: 'Привет!'),
-  Message(id: 5, sender: 'Ринат', content: 'Привет!'),
-  Message(id: 6, sender: 'Камиль', content: 'Привет!'),
-];
 
 class InputWidget extends StatelessWidget {
   const InputWidget({
@@ -165,8 +257,8 @@ class InputWidget extends StatelessWidget {
                       offset: Offset(0, 2), blurRadius: 7, color: Colors.grey)
                 ],
               ),
-              child: Row(
-                children: const [
+              child: const Row(
+                children: [
                   Expanded(
                     child: TextField(
                       decoration: InputDecoration(
