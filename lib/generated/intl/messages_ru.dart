@@ -22,13 +22,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "add_member_title":
-            MessageLookupByLibrary.simpleMessage("Добавить участника"),
         "app_bar_title":
             MessageLookupByLibrary.simpleMessage("Dumaem Messenger"),
         "chat_name_title": MessageLookupByLibrary.simpleMessage("Название"),
-        "edit_name_chat_title":
-            MessageLookupByLibrary.simpleMessage("Изменить название"),
         "email_title": MessageLookupByLibrary.simpleMessage("Почта"),
         "info_title": MessageLookupByLibrary.simpleMessage("Информация"),
         "message_name_title": MessageLookupByLibrary.simpleMessage("Сообщение"),

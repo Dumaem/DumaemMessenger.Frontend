@@ -10,7 +10,5 @@
   "sign_in_title": "Войти",
   "sign_up_title": "Зарегистрироваться",
   "chat_name_title": "Название",
-  "message_name_title": "Сообщение",
-  "add_member_title": "Добавить участника",
-  "edit_name_chat_title": "Изменить название"
+  "message_name_title": "Сообщение"
 }

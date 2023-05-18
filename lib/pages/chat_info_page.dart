@@ -3,7 +3,6 @@ import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:flutter/material.dart';
 
 import '../generated/l10n.dart';
-import '../properties/config.dart';
 import '../tabs/chat_participants_view.dart';
 import '../tabs/photos_view.dart';
 import '../tabs/videos_view.dart';
@@ -80,7 +79,7 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                       alignment: Alignment.topRight,
                       child: IconButton(
                         icon: const Icon(Icons.more_vert),
-                        onPressed: () {},
+                        onPressed: () { },
                       ),
                     ),
                   ),
