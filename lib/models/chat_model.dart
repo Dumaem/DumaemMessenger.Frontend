@@ -1,21 +1,22 @@
+import 'package:dumaem_messenger/models/user_model.dart';
+
 class ChatModel {
-  List<int> participants = List<int>.empty(growable: true);
+  int id;
   String groupName = "";
   bool isPersonal = true;
+  List<UserModel>? users;
 
-  ChatModel({
-    required this.participants,
-    required this.groupName,
-    required this.isPersonal,
-  });
+  ChatModel(
+      {required this.id,
+      required this.groupName,
+      required this.isPersonal,
+      this.users});
 
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> data =  {
-      'participantsIds': participants,
-      'isPersonal': isPersonal,
-      'groupName': groupName,
-    };
-
-    return data;
+  factory ChatModel.fromJson(Map<String, dynamic> json) {
+    return ChatModel(
+        id: json['id'],
+        groupName: json['groupName'],
+        isPersonal: json['isPersonal'],
+        users: null);
   }
 }

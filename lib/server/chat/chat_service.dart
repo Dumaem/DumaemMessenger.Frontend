@@ -4,6 +4,7 @@ import 'package:dumaem_messenger/models/message_context.dart';
 import 'package:flutter/services.dart';
 
 import '../../models/chat_list_model.dart';
+import '../../models/chat_model.dart';
 import '../../models/message_list_result.dart';
 import '../../pages/chat.dart';
 import '../dio_http_client.dart';
@@ -47,7 +48,8 @@ class ChatService {
     var response = await DioHttpClient.dio
         .get('Message', queryParameters: queryParameters);
     for (var jsonData in response.data['items']) {
-      var messageContext = MessageContext.chatMessagefromJson(jsonData, chatName);
+      var messageContext =
+          MessageContext.chatMessagefromJson(jsonData, chatName);
       data.add(convertToTextMessage(messageContext));
     }
     return ListResult(
@@ -66,10 +68,21 @@ class ChatService {
     var response = await DioHttpClient.dio
         .get('Message/getFromCount', queryParameters: queryParameters);
     for (var jsonData in response.data['items']) {
-      var messageContext = MessageContext.chatMessagefromJson(jsonData, chatName);
+      var messageContext =
+          MessageContext.chatMessagefromJson(jsonData, chatName);
       data.add(convertToTextMessage(messageContext));
     }
     return ListResult(
         items: data, totalItemsCount: response.data['totalItemsCount']);
+  }
+
+  Future<ChatModel> getChatInfo(String chatName) async {
+    Map<String, dynamic> queryParameters = {
+      'name': chatName,
+    };
+    var response = await DioHttpClient.dio
+        .get('Chat/get-chat-by-name', queryParameters: queryParameters);
+    
+    return ChatModel.fromJson(response.data);
   }
 }
