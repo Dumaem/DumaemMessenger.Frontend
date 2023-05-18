@@ -11,7 +11,6 @@ import 'package:dumaem_messenger/server/dio_http_client.dart';
 import 'package:dumaem_messenger/class_builder.dart';
 import 'package:dumaem_messenger/pages/settings_page.dart';
 import 'package:dumaem_messenger/server/global_variables.dart';
-import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'components/home_page.dart';
 import 'generated/l10n.dart';

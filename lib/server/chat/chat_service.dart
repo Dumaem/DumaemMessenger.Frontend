@@ -4,6 +4,7 @@ import 'package:dumaem_messenger/models/message_context.dart';
 import 'package:flutter/services.dart';
 
 import '../../models/chat_list_model.dart';
+import '../../models/chat_model.dart';
 import '../../models/message_list_result.dart';
 import '../../pages/chat.dart';
 import '../dio_http_client.dart';
@@ -52,6 +53,15 @@ class ChatService {
     }
     return ListResult(
         items: data, totalItemsCount: response.data['totalItemsCount']);
+  }
+
+  Future<ChatModel> getChatView(String chatGuid) async {
+    Map<String, String> queryParameters = {"name": chatGuid};
+
+    var response = await DioHttpClient.dio
+        .get('Chat/get-chat-by-name', queryParameters: queryParameters);
+
+    return ChatModel.fromJson(response.data);
   }
 
   Future<ListResult> getChatMessagesFromCount(

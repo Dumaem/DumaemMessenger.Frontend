@@ -61,7 +61,7 @@ class _ChatPageState extends State<ChatPage> {
       var messageText = types.TextMessage(
           showStatus: true,
           author:
-              types.User(id: res.UserId.toString(), firstName: res.UserName),
+          types.User(id: res.UserId.toString(), firstName: res.UserName),
           id: res.MessageId.toString(),
           type: types.MessageType.text,
           text: res.Content as String);
@@ -78,9 +78,15 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    _chatName = (ModalRoute.of(context)!.settings.arguments as ScreenArguments)
+    _chatName = (ModalRoute
+        .of(context)!
+        .settings
+        .arguments as ScreenArguments)
         .chatGuid as String;
-    _userId = (ModalRoute.of(context)!.settings.arguments as ScreenArguments)
+    _userId = (ModalRoute
+        .of(context)!
+        .settings
+        .arguments as ScreenArguments)
         .userId as int;
     _currentUser = types.User(id: _userId.toString());
     if (!_loaded) {
@@ -151,7 +157,9 @@ class _ChatPageState extends State<ChatPage> {
   void _handleSendPressed(types.PartialText message) async {
     final textMessage = types.TextMessage(
       author: _currentUser,
-      createdAt: DateTime.now().millisecondsSinceEpoch,
+      createdAt: DateTime
+          .now()
+          .millisecondsSinceEpoch,
       id: randomString(),
       text: message.text,
     );
@@ -179,7 +187,8 @@ class _ChatPageState extends State<ChatPage> {
       ),
       title: ListTile(
         onTap: () {
-          Navigator.pushNamed(context, '/chatInfo');
+          Navigator.pushNamed(context, '/chatInfo', arguments:
+          ModalRoute.of(context)!.settings.arguments as ScreenArguments);
         },
         leading: const CircleAvatar(
           child: Text("D"),
@@ -222,14 +231,17 @@ class _ChatPageState extends State<ChatPage> {
           setState(() {
             searchText = value.toLowerCase();
             _filterMessages = _messages
-                .where((element) => (element as types.TextMessage)
+                .where((element) =>
+                (element as types.TextMessage)
                     .text
                     .contains(searchText.toLowerCase()))
                 .toList();
           });
         },
         decoration:
-            InputDecoration(label: Text(S.of(context).message_name_title)),
+        InputDecoration(label: Text(S
+            .of(context)
+            .message_name_title)),
       ),
     );
   }
