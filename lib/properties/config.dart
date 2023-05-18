@@ -4,6 +4,7 @@ import '../main.dart';
 
 const double fontSizeForTitle = 30;
 const double fontSizeForHyperText = 15;
+const double fontForDarwerText = 18;
 const double baseBorderRadius = 8;
 const double smallBorderRadius = 2;
 const double chatCircleAvatarRadius = 12;
@@ -13,6 +14,9 @@ const double bigChatCircleAvatarRadius = 50;
 const double chatTextFontSize = 12;
 const double authenticationPageWidgetWidth = 0.7;
 const double textPadding = 25;
+const double sizedBoxHeight = 24.0;
+const double secondSizedBoxHeight = 20.0;
+const double thirdSizedBoxHeight = 10.0;
 bool isLightTheme = true;
 const IconData lightIcon = Icons.wb_sunny;
 const IconData darkIcon = Icons.nights_stay;
