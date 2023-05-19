@@ -85,7 +85,7 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
 
     return WillPopScope(
       onWillPop: () async {
-        Navigator.popAndPushNamed(context, '/home');
+        Navigator.pop(context);
         return true;
       },
       child: FutureBuilder<ChatModel>(
