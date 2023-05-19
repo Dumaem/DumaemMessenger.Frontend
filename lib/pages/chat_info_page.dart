@@ -110,43 +110,49 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                         ),
                         pinned: true,
                         floating: true,
-                        actions: [
-                          // settings button
-                          Expanded(
-                              child: Container(
-                                  alignment: Alignment.topRight,
-                                  child: SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        dropListWidth,
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      icon: const Icon(Icons.more_vert),
-                                      items: <String>[
-                                        S.of(context).add_member_title,
-                                        S.of(context).edit_name_chat_title
-                                      ].map((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(
-                                            value,
-                                            style: TextStyle(
-                                                fontSize: smallFontSize),
+                        actions: snapshot.data!.isPersonal
+                            ? []
+                            : [
+                                // settings button
+                                Expanded(
+                                    child: Container(
+                                        alignment: Alignment.topRight,
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              dropListWidth,
+                                          child: DropdownButton<String>(
+                                            isExpanded: true,
+                                            icon: const Icon(Icons.more_vert),
+                                            items: <String>[
+                                              S.of(context).add_member_title,
+                                              S.of(context).edit_name_chat_title
+                                            ].map((String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(
+                                                  value,
+                                                  style: TextStyle(
+                                                      fontSize: smallFontSize),
+                                                ),
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {
+                                              if (value ==
+                                                  S
+                                                      .of(context)
+                                                      .add_member_title) {
+                                                Navigator.pushNamed(context,
+                                                    'selectUsersForExistingChat',
+                                                    arguments:
+                                                        AddMembersToExistingChatArguments(
+                                                            _chatGuidName));
+                                              }
+                                            },
                                           ),
-                                        );
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        if (value ==
-                                            S.of(context).add_member_title) {
-                                          Navigator.pushNamed(context,
-                                              'selectUsersForExistingChat',
-                                              arguments:
-                                                  AddMembersToExistingChatArguments(
-                                                      _chatGuidName));
-                                        }
-                                      },
-                                    ),
-                                  ))),
-                        ],
+                                        ))),
+                              ],
                       ),
                       SliverToBoxAdapter(
                         child: Column(
