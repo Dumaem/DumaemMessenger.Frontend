@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../generated/l10n.dart';
 import '../models/user_model.dart';
+import '../server/global_variables.dart';
+import '../server/signalr_connection.dart';
 import '../server/user/user_service.dart';
 import '../widgets/user_card.dart';
 
@@ -44,12 +46,22 @@ class _SelectUsersForNewChatPageState extends State<SelectUsersForNewChatPage> {
               ? getSearchAppBar(context)
               : getDefaultAppBar(context),
           floatingActionButton: FloatingActionButton(
-              onPressed: () {
+              onPressed: () async {
                 if (selectedUsers.isEmpty) {
                   return;
                 }
-                Navigator.pushNamed(context, 'createChat',
-                    arguments: CreateChatPageArguments(selectedUsers));
+                if (selectedUsers.length == 1) {
+                  var participantsIds = selectedUsers.map((e) => e.id).toList();
+                  participantsIds.add(
+                      int.parse(await storage.read(key: userKey) as String));
+
+                  await SignalRConnection.hubConnection.send(
+                      methodName: "CreateChat", args: [participantsIds, null]);
+                  Navigator.pushNamed(context, '/home');
+                } else {
+                  Navigator.pushNamed(context, 'createChat',
+                      arguments: CreateChatPageArguments(selectedUsers));
+                }
               },
               child: const Icon(Icons.arrow_forward)),
           body: FutureBuilder<List<UserModel>>(
@@ -197,7 +209,7 @@ class _SelectUsersForNewChatPageState extends State<SelectUsersForNewChatPage> {
     return AppBar(
       leading: IconButton(
         onPressed: () {
-          Navigator.popAndPushNamed(context, '/chats');
+          Navigator.popAndPushNamed(context, '/home');
         },
         icon: const Icon(
           Icons.arrow_back,

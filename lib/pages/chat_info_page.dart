@@ -37,8 +37,10 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
 
   @override
   void initState() {
-    SignalRConnection.hubConnection.on('MembersAdded', (arguments) {
-      setState(() {});
+    SignalRConnection.hubConnection.on('MemberAdded', (arguments) {
+      setState(() {
+
+      });
     });
 
     super.initState();

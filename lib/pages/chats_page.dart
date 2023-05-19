@@ -28,7 +28,7 @@ class _ChatsPageState extends State<ChatsPage> {
     SignalRConnection.hubConnection.on('ChatCreated', (chat) {
       setState(() {});
     });
-    SignalRConnection.hubConnection.on('MembersAdded', (arguments) {
+    SignalRConnection.hubConnection.on('MemberAdded', (arguments) {
       setState(() {});
     });
     super.initState();

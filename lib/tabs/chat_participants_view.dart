@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 import '../properties/chat_page_arguments.dart';
 import '../properties/config.dart';
+import '../server/signalr_connection.dart';
 import '../server/user/user_service.dart';
 
 class ChatParticipantsView extends StatefulWidget {
@@ -18,14 +19,19 @@ class _ChatParticipantsViewState extends State<ChatParticipantsView> {
   final _userService = UserService();
 
   @override
+  void initState() {
+    SignalRConnection.hubConnection.on('MemberAdded', (arguments) {
+      setState(() {});
+      super.initState();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     Future<List<UserModel>> _getUsers() async {
-      if (usersList.isEmpty) {
-        usersList = await _userService.getChatMembers(
-            (ModalRoute.of(context)!.settings.arguments
-            as ScreenArguments)
-                .chatGuid as String);
-      }
+      usersList = await _userService.getChatMembers(
+          (ModalRoute.of(context)!.settings.arguments as ScreenArguments)
+              .chatGuid as String);
       return usersList;
     }
 
@@ -35,9 +41,7 @@ class _ChatParticipantsViewState extends State<ChatParticipantsView> {
         if (!snapshot.hasData) {
           return const CircularProgressIndicator();
         } else {
-          if (usersList.isEmpty) {
-            usersList = snapshot.data as List<UserModel>;
-          }
+          usersList = snapshot.data as List<UserModel>;
           return Scaffold(
             body: ListView.builder(
               itemCount: usersList.length,
