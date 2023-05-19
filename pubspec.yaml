@@ -51,6 +51,8 @@ dependencies:
   signalr_core: ^1.1.1
   logging: ^1.1.1
   flutter_secure_storage: ^8.0.0
+  mutex: ^3.0.1
+  loading_animation_widget: ^1.2.0+4
 
 
 

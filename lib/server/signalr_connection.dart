@@ -24,7 +24,6 @@ class SignalRConnection {
   static late Logger transportProtLogger;
 
   static const serverUrl = "https://217.66.25.183:7213/z";
-  // static const serverUrl = "https://10.0.2.2:7152/z";
 
   static Future<bool> intitalizeSignalRConnection() async {
     hubProtLogger = Logger("SignalR - hub");

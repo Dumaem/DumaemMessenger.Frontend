@@ -48,7 +48,8 @@ class ChatService {
     var response = await DioHttpClient.dio
         .get('Message', queryParameters: queryParameters);
     for (var jsonData in response.data['items']) {
-      var messageContext = MessageContext.chatMessagefromJson(jsonData, chatName);
+      var messageContext =
+          MessageContext.chatMessagefromJson(jsonData, chatName);
       data.add(convertToTextMessage(messageContext));
     }
     return ListResult(
@@ -76,10 +77,27 @@ class ChatService {
     var response = await DioHttpClient.dio
         .get('Message/getFromCount', queryParameters: queryParameters);
     for (var jsonData in response.data['items']) {
-      var messageContext = MessageContext.chatMessagefromJson(jsonData, chatName);
+      var messageContext =
+          MessageContext.chatMessagefromJson(jsonData, chatName);
       data.add(convertToTextMessage(messageContext));
     }
     return ListResult(
         items: data, totalItemsCount: response.data['totalItemsCount']);
+  }
+
+  Future<ChatModel> getChatInfo(String chatName) async {
+    Map<String, dynamic> queryParameters = {
+      'name': chatName,
+    };
+    var response = await DioHttpClient.dio
+        .get('Chat/get-chat-by-name', queryParameters: queryParameters);
+    
+    var result = ChatModel.fromJson(response.data);
+    if(result.groupName == null)
+    {
+       result.groupName = "";
+      return result;
+    }
+    return result;
   }
 }

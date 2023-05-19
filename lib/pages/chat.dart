@@ -8,8 +8,11 @@ import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:mutex/mutex.dart';
 
 import '../generated/l10n.dart';
+import '../models/chat_model.dart';
 import '../properties/chat_page_arguments.dart';
 import '../server/user/user_service.dart';
 
@@ -28,22 +31,26 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  TextEditingController searchController = TextEditingController();
   List<types.Message> _messages = [];
   List<types.Message> _filterMessages = [];
-  bool isDefaultAppBar = true;
   String searchText = "";
-  TextEditingController searchController = TextEditingController();
-  late types.User _currentUser;
   final _chatService = ChatService();
+  Future<ListResult>? _getMessages;
+  Future<ChatModel>? _getChatInfo;
   late String _chatName;
   late int _userId;
   int _page = 0;
-  final int _count = 20;
+  final int _count = 200;
   int _initalCount = 0;
   int _maxPageNum = 0;
-  Future<ListResult>? _getMessages;
+  bool isDefaultAppBar = true;
   bool _loaded = false;
   bool _sendRequest = true;
+  late types.User _currentUser;
+  late ChatModel _currentChat;
+  final _mutex = Mutex();
+  List<String> m = List.empty(growable: true);
 
   @override
   void initState() {
@@ -90,9 +97,9 @@ class _ChatPageState extends State<ChatPage> {
         .userId as int;
     _currentUser = types.User(id: _userId.toString());
     if (!_loaded) {
+      
       _getMessages = _chatService.getChatMessages(_chatName, _count, _page);
       _page += 1;
-      _loaded = true;
     }
 
     return WillPopScope(
@@ -105,11 +112,18 @@ class _ChatPageState extends State<ChatPage> {
             builder:
                 (BuildContext context, AsyncSnapshot<ListResult> snapshot) {
               if (!snapshot.hasData) {
-                return const CircularProgressIndicator();
+                return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
+                  color: Colors.black,
+                  size: 100,
+                ),
+                color: Colors.white,);
               } else {
-                _messages = snapshot.data!.items;
-                _filterMessages = _messages;
-                _initalCount = snapshot.data!.totalItemsCount;
+                if (!_loaded) {
+                  _messages = snapshot.data!.items;
+                  _filterMessages = _messages;
+                  _initalCount = snapshot.data!.totalItemsCount;
+                  _loaded = true;
+                }
                 return Scaffold(
                   appBar: isDefaultAppBar
                       ? getSearchAppBar(context)
@@ -127,6 +141,21 @@ class _ChatPageState extends State<ChatPage> {
             }));
   }
 
+  Future<void> _addToList(List<types.Message> messages, bool isFromUser) async {
+    m.addAll(messages.map((e) => e.id));
+    print(m);
+    //await _mutex.acquire();
+    try {
+      if (isFromUser) {
+        _messages.insert(0, messages[0]);
+      } else {
+        _messages.addAll(messages);
+      }
+    } finally {
+      //_mutex.release();
+    }
+  }
+
   Future<void> _handleEndReached() async {
     final ListResult? res;
     if (!_sendRequest) {
@@ -135,7 +164,7 @@ class _ChatPageState extends State<ChatPage> {
       res = await _chatService.getChatMessagesFromCount(
           _chatName, _count, _page, _initalCount);
       setState(() {
-        _messages.addAll(res!.items);
+        _addToList(res!.items, false);
         _maxPageNum = res.totalItemsCount ~/ _count +
             (res.totalItemsCount % _count != 0 ? 1 : 0);
         _page = _page + 1;
@@ -149,7 +178,7 @@ class _ChatPageState extends State<ChatPage> {
 
   void _addMessage(types.Message message) {
     setState(() {
-      _messages.insert(0, message);
+      _addToList(<types.Message>[message], true);
       _filterMessages = _messages;
     });
   }
@@ -176,6 +205,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   AppBar getSearchAppBar(BuildContext context) {
+    _getChatInfo = _chatService.getChatInfo(_chatName);
     return AppBar(
       leading: IconButton(
         onPressed: () {
@@ -185,15 +215,30 @@ class _ChatPageState extends State<ChatPage> {
           Icons.arrow_back,
         ),
       ),
-      title: ListTile(
-        onTap: () {
-          Navigator.pushNamed(context, '/chatInfo', arguments:
-          ModalRoute.of(context)!.settings.arguments as ScreenArguments);
+      title: FutureBuilder(
+        future: _getChatInfo,
+        builder: (BuildContext context, AsyncSnapshot<ChatModel> snapshot) {
+          if(!snapshot.hasData)
+          {
+            return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
+                  color: Colors.white,
+                  size: 100,
+                ),);
+          }
+          else
+          {
+            _currentChat = snapshot.data!;
+              return ListTile(
+              onTap: () {
+                Navigator.pushNamed(context, '/chatInfo', arguments: ModalRoute.of(context)!.settings.arguments as ScreenArguments);
+              },
+              leading: CircleAvatar(
+                child: Text(_currentChat.groupName![0]),
+              ),
+              title: Text(_currentChat.groupName!),
+            );
+          }
         },
-        leading: const CircleAvatar(
-          child: Text("D"),
-        ),
-        title: const Text("Название чата"),
       ),
       actions: [
         IconButton(
