@@ -1,3 +1,4 @@
+import 'package:dumaem_messenger/properties/add_members_to_existing_chat_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +129,13 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                                       }).toList(),
                                       onChanged: (value) {
                                         if (value ==
-                                            S.of(context).add_member_title) {}
+                                            S.of(context).add_member_title) {
+                                          Navigator.pushNamed(context,
+                                              'selectUsersForExistingChat',
+                                              arguments:
+                                                  AddMembersToExistingChatArguments(
+                                                      _chatGuidName));
+                                        }
                                       },
                                     ),
                                   ))),
