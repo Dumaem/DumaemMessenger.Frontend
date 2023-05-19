@@ -33,7 +33,8 @@ class _SelectUsersForExistingChatPageState
     if (usersList.isEmpty) {
       usersList = await _userService.getAllUsersView();
       var existingUsers = await UserService().getChatMembers(chatGuid);
-      usersList.remove(existingUsers);
+      usersList.removeWhere((element) =>
+          existingUsers.any((element2) => element.id == element2.id));
     }
     return usersList;
   }
@@ -53,10 +54,11 @@ class _SelectUsersForExistingChatPageState
             if (selectedUsers.isEmpty) {
               return;
             }
-            var selectedUsersIds = selectedUsers.map((e) => e.id);
+            var selectedUsersIds = selectedUsers.map((e) => e.id).toList();
             SignalRConnection.hubConnection.send(
                 methodName: 'AddMembersToChat',
                 args: [chatGuid, selectedUsersIds]);
+            Navigator.pop(context, true);
           },
           child: const Icon(Icons.arrow_forward)),
       body: FutureBuilder<List<UserModel>>(

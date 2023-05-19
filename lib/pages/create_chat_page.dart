@@ -59,7 +59,8 @@ class _CreateChatPageState extends State<CreateChatPage> {
                 _chatNameController.text,
               ]);
 
-              Navigator.popAndPushNamed(context, '/home');
+              Navigator.pushNamed(context, '/chats');
+              setState(() {});
             },
             child: const Text('Создать'),
           ),

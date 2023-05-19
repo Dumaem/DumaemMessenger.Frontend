@@ -1,3 +1,4 @@
+import 'package:dumaem_messenger/pages/select_users_for_existing_chat.dart';
 import 'package:dumaem_messenger/properties/add_members_to_existing_chat_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
@@ -9,6 +10,7 @@ import '../models/chat_model.dart';
 import '../models/user_model.dart';
 import '../properties/chat_page_arguments.dart';
 import '../server/chat/chat_service.dart';
+import '../server/signalr_connection.dart';
 import '../server/user/user_service.dart';
 import '../properties/config.dart';
 import '../tabs/chat_participants_view.dart';
@@ -35,6 +37,10 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
 
   @override
   void initState() {
+    SignalRConnection.hubConnection.on('MembersAdded', (arguments) {
+      setState(() {});
+    });
+
     super.initState();
 
     tabs = [
@@ -74,6 +80,7 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
     _chatGuidName =
         (ModalRoute.of(context)!.settings.arguments as ScreenArguments).chatGuid
             as String;
+
     _getChatModel = _chatService.getChatView(_chatGuidName);
 
     return WillPopScope(
