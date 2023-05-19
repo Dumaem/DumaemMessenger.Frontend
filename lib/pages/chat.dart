@@ -210,7 +210,6 @@ class _ChatPageState extends State<ChatPage> {
       title: FutureBuilder(
         future: _getChatInfo,
         builder: (BuildContext context, AsyncSnapshot<ChatModel> snapshot) {
-          _currentChat = snapshot.data!;
           if(!snapshot.hasData)
           {
             return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
@@ -220,6 +219,7 @@ class _ChatPageState extends State<ChatPage> {
           }
           else
           {
+            _currentChat = snapshot.data!;
               return ListTile(
               onTap: () {
                 Navigator.pushNamed(context, '/chatInfo');
