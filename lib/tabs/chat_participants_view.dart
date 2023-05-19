@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../models/user_model.dart';
 import '../properties/chat_page_arguments.dart';
@@ -39,7 +40,13 @@ class _ChatParticipantsViewState extends State<ChatParticipantsView> {
       future: _getUsers(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return const CircularProgressIndicator();
+          return Container(
+            alignment: Alignment.center,
+            child: LoadingAnimationWidget.twoRotatingArc(
+              color: Colors.white,
+              size: 100,
+            ),
+          );
         } else {
           usersList = snapshot.data as List<UserModel>;
           return Scaffold(

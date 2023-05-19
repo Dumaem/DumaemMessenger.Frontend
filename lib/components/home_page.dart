@@ -1,6 +1,7 @@
 import 'package:dumaem_messenger/server/global_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../class_builder.dart';
 import '../generated/l10n.dart';
@@ -80,7 +81,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             future: _getCurrentUser,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return const CircularProgressIndicator();
+                return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
+                  color: Colors.white,
+                  size: 50,
+                ),);
               } else {
                 return Align(
                   alignment: Alignment.centerLeft,

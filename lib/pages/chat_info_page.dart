@@ -4,6 +4,7 @@ import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../generated/l10n.dart';
 import '../models/chat_model.dart';
@@ -94,7 +95,10 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
         future: _getChatModel,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return const CircularProgressIndicator();
+             return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
+                  color: Colors.white,
+                  size: 100,
+                ),);
           } else {
             return DefaultTabController(
               length: tabs.length,
@@ -162,7 +166,7 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                             CircleAvatar(
                               radius: bigChatCircleAvatarRadius,
                               child: Text(
-                                  snapshot.data!.groupName[0].toUpperCase()),
+                                  snapshot.data!.groupName![0].toUpperCase()),
                             ),
 
                             const Margin20(),
@@ -172,7 +176,7 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  snapshot.data!.groupName,
+                                  snapshot.data!.groupName as String,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
