@@ -8,6 +8,7 @@ import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mutex/mutex.dart';
 
 import '../generated/l10n.dart';
@@ -40,7 +41,7 @@ class _ChatPageState extends State<ChatPage> {
   late String _chatName;
   late int _userId;
   int _page = 0;
-  final int _count = 20;
+  final int _count = 200;
   int _initalCount = 0;
   int _maxPageNum = 0;
   bool isDefaultAppBar = true;
@@ -90,7 +91,7 @@ class _ChatPageState extends State<ChatPage> {
         .userId as int;
     _currentUser = types.User(id: _userId.toString());
     if (!_loaded) {
-      _getChatInfo = _chatService.getChatInfo(_chatName);
+      
       _getMessages = _chatService.getChatMessages(_chatName, _count, _page);
       _page += 1;
     }
@@ -105,7 +106,11 @@ class _ChatPageState extends State<ChatPage> {
             builder:
                 (BuildContext context, AsyncSnapshot<ListResult> snapshot) {
               if (!snapshot.hasData) {
-                return const CircularProgressIndicator();
+                return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
+                  color: Colors.black,
+                  size: 100,
+                ),
+                color: Colors.white,);
               } else {
                 if (!_loaded) {
                   _messages = snapshot.data!.items;
@@ -192,6 +197,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   AppBar getSearchAppBar(BuildContext context) {
+    _getChatInfo = _chatService.getChatInfo(_chatName);
     return AppBar(
       leading: IconButton(
         onPressed: () {
@@ -205,15 +211,25 @@ class _ChatPageState extends State<ChatPage> {
         future: _getChatInfo,
         builder: (BuildContext context, AsyncSnapshot<ChatModel> snapshot) {
           _currentChat = snapshot.data!;
-          return ListTile(
-            onTap: () {
-              Navigator.pushNamed(context, '/chatInfo');
-            },
-            leading: CircleAvatar(
-              child: Text(_currentChat.groupName[0]),
-            ),
-            title: Text(_currentChat.groupName),
-          );
+          if(!snapshot.hasData)
+          {
+            return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
+                  color: Colors.white,
+                  size: 100,
+                ),);
+          }
+          else
+          {
+              return ListTile(
+              onTap: () {
+                Navigator.pushNamed(context, '/chatInfo');
+              },
+              leading: CircleAvatar(
+                child: Text(_currentChat.groupName![0]),
+              ),
+              title: Text(_currentChat.groupName!),
+            );
+          }
         },
       ),
       actions: [

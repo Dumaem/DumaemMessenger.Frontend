@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../models/user_model.dart';
 import '../server/user/user_service.dart';
@@ -41,7 +42,10 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
         future: _getCurrentUser,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return const CircularProgressIndicator();
+            return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
+                  color: Colors.white,
+                  size: 100,
+                ),);
           } else {
             nameController.text = snapshot.data!.name;
             usernameController.text = snapshot.data!.username as String;

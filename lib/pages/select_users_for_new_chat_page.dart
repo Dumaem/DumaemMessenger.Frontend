@@ -1,5 +1,6 @@
 import 'package:dumaem_messenger/properties/create_chat_page_arguments.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../generated/l10n.dart';
 import '../models/user_model.dart';
@@ -51,7 +52,10 @@ class _SelectUsersForNewChatPageState extends State<SelectUsersForNewChatPage> {
         future: _getUsers(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return const CircularProgressIndicator();
+            return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
+                  color: Colors.white,
+                  size: 100,
+                ),);
           } else {
             if (usersList.isEmpty) {
               usersList = snapshot.data as List<UserModel>;
@@ -112,8 +116,8 @@ class _SelectUsersForNewChatPageState extends State<SelectUsersForNewChatPage> {
                                                         selectedUsers[index])
                                                     .select = false;
 
-                                                selectedUsers
-                                                    .remove(selectedUsers[index]);
+                                                selectedUsers.remove(
+                                                    selectedUsers[index]);
                                               },
                                             );
                                           },

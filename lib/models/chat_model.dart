@@ -2,7 +2,7 @@ import 'package:dumaem_messenger/models/user_model.dart';
 
 class ChatModel {
   int id;
-  String groupName = "";
+  String? groupName = "";
   bool isPersonal = true;
   List<UserModel>? users;
 

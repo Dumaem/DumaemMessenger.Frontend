@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../generated/l10n.dart';
 import '../models/user_model.dart';
@@ -28,7 +29,10 @@ class _AvatarCardState extends State<AvatarCard> {
       future: _getCurrentUser,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return const CircularProgressIndicator();
+          return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
+                  color: Colors.white,
+                  size: 50,
+                ),);
         } else {
           return Row(
             children: [

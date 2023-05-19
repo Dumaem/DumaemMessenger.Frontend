@@ -83,6 +83,12 @@ class ChatService {
     var response = await DioHttpClient.dio
         .get('Chat/get-chat-by-name', queryParameters: queryParameters);
     
-    return ChatModel.fromJson(response.data);
+    var result = ChatModel.fromJson(response.data);
+    if(result.groupName == null)
+    {
+       result.groupName = "";
+      return result;
+    }
+    return result;
   }
 }

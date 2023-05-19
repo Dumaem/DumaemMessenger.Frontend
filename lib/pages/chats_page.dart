@@ -7,6 +7,7 @@ import 'package:dumaem_messenger/server/global_variables.dart';
 import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:status_alert/status_alert.dart';
 
 import '../generated/l10n.dart';
@@ -50,7 +51,10 @@ class _ChatsPageState extends State<ChatsPage> {
             builder: (BuildContext context,
                 AsyncSnapshot<List<ChatListModel>> snapshot) {
               if (!snapshot.hasData) {
-                return const CircularProgressIndicator();
+                return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
+                  color: Colors.white,
+                  size: 100,
+                ),);
               } else {
                 chatsList = snapshot.data;
                 filterChats = chatsList;
