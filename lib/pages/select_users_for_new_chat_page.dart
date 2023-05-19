@@ -69,10 +69,14 @@ class _SelectUsersForNewChatPageState extends State<SelectUsersForNewChatPage> {
             future: _getUsers(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
-                  color: Colors.white,
-                  size: 100,
-                ),);              } else {
+                return Container(
+                  alignment: Alignment.center,
+                  child: LoadingAnimationWidget.twoRotatingArc(
+                    color: Colors.white,
+                    size: 100,
+                  ),
+                );
+              } else {
                 if (usersList.isEmpty) {
                   usersList = snapshot.data as List<UserModel>;
                   filterUsers = usersList;
@@ -134,57 +138,61 @@ class _SelectUsersForNewChatPageState extends State<SelectUsersForNewChatPage> {
                                                                 index])
                                                         .select = false;
 
-                                                selectedUsers
-                                                    .remove(selectedUsers[index]);
+                                                    selectedUsers.remove(
+                                                        selectedUsers[index]);
+                                                  },
+                                                );
                                               },
-                                            );
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 2, horizontal: 8),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Stack(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 2,
+                                                        horizontal: 8),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
                                                   children: [
-                                                    CircleAvatar(
-                                                      radius: 23,
-                                                      child: Text(
-                                                          selectedUsers[index]
-                                                              .name[0]
-                                                              .toUpperCase()),
-                                                    ),
-                                                    const Positioned(
-                                                      bottom: 0,
-                                                      right: 0,
-                                                      child: CircleAvatar(
-                                                        backgroundColor:
-                                                            Colors.grey,
-                                                        radius: 11,
-                                                        child: Icon(
-                                                          Icons.clear,
-                                                          color: Colors.white,
-                                                          size: 13,
+                                                    Stack(
+                                                      children: [
+                                                        CircleAvatar(
+                                                          radius: 23,
+                                                          child: Text(
+                                                              selectedUsers[
+                                                                      index]
+                                                                  .name[0]
+                                                                  .toUpperCase()),
                                                         ),
+                                                        const Positioned(
+                                                          bottom: 0,
+                                                          right: 0,
+                                                          child: CircleAvatar(
+                                                            backgroundColor:
+                                                                Colors.grey,
+                                                            radius: 11,
+                                                            child: Icon(
+                                                              Icons.clear,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 13,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 2,
+                                                    ),
+                                                    Text(
+                                                      selectedUsers[index].name,
+                                                      style: const TextStyle(
+                                                        fontSize: 12,
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                                const SizedBox(
-                                                  height: 2,
-                                                ),
-                                                Text(
-                                                  selectedUsers[index].name,
-                                                  style: const TextStyle(
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      }
+                                              ),
+                                            );
+                                          }
 
                                           return Container();
                                         },
