@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../models/user_model.dart';
+import '../properties/config.dart';
 import '../server/user/user_service.dart';
 import '../widgets/text_field.dart';
 
@@ -55,28 +56,28 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
               padding: EdgeInsets.symmetric(horizontal: 32),
               physics: BouncingScrollPhysics(),
               children: [
-                const SizedBox(height: 24),
+                const SizedBox(height: sizedBoxHeight),
                 TextFieldWidget(
                   label: 'Full Name',
                   text: snapshot.data!.name,
                   onChanged: (name) {},
                   fieldController: nameController,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: sizedBoxHeight),
                 TextFieldWidget(
                   label: 'Username',
                   text: snapshot.data!.username as String,
                   onChanged: (username) {},
                   fieldController: usernameController,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: sizedBoxHeight),
                 TextFieldWidget(
                   label: 'Email',
                   text: snapshot.data!.email,
                   onChanged: (email) {},
                   fieldController: emailController,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: sizedBoxHeight),
                 IconButton(
                   onPressed: () async {
                     await _userService.putUserData(nameController.text,

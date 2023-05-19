@@ -11,6 +11,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:status_alert/status_alert.dart';
 
 import '../generated/l10n.dart';
+import '../main.dart';
 import '../models/chat_list_model.dart';
 
 List<ChatListModel>? chatsList = List.empty(growable: true);
@@ -27,8 +28,7 @@ class _ChatsPageState extends State<ChatsPage> {
   @override
   void initState() {
     SignalRConnection.hubConnection.on('ChatCreated', (chat) {
-      var newChat = ChatListModel.onChatCreatedFromJson(chat![0]);
-      chatsList!.add(newChat);
+      setState(() {});
     });
     super.initState();
   }
@@ -103,7 +103,7 @@ class _ChatsPageState extends State<ChatsPage> {
           shadowColor: Colors.transparent,
           color: Colors.transparent,
           child: IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
+            icon: const Icon(Icons.menu),
             onPressed: widget.onMenuPressed,
           ),
         ),
@@ -138,7 +138,24 @@ class _ChatsPageState extends State<ChatsPage> {
 
   AppBar getSearchAppBar(BuildContext context) {
     return AppBar(
-      title: Text(S.of(context).app_bar_title),
+      title: Row(
+        children: [
+          Text(S.of(context).app_bar_title),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                isLightTheme = !isLightTheme;
+                if (isLightTheme) {
+                  Messenger.of(context).changeTheme(ThemeMode.light);
+                } else {
+                  Messenger.of(context).changeTheme(ThemeMode.dark);
+                }
+              });
+            },
+            icon: Icon(isLightTheme ? lightIcon : darkIcon),
+          )
+        ],
+      ),
       centerTitle: true,
       leading: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(32.0)),

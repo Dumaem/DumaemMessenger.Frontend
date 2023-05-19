@@ -1,14 +1,9 @@
 class User {
   late int? Id;
-
   late String? Username;
-
   late String? Name;
-
   late String? Password;
-
   late String? Email;
-
   late bool? IsVerified;
 
   User(

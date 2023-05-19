@@ -56,6 +56,15 @@ class ChatService {
         items: data, totalItemsCount: response.data['totalItemsCount']);
   }
 
+  Future<ChatModel> getChatView(String chatGuid) async {
+    Map<String, String> queryParameters = {"name": chatGuid};
+
+    var response = await DioHttpClient.dio
+        .get('Chat/get-chat-by-name', queryParameters: queryParameters);
+
+    return ChatModel.fromJson(response.data);
+  }
+
   Future<ListResult> getChatMessagesFromCount(
       String chatName, int count, int page, int initialCount) async {
     List<types.Message> data = List.empty(growable: true);
