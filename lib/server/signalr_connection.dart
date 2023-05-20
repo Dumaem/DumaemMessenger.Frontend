@@ -1,8 +1,6 @@
 import 'package:dumaem_messenger/server/authorization/auth_interceptor.dart';
 import 'package:dumaem_messenger/server/global_variables.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logging/logging.dart';
 import 'package:signalr_core/signalr_core.dart';
 
@@ -13,9 +11,23 @@ class CustomClient extends http.BaseClient {
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
     final accessToken = await storage.read(key: accessTokenKey);
 
-    print('making a request with signalR http client');
-    request.headers['Authorization'] = 'Bearer $accessToken';
-    return client.send(request);
+    try {
+      print('making a request with signalR http client');
+      request.headers['Authorization'] = 'Bearer $accessToken';
+      return client.send(request);
+    } catch (e) {
+      print('refreshing token with signalr');
+      if (refreshTokenFunction == null) {
+        print('starting new refresh instance in signalr');
+        refreshTokenFunction = refreshTokenInternal();
+      } else {
+        print('using created instance');
+      }
+
+      final newAccessToken = await refreshTokenFunction;
+      request.headers['Authorization'] = 'Bearer $newAccessToken';
+      return client.send(request);
+    }
   }
 }
 
@@ -45,18 +57,16 @@ class SignalRConnection {
         logoutRequested = false;
         return;
       }
-      try {
-        await startSignalR();
-        print('hub connection restarted');
-      } catch (error) {
-        print('refershing after hub connection closed');
-        var refresh = await refreshToken();
-        if (refresh == null) {
-          print('refresh after hubconnection closed resulted a failure');
-        }
-        await startSignalR();
-        print('hub connection restarted');
+      await startConnection();
+      if (savedRequestList.isEmpty) {
+        print('KAKOYTOSTRANNIYDVIZH');
+        return;
       }
+      var savedRequest = savedRequestList.removeLast();
+      await hubConnection.send(
+          methodName: savedRequest[0], args: savedRequest[1]);
+      print('saved request ${savedRequest[0]} sent');
+      print('hub connection restarted');
     });
 
     hubConnection.on('Unauthorized', (arguments) async {
@@ -69,14 +79,20 @@ class SignalRConnection {
     Logger.root.onRecord.listen((LogRecord rec) {
       print('${rec.level.name}: ${rec.time}: ${rec.message}');
     });
+    return await startConnection();
+  }
 
+  static Future<bool> startConnection() async {
     try {
       print('starting signalR connection');
       await hubConnection.start();
       print('signalR connection started');
     } catch (error) {
-      print('refreshing token before accession singalR');
-      var refresh = await refreshToken();
+      print('refreshing token with signalr');
+      if (refreshTokenFunction == null) {
+        refreshTokenFunction = refreshTokenInternal();
+      }
+      var refresh = await refreshTokenFunction;
       if (refresh != null) {
         print('starting hub connection after refreshing');
         await hubConnection.start();
@@ -86,17 +102,5 @@ class SignalRConnection {
       }
     }
     return true;
-  }
-
-  static Future<void> startSignalR() async {
-    print('starting hub connection with startSingalR method');
-    await hubConnection.start();
-    if (savedRequestList.isEmpty) {
-      print('KAKOYTOSTRANNIYDVIZH');
-      return;
-    }
-    var savedRequest = savedRequestList.removeLast();
-    hubConnection.send(methodName: savedRequest[0], args: savedRequest[1]);
-    print('saved request ${savedRequest[0]} sent');
   }
 }

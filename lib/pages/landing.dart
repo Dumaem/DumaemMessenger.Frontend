@@ -13,10 +13,12 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   Future<void> loading() async {
     var result = await SignalRConnection.intitalizeSignalRConnection();
-    if(result)
-    {
+    if (result) {
       navigatorKey.currentState
-        ?.pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+          ?.pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+    } else {
+      navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          '/authorization', (Route<dynamic> route) => false);
     }
   }
 
