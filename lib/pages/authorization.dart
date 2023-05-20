@@ -53,24 +53,25 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
               obscureText: true,
             ),
             const MarginWidget(),
-            GestureDetector(
-              onTap: () async {
-                await authorizeUser(context);
-              },
-              child: Container(
-                padding: const EdgeInsets.all(textPadding),
-                margin: const EdgeInsets.symmetric(horizontal: textPadding),
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(baseBorderRadius),
-                ),
-                child: Center(
-                  child: Text(
-                    S.of(context).sign_in_title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: fontSizeForHyperText,
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.85,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await authorizeUser(context);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(textPadding),
+                  margin: const EdgeInsets.symmetric(horizontal: textPadding),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(baseBorderRadius),
+                  ),
+                  child: Center(
+                    child: Text(
+                      S.of(context).sign_in_title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: fontSizeForHyperText,
+                      ),
                     ),
                   ),
                 ),
@@ -143,7 +144,6 @@ class AuthTextFieldWidget extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey.shade400),
             ),
-            fillColor: Colors.grey.shade200,
             filled: true,
             hintText: hintText,
             hintStyle: TextStyle(color: Colors.grey[500])),
