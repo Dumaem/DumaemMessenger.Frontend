@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:dumaem_messenger/pages/chat_info_page.dart';
 import 'package:dumaem_messenger/properties/chat_page_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/server/chat/chat_service.dart';
@@ -8,7 +6,6 @@ import 'package:dumaem_messenger/server/signalr_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:status_alert/status_alert.dart';
 
 import '../generated/l10n.dart';
 import '../main.dart';
@@ -54,16 +51,25 @@ class _ChatsPageState extends State<ChatsPage> {
             builder: (BuildContext context,
                 AsyncSnapshot<List<ChatListModel>> snapshot) {
               if (!snapshot.hasData) {
-                return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
-                  color: Colors.white,
-                  size: 100,
-                ),);
+                return Container(
+                  alignment: Alignment.center,
+                  child: LoadingAnimationWidget.twoRotatingArc(
+                    color: Colors.white,
+                    size: 100,
+                  ),
+                );
               } else {
                 chatsList = snapshot.data;
                 filterChats = chatsList;
                 return ListView.builder(
                     itemCount: filterChats!.length,
                     itemBuilder: (context, index) {
+                      var lastMessage = "";
+                      if(filterChats![index].lastMessage != null)
+                      {
+                        filterChats![index].lastMessage!.length > 50 ? filterChats![index].lastMessage!.substring(0, 47) + "..." 
+                      : filterChats![index].lastMessage!;
+                      }
                       return Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(baseBorderRadius),
@@ -82,7 +88,7 @@ class _ChatsPageState extends State<ChatsPage> {
                                   const TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: filterChats![index].lastMessage != null
                               ? Text(
-                                  "${filterChats![index].senderName}: ${filterChats![index].lastMessage!}")
+                                  "${filterChats![index].senderName}: ${lastMessage}")
                               : const Text(""),
                           onTap: () async {
                             Navigator.pushNamed(context, '/chat',
