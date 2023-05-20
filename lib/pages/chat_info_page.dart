@@ -1,4 +1,5 @@
-import 'package:dumaem_messenger/pages/select_users_for_existing_chat.dart';
+// ignore_for_file: duplicate_import
+
 import 'package:dumaem_messenger/properties/add_members_to_existing_chat_arguments.dart';
 import 'package:dumaem_messenger/properties/config.dart';
 import 'package:dumaem_messenger/properties/margin.dart';
@@ -8,15 +9,11 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../generated/l10n.dart';
 import '../models/chat_model.dart';
-import '../models/user_model.dart';
 import '../properties/chat_page_arguments.dart';
 import '../server/chat/chat_service.dart';
 import '../server/signalr_connection.dart';
-import '../server/user/user_service.dart';
 import '../properties/config.dart';
 import '../tabs/chat_participants_view.dart';
-import '../tabs/photos_view.dart';
-import '../tabs/videos_view.dart';
 
 class ChatInfoPage extends StatefulWidget {
   const ChatInfoPage({Key? key}) : super(key: key);
@@ -189,7 +186,7 @@ class _ChatInfoPageState extends State<ChatInfoPage> {
 
                             // chat name
                             Text(
-                              "${snapshot.data!.groupName} ${S.of(context).participants_title.toLowerCase()}",
+                              "${snapshot.data!.count} ${S.of(context).participants_title.toLowerCase()}",
                               style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,

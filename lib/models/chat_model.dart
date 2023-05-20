@@ -5,18 +5,21 @@ class ChatModel {
   String? groupName = "";
   bool isPersonal = true;
   List<UserModel>? users;
+  int? count;
 
   ChatModel(
       {required this.id,
       required this.groupName,
       required this.isPersonal,
-      this.users});
+      this.users, 
+      this.count});
 
   factory ChatModel.fromJson(Map<String, dynamic> json) {
     return ChatModel(
         id: json['id'],
         groupName: json['groupName'],
         isPersonal: json['isPersonal'],
-        users: null);
+        users: null,
+        count: json['participantCount']);
   }
 }
