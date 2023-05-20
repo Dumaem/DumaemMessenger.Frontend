@@ -65,10 +65,14 @@ class _ChatsPageState extends State<ChatsPage> {
                     itemCount: filterChats!.length,
                     itemBuilder: (context, index) {
                       var lastMessage = "";
-                      if(filterChats![index].lastMessage != null)
-                      {
-                        lastMessage = filterChats![index].lastMessage!.length > 50 ? filterChats![index].lastMessage!.substring(0, 47) + "..." 
-                        : filterChats![index].lastMessage!;
+                      if (filterChats![index].lastMessage != null) {
+                        lastMessage =
+                            filterChats![index].lastMessage!.length > 50
+                                ? filterChats![index]
+                                        .lastMessage!
+                                        .substring(0, 47) +
+                                    "..."
+                                : filterChats![index].lastMessage!;
                       }
                       return Card(
                         shape: RoundedRectangleBorder(
@@ -87,7 +91,7 @@ class _ChatsPageState extends State<ChatsPage> {
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: filterChats![index].lastMessage != null
-                              ? Text( 
+                              ? Text(
                                   "${filterChats![index].senderName}: ${lastMessage}")
                               : const Text(""),
                           onTap: () async {
@@ -143,22 +147,24 @@ class _ChatsPageState extends State<ChatsPage> {
       title: Row(
         children: [
           Text(S.of(context).app_bar_title),
-          IconButton(
-            onPressed: () async {
-              await storage.write(
-                key: "isDarkTheme",
-                value: (isLightTheme).toString(),
-              );
-              setState(() {
-                isLightTheme = !isLightTheme;
-                if (isLightTheme) {
-                  Messenger.of(context).changeTheme(ThemeMode.light);
-                } else {
-                  Messenger.of(context).changeTheme(ThemeMode.dark);
-                }
-              });
-            },
-            icon: Icon(isLightTheme ? lightIcon : darkIcon),
+          Flexible(
+            child: IconButton(
+              onPressed: () async {
+                await storage.write(
+                  key: "isDarkTheme",
+                  value: (isLightTheme).toString(),
+                );
+                setState(() {
+                  isLightTheme = !isLightTheme;
+                  if (isLightTheme) {
+                    Messenger.of(context).changeTheme(ThemeMode.light);
+                  } else {
+                    Messenger.of(context).changeTheme(ThemeMode.dark);
+                  }
+                });
+              },
+              icon: Icon(isLightTheme ? lightIcon : darkIcon),
+            ),
           )
         ],
       ),
