@@ -1,0 +1,23 @@
+{
+  "app_bar_title": "Dumaem Messenger",
+  "settings_title": "Settings",
+  "settings_support_title": "Feel Free to Ask, We Ready to Help",
+  "shop_title": "Shop",
+  "info_title": "Info",
+  "email_title": "Email",
+  "password_title": "Password",
+  "username_title": "Username",
+  "name_title": "Name",
+  "participants_title": "Participants",
+  "participant_title": "Participant",
+  "create_chat_title": "Create chat",
+  "sign_in_title": "Sign in",
+  "sign_up_title": "Sign up",
+  "chat_name_title": "Name",
+  "logout_title": "Logout",
+  "account_name_test": "Riaz",
+  "account_email_test": "riaz@mail.com",
+  "message_name_title": "Message",
+  "add_member_title": "Add member",
+  "edit_name_chat_title": "Edit name"
+}

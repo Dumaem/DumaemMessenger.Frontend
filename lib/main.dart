@@ -1,115 +1,124 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-void main() {
-  runApp(const MyApp());
+import 'package:dumaem_messenger/pages/authorization.dart';
+import 'package:dumaem_messenger/pages/create_chat_page.dart';
+import 'package:dumaem_messenger/pages/personal_data_page.dart';
+import 'package:dumaem_messenger/pages/select_users_for_existing_chat.dart';
+import 'package:dumaem_messenger/pages/select_users_for_new_chat_page.dart';
+import 'package:dumaem_messenger/pages/landing.dart';
+import 'package:dumaem_messenger/pages/registration.dart';
+import 'package:dumaem_messenger/properties/config.dart';
+import 'package:dumaem_messenger/server/dio_http_client.dart';
+import 'package:dumaem_messenger/class_builder.dart';
+import 'package:dumaem_messenger/pages/settings_page.dart';
+import 'package:dumaem_messenger/server/global_variables.dart';
+import 'package:flutter/material.dart';
+import 'components/home_page.dart';
+import 'generated/l10n.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'pages/chat.dart';
+import 'pages/chat_info_page.dart';
+import 'pages/chats_page.dart';
+
+Future main() async {
+  ClassBuilder.registerClasses();
+  HttpOverrides.global = MyHttpOverrides();
+  DioHttpClient.initializeStaticDio();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  String? isDarkTheme = await storage.read(key: "isDarkTheme");
+  var themeMode = isDarkTheme == null
+      ? ThemeMode.light
+      : isDarkTheme == "false"
+          ? ThemeMode.light
+          : ThemeMode.dark;
+  isLightTheme = themeMode == ThemeMode.light;
+  runApp(Messenger(
+    themeMode: themeMode,
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Messenger extends StatefulWidget {
+  Messenger({super.key, this.themeMode = ThemeMode.system});
+  ThemeMode themeMode;
 
-  // This widget is the root of your application.
+  @override
+  MessengerApp createState() => MessengerApp();
+
+  static MessengerApp of(BuildContext context) =>
+      context.findAncestorStateOfType<MessengerApp>()!;
+}
+
+class MessengerApp extends State<Messenger> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/landing',
+      navigatorKey: navigatorKey,
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: widget.themeMode,
+      debugShowCheckedModeBanner: false,
+      home: const AuthorizationPage(),
+      routes: {
+        '/landing': (context) => const LandingPage(),
+        '/home': (context) => const HomePage(),
+        '/settings': (context) => const SettingsPage(),
+        '/authorization': (context) => const AuthorizationPage(),
+        '/chats': (context) => ChatsPage(),
+        '/chatInfo': (context) => const ChatInfoPage(),
+        '/chat': (context) => const ChatPage(),
+        '/selectUsersForNewChat': (context) =>
+            const SelectUsersForNewChatPage(),
+        'selectUsersForExistingChat': (context) =>
+            const SelectUsersForExistingChatPage(),
+        'createChat': (context) => const CreateChatPage(),
+        '/registration': (context) => const RegistrationPage(),
+        '/personalData': (context) => const PersonalDataPage()
+      },
     );
   }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
+  void changeTheme(ThemeMode themeMode) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      widget.themeMode = themeMode;
     });
   }
+}
 
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+MaterialColor buildMaterialColor(Color color) {
+  List strengths = <double>[.05];
+  Map<int, Color> swatch = {};
+  final int r = color.red, g = color.green, b = color.blue;
+
+  for (int i = 1; i < 10; i++) {
+    strengths.add(0.1 * i);
+  }
+  for (var strength in strengths) {
+    final double ds = 0.5 - strength;
+    swatch[(strength * 1000).round()] = Color.fromRGBO(
+      r + ((ds < 0 ? r : (255 - r)) * ds).round(),
+      g + ((ds < 0 ? g : (255 - g)) * ds).round(),
+      b + ((ds < 0 ? b : (255 - b)) * ds).round(),
+      1,
     );
+  }
+  return MaterialColor(color.value, swatch);
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
