@@ -33,7 +33,7 @@ class AuthInterceptor extends Interceptor {
       // Update the access token in the interceptor and retry the original request
       DioHttpClient.dio.options.headers['Authorization'] =
           'Bearer $newAccessToken';
-      return await DioHttpClient.dio.request(
+      var result = await DioHttpClient.dio.request(
         err.requestOptions.path,
         data: err.requestOptions.data,
         queryParameters: err.requestOptions.queryParameters,
@@ -42,6 +42,7 @@ class AuthInterceptor extends Interceptor {
           headers: err.requestOptions.headers,
         ),
       );
+      return handler.resolve(result);
     }
 
     print('received a ${err.response?.statusCode} error');
