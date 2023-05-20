@@ -21,16 +21,27 @@ import 'pages/chat.dart';
 import 'pages/chat_info_page.dart';
 import 'pages/chats_page.dart';
 
-void main() {
+Future main() async {
   ClassBuilder.registerClasses();
   HttpOverrides.global = MyHttpOverrides();
   DioHttpClient.initializeStaticDio();
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const Messenger());
+
+  String? isDarkTheme = await storage.read(key: "isDarkTheme");
+  var themeMode = isDarkTheme == null
+      ? ThemeMode.light
+      : isDarkTheme == "false"
+          ? ThemeMode.light
+          : ThemeMode.dark;
+  isLightTheme = themeMode == ThemeMode.light;
+  runApp(Messenger(
+    themeMode: themeMode,
+  ));
 }
 
 class Messenger extends StatefulWidget {
-  const Messenger({super.key});
+  Messenger({super.key, this.themeMode = ThemeMode.system});
+  ThemeMode themeMode;
 
   @override
   MessengerApp createState() => MessengerApp();
@@ -40,8 +51,6 @@ class Messenger extends StatefulWidget {
 }
 
 class MessengerApp extends State<Messenger> {
-  ThemeMode _themeMode = ThemeMode.system;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,7 +65,7 @@ class MessengerApp extends State<Messenger> {
       supportedLocales: S.delegate.supportedLocales,
       theme: lightTheme,
       darkTheme: darkTheme,
-      themeMode: _themeMode,
+      themeMode: widget.themeMode,
       debugShowCheckedModeBanner: false,
       home: const AuthorizationPage(),
       routes: {
@@ -80,7 +89,7 @@ class MessengerApp extends State<Messenger> {
 
   void changeTheme(ThemeMode themeMode) {
     setState(() {
-      _themeMode = themeMode;
+      widget.themeMode = themeMode;
     });
   }
 }

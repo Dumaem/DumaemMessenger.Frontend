@@ -54,10 +54,13 @@ class _ChatsPageState extends State<ChatsPage> {
             builder: (BuildContext context,
                 AsyncSnapshot<List<ChatListModel>> snapshot) {
               if (!snapshot.hasData) {
-                return Container(alignment: Alignment.center, child: LoadingAnimationWidget.twoRotatingArc(
-                  color: Colors.white,
-                  size: 100,
-                ),);
+                return Container(
+                  alignment: Alignment.center,
+                  child: LoadingAnimationWidget.twoRotatingArc(
+                    color: Colors.white,
+                    size: 100,
+                  ),
+                );
               } else {
                 chatsList = snapshot.data;
                 filterChats = chatsList;
@@ -145,7 +148,11 @@ class _ChatsPageState extends State<ChatsPage> {
         children: [
           Text(S.of(context).app_bar_title),
           IconButton(
-            onPressed: () {
+            onPressed: () async {
+              await storage.write(
+                key: "isDarkTheme",
+                value: (isLightTheme).toString(),
+              );
               setState(() {
                 isLightTheme = !isLightTheme;
                 if (isLightTheme) {
