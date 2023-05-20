@@ -98,7 +98,7 @@ class _ChatPageState extends State<ChatPage> {
 
     return WillPopScope(
         onWillPop: () async {
-          Navigator.popAndPushNamed(context, '/home');
+          Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
           return true;
         },
         child: FutureBuilder<ListResult>(
@@ -205,7 +205,7 @@ class _ChatPageState extends State<ChatPage> {
     return AppBar(
       leading: IconButton(
         onPressed: () {
-          Navigator.popAndPushNamed(context, '/home');
+          Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false);
         },
         icon: const Icon(
           Icons.arrow_back,

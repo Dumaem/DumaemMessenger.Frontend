@@ -67,8 +67,8 @@ class _ChatsPageState extends State<ChatsPage> {
                       var lastMessage = "";
                       if(filterChats![index].lastMessage != null)
                       {
-                        filterChats![index].lastMessage!.length > 50 ? filterChats![index].lastMessage!.substring(0, 47) + "..." 
-                      : filterChats![index].lastMessage!;
+                        lastMessage = filterChats![index].lastMessage!.length > 50 ? filterChats![index].lastMessage!.substring(0, 47) + "..." 
+                        : filterChats![index].lastMessage!;
                       }
                       return Card(
                         shape: RoundedRectangleBorder(
@@ -87,7 +87,7 @@ class _ChatsPageState extends State<ChatsPage> {
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: filterChats![index].lastMessage != null
-                              ? Text(
+                              ? Text( 
                                   "${filterChats![index].senderName}: ${lastMessage}")
                               : const Text(""),
                           onTap: () async {
