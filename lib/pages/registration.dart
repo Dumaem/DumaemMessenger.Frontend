@@ -63,24 +63,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
               obscureText: false,
             ),
             const MarginWidget(),
-            GestureDetector(
-              onTap: () async {
-                await registrateUser(context);
-              },
-              child: Container(
-                padding: const EdgeInsets.all(textPadding),
-                margin: const EdgeInsets.symmetric(horizontal: textPadding),
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: Text(
-                    S.of(context).sign_up_title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.85,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await registrateUser(context);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(textPadding),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: Text(
+                      S.of(context).sign_up_title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),

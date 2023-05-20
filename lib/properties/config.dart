@@ -36,13 +36,21 @@ final ThemeData lightTheme = ThemeData(
     bodyMedium: TextStyle(color: Colors.black, fontSize: 15),
     bodySmall: TextStyle(color: Colors.black),
   ),
-  elevatedButtonTheme: const ElevatedButtonThemeData(style: ButtonStyle()),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.white))),
+  inputDecorationTheme: InputDecorationTheme(
+    fillColor: Colors.grey.shade200,
+  ),
+  dividerColor: Colors.grey.shade200,
   brightness: Brightness.light,
 );
 
 final ThemeData darkTheme = ThemeData(
+  iconTheme: IconThemeData(color: Colors.white),
   primarySwatch: buildMaterialColor(const Color.fromARGB(255, 1, 24, 30)),
-  primaryColor: Color.fromARGB(255, 4, 44, 54),
+  primaryColor: Colors.grey[800],
   appBarTheme: const AppBarTheme(
     color: Color.fromARGB(255, 2, 90, 112),
   ),
@@ -55,7 +63,15 @@ final ThemeData darkTheme = ThemeData(
     bodyMedium: TextStyle(color: Colors.white, fontSize: 15),
     bodySmall: TextStyle(color: Colors.white),
   ),
-  elevatedButtonTheme: const ElevatedButtonThemeData(style: ButtonStyle()),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.black))),
+  inputDecorationTheme: InputDecorationTheme(
+    fillColor: Colors.grey.shade800,
+  ),
+  iconButtonTheme: IconButtonThemeData(
+      style: ButtonStyle(iconColor: MaterialStateProperty.all(Colors.white))),
   brightness: Brightness.dark,
 );
 

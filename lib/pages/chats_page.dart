@@ -106,16 +106,9 @@ class _ChatsPageState extends State<ChatsPage> {
 
   AppBar getDefaultAppBar(BuildContext context) {
     return AppBar(
-      leading: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(32.0)),
-        child: Material(
-          shadowColor: Colors.transparent,
-          color: Colors.transparent,
-          child: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: widget.onMenuPressed,
-          ),
-        ),
+      leading: IconButton(
+        onPressed: widget.onMenuPressed,
+        icon: const Icon(Icons.menu),
       ),
       title: TextField(
         controller: searchController,
@@ -170,16 +163,9 @@ class _ChatsPageState extends State<ChatsPage> {
         ],
       ),
       centerTitle: true,
-      leading: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(32.0)),
-        child: Material(
-          shadowColor: Colors.transparent,
-          color: Colors.transparent,
-          child: IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
-            onPressed: widget.onMenuPressed,
-          ),
-        ),
+      leading: IconButton(
+        icon: const Icon(Icons.menu),
+        onPressed: widget.onMenuPressed,
       ),
       actions: [
         IconButton(

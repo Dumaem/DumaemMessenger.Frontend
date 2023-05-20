@@ -24,7 +24,7 @@ class SettingTile extends StatelessWidget {
             width: 50,
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
-              color: klightContentColor,
+              color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Icon(setting.icon),
