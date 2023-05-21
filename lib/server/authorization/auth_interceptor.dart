@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dumaem_messenger/server/dio_http_client.dart';
 import 'package:dumaem_messenger/server/global_functions.dart';
-import 'package:dumaem_messenger/server/signalr_connection.dart';
-import 'package:flutter/widgets.dart';
 
 import '../global_variables.dart';
 
@@ -10,7 +8,7 @@ class AuthInterceptor extends Interceptor {
   AuthInterceptor();
 
   @override
-  void onRequest(
+  Future<void> onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
@@ -22,21 +20,29 @@ class AuthInterceptor extends Interceptor {
   @override
   Future<dynamic> onError(DioError err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
-      final newAccessToken = await refreshToken();
-      if (newAccessToken != null) {
-        // Update the access token in the interceptor and retry the original request
-        DioHttpClient.dio.options.headers['Authorization'] =
-            'Bearer $newAccessToken';
-        return DioHttpClient.dio.request(
-          err.requestOptions.path,
-          data: err.requestOptions.data,
-          queryParameters: err.requestOptions.queryParameters,
-          options: Options(
-            method: err.requestOptions.method,
-            headers: err.requestOptions.headers,
-          ),
-        );
+      print('on 401 error');
+      if (refreshTokenFunction == null) {
+        print('starting new refresh instance ${err.requestOptions.path}');
+        refreshTokenFunction = refreshTokenInternal();
+      } else {
+        print('using already made refresh instance ${err.requestOptions.path}');
       }
+
+      final newAccessToken = await refreshTokenFunction;
+      refreshTokenFunction = null;
+      // Update the access token in the interceptor and retry the original request
+      DioHttpClient.dio.options.headers['Authorization'] =
+          'Bearer $newAccessToken';
+      var result = await DioHttpClient.dio.request(
+        err.requestOptions.path,
+        data: err.requestOptions.data,
+        queryParameters: err.requestOptions.queryParameters,
+        options: Options(
+          method: err.requestOptions.method,
+          headers: err.requestOptions.headers,
+        ),
+      );
+      return handler.resolve(result);
     }
 
     print('received a ${err.response?.statusCode} error');
@@ -44,7 +50,9 @@ class AuthInterceptor extends Interceptor {
   }
 }
 
-Future<String?> refreshToken() async {
+Future<String?>? refreshTokenFunction;
+
+Future<String?> refreshTokenInternal() async {
   try {
     final refreshToken = await storage.read(key: refreshTokenKey);
     final accessToken = await storage.read(key: accessTokenKey);
