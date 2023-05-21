@@ -57,7 +57,12 @@ class SignalRConnection {
         logoutRequested = false;
         return;
       }
-      await startConnection();
+      var result = await startConnection();
+      while (!result) {
+        print('retrying reconnectiong to signalr');
+        result = await startConnection();
+      }
+      print('hub connection restarted');
       if (savedRequestList.isEmpty) {
         print('KAKOYTOSTRANNIYDVIZH');
         return;
@@ -66,7 +71,6 @@ class SignalRConnection {
       await hubConnection.send(
           methodName: savedRequest[0], args: savedRequest[1]);
       print('saved request ${savedRequest[0]} sent');
-      print('hub connection restarted');
     });
 
     hubConnection.on('Unauthorized', (arguments) async {
@@ -90,7 +94,10 @@ class SignalRConnection {
     } catch (error) {
       print('refreshing token with signalr');
       if (refreshTokenFunction == null) {
+        print('signalr created new refresh instance');
         refreshTokenFunction = refreshTokenInternal();
+      } else {
+        print('signalr used existing refresh instance');
       }
       var refresh = await refreshTokenFunction;
       if (refresh != null) {
