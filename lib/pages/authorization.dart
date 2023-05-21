@@ -18,6 +18,7 @@ class AuthorizationPage extends StatefulWidget {
 class _AuthorizationPageState extends State<AuthorizationPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool isSubmited = false;
 
   @override
   Widget build(BuildContext) {
@@ -57,7 +58,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
               width: MediaQuery.of(context).size.width * 0.85,
               child: ElevatedButton(
                 onPressed: () async {
-                  await authorizeUser(context);
+                  isSubmited ? null : await authorizeUser(context);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(textPadding),
@@ -92,6 +93,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
   }
 
   Future<void> authorizeUser(BuildContext context) async {
+    isSubmited = true;
     try {
       print('sending login request');
       var response = await DioHttpClient.dio.post('Authorization/login', data: {
@@ -114,6 +116,8 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
         configuration: const IconConfiguration(icon: Icons.error),
         maxWidth: MediaQuery.of(context).size.width * 0.8,
       );
+    } finally {
+      isSubmited = false;
     }
   }
 }
