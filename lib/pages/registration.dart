@@ -21,6 +21,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool isSubmited = false;
 
   @override
   Widget build(BuildContext) {
@@ -67,7 +68,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               width: MediaQuery.of(context).size.width * 0.85,
               child: ElevatedButton(
                 onPressed: () async {
-                  await registrateUser(context);
+                  isSubmited ? null : await registrateUser(context);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(textPadding),
@@ -101,6 +102,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   Future<void> registrateUser(BuildContext context) async {
+    isSubmited = true;
     try {
       final response =
           await DioHttpClient.dio.post('/Authorization/register', data: {
@@ -126,6 +128,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         configuration: const IconConfiguration(icon: Icons.error),
         maxWidth: MediaQuery.of(context).size.width * 0.8,
       );
+    } finally {
+      isSubmited = false;
     }
   }
 }
